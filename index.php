@@ -486,3 +486,5 @@ else:
 <?php
 endif;
 ?>
+</body>
+</html>
