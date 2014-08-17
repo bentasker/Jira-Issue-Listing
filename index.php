@@ -443,7 +443,9 @@ else:
 
 
 
-	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority FROM jiraissue AS a ".
+	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
+		"a.CREATED, a.RESOLUTIONDATE ".
+		"FROM jiraissue AS a ".
 		"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 		"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
 		"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
@@ -468,7 +470,7 @@ else:
 	$relations = $db->loadResults();
 
 
-	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution;
+	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
 	?>
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
@@ -488,6 +490,10 @@ else:
 			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
 			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
 			<tr><td><br /><br /></td><td></td>
+
+			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td>&nbsp;</td></tr>
+			<tr><td><br /><br /></td><td></td>
+
 			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
 
 		</table>
