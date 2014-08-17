@@ -494,7 +494,7 @@ else:
 			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td>&nbsp;</td></tr>
 			<tr><td><br /><br /></td><td></td>
 
-			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
+			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlspecialchars($issue->DESCRIPTION); ?></pre><br /><br /></td></tr>
 
 		</table>
 
@@ -552,7 +552,9 @@ else:
 				<b><?php echo $comment->AUTHOR; ?></b><br />
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
-				<?php echo $comment->actionbody; ?>
+				
+				<pre><?php echo htmlspecialchars($comment->actionbody); ?></pre>
+				
 	
 			</div>
 			<hr />
