@@ -390,7 +390,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 
 	// Which view are we displaying?
-	if (!isset($_GET['proj'])){
+	if (!isset($_GET['proj']) || empty($_GET['proj'])){
 		// Overall listing (all projects, all issues)
 		$authip = false;
 
