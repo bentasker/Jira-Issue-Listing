@@ -443,10 +443,12 @@ else:
 
 
 
-	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution FROM jiraissue AS a ".
+	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority FROM jiraissue AS a ".
 		"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 		"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
 		"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
+		"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
+		"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
 		"WHERE a.issuenum='".$db->stringEscape($_GET['issue']) . 
 		"' AND b.pkey='".$db->stringEscape($_GET['proj'])."'";
 
@@ -480,19 +482,23 @@ else:
 
 		<table style="border: 0px;">
 
-			<tr><td><br /><br /></td><td></td>
-			<tr><td colspan="2"><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
+
+			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
+			<tr><td><b>Priority</b>: <?php echo $issue->priority; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
 			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
-		</table>
+			<tr><td><br /><br /></td><td></td>
+			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
 
+		</table>
 
 
 	<?php if (count($relations) > 0):?>
 		<!--sphider_noindex-->
 		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+				<h4>Issue Links</h4>
 				<table>
-					<tr><th style="text-align: left;">Issue Links</th><th></th></tr>
+
 					<?php foreach ($relations as $relation):
 
 
@@ -529,9 +535,9 @@ else:
 		<!--/sphider_noindex-->
 	<?php endif; ?>
 
-		<h3>Comments</h3>
-		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 
+		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<h4>Comments</h4>
 			
 			<hr />
 
