@@ -454,6 +454,13 @@ else:
 	$db->setQuery($sql);
 	$comments = $db->loadResults();
 
+
+
+	// Get Relations
+	$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE a.SOURCE=".(int)$issue->ID . " OR a.DESTINATION=".(int)$issue->ID;
+	$db->setQuery($sql);
+	$relations = $db->loadResults();
+
 	?>
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
 		<meta name="description" content="<?php echo htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
@@ -472,6 +479,37 @@ else:
 		</table>
 
 
+	<?php if (count($relations) > 0):?>
+		<!--sphider_noindex-->
+		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+				<table>
+					<tr><th style="text-align: left;">Issue Links</th><th></th></tr>
+					<?php foreach ($relations as $relation):
+
+
+							$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
+							$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
+
+							$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID WHERE a.id=".(int)$remid;
+							$db->setQuery($sql);
+							$relatedissue = $db->loadResult();
+						?>
+						<tr>
+							<td>
+								<?php echo htmlspecialchars($reltype); ?>
+							</td>
+
+							<td>
+								<a href='<?php echo $conf->scriptname ."?issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"; ?>'>
+									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ".htmlspecialchars($relatedissue->SUMMARY); ?>
+							
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+		</div>
+		<!--/sphider_noindex-->
+	<?php endif; ?>
 
 		<h3>Comments</h3>
 		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
