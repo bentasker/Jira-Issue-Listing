@@ -22,7 +22,9 @@ $conf->dbprefix = '';
 
 $conf->scriptname='index.php';
 $conf->jiralocation = 'http://jira.example.com';
-$conf->SphiderUA = 'Sphider';
+
+// Authorisation params - Any request with the wrong UA, or not originating from an authorised IP will be redirected to JIRA
+$conf->SphiderUA = array('Sphider'); // Include any user-agents that are allowed to view these scripts
 $conf->SphiderIP = array('192.168.1.65/32','192.168.1.96'); // You can use CIDR or specify individual IPs
 
 

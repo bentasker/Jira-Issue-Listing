@@ -27,31 +27,12 @@ $db = new BTDB;
 
 if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
+	// See whether the client IP is allowed to view us
+	$authip = checkIPs();
 
 	// Which view are we displaying?
 	if (!isset($_GET['proj']) || empty($_GET['proj'])){
 		// Overall listing (all projects, all issues)
-		$authip = false;
-
-		foreach ($conf->SphiderIP as $ip){
-			if (strpos($ip,"/") === false){
-
-				if ($ip == $_SERVER['REMOTE_ADDR']){
-					$authip = true;
-					break;
-				}
-
-			}else{
-				$range = calcIPRange($ip,false);
-
-				if (in_array($_SERVER['REMOTE_ADDR'],$range)){
-					$authip = true;
-					break;
-				}
-
-			}
-
-		}
 
 		if (!$authip ){
 			echo "</head><body>Invalid IP</body></html>";
@@ -66,7 +47,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 		// Project listing (all issues, one project)
 
-		if (!$conf->debug && $_SERVER['HTTP_USER_AGENT'] != $conf->SphiderUA){
+		if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
 			// Redirect real users to JIRA
 			header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}");
 			die;
@@ -95,9 +76,10 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 	}
 	echo "	<!--/sphider_noindex-->";
+
 else:
 
-	if (!$conf->debug && $_SERVER['HTTP_USER_AGENT'] != $conf->SphiderUA){
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !checkIPs())){
 		// Redirect real users to JIRA
 		header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}-{$_GET['issue']}");
 		die;

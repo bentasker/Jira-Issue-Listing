@@ -362,3 +362,37 @@ function calcIPRange($cidr,$inc_broadcast_addr = true){
 
 
 
+/** Check whether the client IP is in the authorised list
+*
+* @return boolean
+*/
+function checkIPs(){
+
+	global $conf;
+	$authip = false;
+
+	foreach ($conf->SphiderIP as $ip){
+		if (strpos($ip,"/") === false){
+
+			if ($ip == $_SERVER['REMOTE_ADDR']){
+				$authip = true;
+				break;
+			}
+
+		}else{
+			$range = calcIPRange($ip,false);
+
+			if (in_array($_SERVER['REMOTE_ADDR'],$range)){
+				$authip = true;
+				break;
+			}
+
+		}
+
+	}
+
+	return $authip;
+
+}
+
+
