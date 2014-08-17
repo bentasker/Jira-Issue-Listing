@@ -443,7 +443,11 @@ else:
 
 
 
-	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID WHERE a.issuenum='".$db->stringEscape($_GET['issue']) . 
+	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution FROM jiraissue AS a ".
+		"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+		"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
+		"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
+		"WHERE a.issuenum='".$db->stringEscape($_GET['issue']) . 
 		"' AND b.pkey='".$db->stringEscape($_GET['proj'])."'";
 
 	$db->setQuery($sql);
@@ -461,6 +465,9 @@ else:
 	$db->setQuery($sql);
 	$relations = $db->loadResults();
 
+
+	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution;
+
 	?>
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
 		<meta name="description" content="<?php echo htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
@@ -475,8 +482,10 @@ else:
 
 			<tr><td><br /><br /></td><td></td>
 			<tr><td colspan="2"><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
-			<tr><td><i>Reported By</i>: <?php echo $issue->REPORTER; ?></td><td><i>Project:</i><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td></tr>
+			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
+			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
 		</table>
+
 
 
 	<?php if (count($relations) > 0):?>
@@ -490,9 +499,14 @@ else:
 							$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 							$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
 
-							$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID WHERE a.id=".(int)$remid;
+							$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
+								"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+								"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID " .
+								"WHERE a.id=".(int)$remid;
 							$db->setQuery($sql);
 							$relatedissue = $db->loadResult();
+
+							$resolved = (empty($resolution))? false : true;
 						?>
 						<tr>
 							<td>
@@ -500,8 +514,12 @@ else:
 							</td>
 
 							<td>
+								<?php if ($resolved):?><del><?php endif; ?>
 								<a href='<?php echo $conf->scriptname ."?issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"; ?>'>
-									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ".htmlspecialchars($relatedissue->SUMMARY); ?>
+									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
+								<?php if ($resolved):?></del><?php endif; ?>
+
+									<?php echo htmlspecialchars($relatedissue->SUMMARY); ?>
 							
 							</td>
 						</tr>
