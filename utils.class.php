@@ -445,7 +445,7 @@ function parseSEF(){
 		return;
 	}
 
-	$refs = explode("-",$const[1]);
+	$refs = explode("-",str_replace(".html",'',$const[1]));
 	if (isset($refs[1]) && !empty($refs[1])){
 		$_GET['issue'] = $refs[1];
 	}

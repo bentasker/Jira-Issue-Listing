@@ -123,7 +123,7 @@ else:
 
 		</head>
 		<body>
-		<b><a href="<?php echo $conf->scriptname; ?>">BACK</a></b>
+		<b><a href="<?php echo qs2sef(''); ?>">BACK</a></b>
 
 		<h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlspecialchars($issue->SUMMARY); ?></h1>
 
