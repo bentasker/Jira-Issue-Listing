@@ -389,40 +389,62 @@ $db = new BTDB;
 if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 
-	$authip = false;
+	// Which view are we displaying?
+	if (!isset($_GET['proj'])){
+		// Overall listing (all projects, all issues)
+		$authip = false;
 
-	foreach ($conf->SphiderIP as $ip){
-		if (strpos($ip,"/") === false){
+		foreach ($conf->SphiderIP as $ip){
+			if (strpos($ip,"/") === false){
 
-			if ($ip == $_SERVER['REMOTE_ADDR']){
-				$authip = true;
-				break;
-			}
+				if ($ip == $_SERVER['REMOTE_ADDR']){
+					$authip = true;
+					break;
+				}
 
-		}else{
-			$range = calcIPRange($ip,false);
+			}else{
+				$range = calcIPRange($ip,false);
 
-			if (in_array($_SERVER['REMOTE_ADDR'],$range)){
-				$authip = true;
-				break;
+				if (in_array($_SERVER['REMOTE_ADDR'],$range)){
+					$authip = true;
+					break;
+				}
+
 			}
 
 		}
 
+		if (!$authip ){
+			echo "</head><body>Invalid IP</body></html>";
+			die;
+		}
+
+		$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ORDER BY a.PROJECT, a.issuenum ASC";
+		echo "</head></body>";
+
+	}else{
+
+
+		// Project listing (all issues, one project)
+
+		if (!$conf->debug && $_SERVER['HTTP_USER_AGENT'] != $conf->SphiderUA){
+			// Redirect real users to JIRA
+			header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}");
+			die;
+		}
+
+		$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ".
+			"WHERE b.pkey='" . $db->stringEscape($_GET['proj']). "' ORDER BY a.PROJECT, a.issuenum ASC";
+
+		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n<h1>Project ".htmlspecialchars($_GET['proj'])."</h1>\n";
+
 	}
 
-	if (!$authip ){
-		echo "</head><body>Invalid IP</body></html>";
-		die;
-	}
-
-	$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ORDER BY a.PROJECT, a.issuenum ASC";
 	$db->setQuery($sql);
 	$issues = $db->loadResults();
 
 	?>
-		</head>
-		<body>
+
 		<!--sphider_noindex-->
 	<?php
 
@@ -488,7 +510,9 @@ else:
 			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Priority</b>: <?php echo $issue->priority; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
-			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<a href="<?php echo "{$conf->scriptname}?proj={$issue->pkey}";?>"><?php echo $issue->pkey; ?></a>)</td>
+				<td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+
 			<tr><td><br /><br /></td><td></td>
 
 			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td>&nbsp;</td></tr>
