@@ -467,23 +467,36 @@ else:
 		<table style="border: 0px;">
 
 			<tr><td><br /><br /></td><td></td>
-			<tr><td colspan="2"><?php echo $issue->DESCRIPTION; ?><br /><br /></td></tr>
-			<tr><td><i>Reported By</i>: <?php echo $issue->REPORTER; ?></td><td><i>Project:</i><?php echo $issue->pname; ?></td></tr>
+			<tr><td colspan="2"><pre><?php echo $issue->DESCRIPTION; ?></pre><br /><br /></td></tr>
+			<tr><td><i>Reported By</i>: <?php echo $issue->REPORTER; ?></td><td><i>Project:</i><?php echo $issue->pname; ?> (<?php echo $issue->pkey; ?>)</td></tr>
 		</table>
 
+
+
 		<h3>Comments</h3>
+		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 
+			
+			<hr />
 
-		<?php foreach ($comments as $comment): ?>	
-		<div>
-			<b><?php echo $comment->AUTHOR; ?></b><br />
-			<i><?php echo $comment->CREATED; ?></i><br /><Br />
+			<?php foreach ($comments as $comment): ?>	
+			<div>
+				<b><?php echo $comment->AUTHOR; ?></b><br />
+				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
-			<?php echo $comment->actionbody; ?>
+				<?php echo $comment->actionbody; ?>
 	
+			</div>
+			<hr />
+			<?php endforeach; ?>
+
 		</div>
-		<hr />
-		<?php endforeach; ?>
+
+
+
+
+
+
 
 <?php
 endif;
