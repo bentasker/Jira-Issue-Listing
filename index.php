@@ -57,7 +57,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 			"WHERE b.pkey='" . $db->stringEscape($_GET['proj']). "' ORDER BY a.PROJECT, a.issuenum ASC";
 
 		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n<h1>Project ".htmlspecialchars($_GET['proj'])."</h1>\n".
-		 "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . "-->\n";
+		 "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
 
 	}
 
@@ -213,7 +213,7 @@ else:
 
 
 
-<!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->pkey}";?>-->
+<!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->issuenum}";?>:-->
 <?php
 endif;
 ?>
