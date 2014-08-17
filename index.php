@@ -30,6 +30,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 	// See whether the client IP is allowed to view us
 	$authip = checkIPs();
+	$projdesc = null;
 
 	// Which view are we displaying?
 	if (!isset($_GET['proj']) || empty($_GET['proj'])){
@@ -57,7 +58,23 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 		$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ".
 			"WHERE b.pkey='" . $db->stringEscape($_GET['proj']). "' ORDER BY a.PROJECT, a.issuenum ASC";
 
-		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n<h1>Project ".htmlspecialchars($_GET['proj'])."</h1>\n".
+
+		// Grab the project information
+
+		
+		$db->setQuery("SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'");
+		$project = $db->loadResult();
+
+
+		$projdesc = "<h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1>";
+
+		if (!empty($project->URL)){
+			$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
+		}	
+
+		$projdesc .= "<h3>Description</h3><pre>".htmlentities(htmlspecialchars($project->DESCRIPTION))."</pre>\n\n<h3>Issues</h3>\n";
+
+		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n".
 		 "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
 
 	}
@@ -68,7 +85,10 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 	?>
 
 		<!--sphider_noindex-->
+
+		
 	<?php
+		echo $projdesc;
 
 	foreach ($issues as $issue){
 
