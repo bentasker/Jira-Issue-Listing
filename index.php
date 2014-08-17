@@ -89,7 +89,7 @@ else:
 
 
 	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-		"a.CREATED, a.RESOLUTIONDATE ".
+		"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT ".
 		"FROM jiraissue AS a ".
 		"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 		"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -138,8 +138,10 @@ else:
 
 			<tr><td><br /><br /></td><td></td>
 
-			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td>&nbsp;</td></tr>
-			<tr><td><br /><br /></td><td></td>
+			<!--sphider_noindex-->
+				<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <?php echo $issue->TIMESPENT / 60; ?> minutes</td></tr>
+				<tr><td><br /><br /></td><td></td>
+			<!--/sphider_noindex-->
 
 			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlspecialchars($issue->DESCRIPTION); ?></pre><br /><br /></td></tr>
 
