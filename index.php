@@ -138,13 +138,13 @@ else:
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
 	?>
-		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
+		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY)); ?></title>
 		<meta name="description" content="<?php echo htmlentities(htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION))); ?>">
 
 		</head>
 		<body>
 
-		<h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlspecialchars($issue->SUMMARY); ?></h1>
+		<h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 
 		<table style="border: 0px;">
 
