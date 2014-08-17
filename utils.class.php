@@ -396,3 +396,65 @@ function checkIPs(){
 }
 
 
+
+
+/** Create a SEF style URL
+*
+* @arg querystring
+*
+* @return string
+*/
+function qs2sef($qstring){
+
+	$parts = explode("&",$qstring);
+	$sections = array();
+	$url = array();
+
+	
+	foreach ($parts as $part){
+		$v = explode("=",$part);
+		$sections[$v[0]] = $v[1];
+	}
+
+	// Build the URL
+
+	if (isset($sections['proj'])){
+		$url[] = 'browse';
+
+		if (isset($sections['issue'])){
+			$url[] = $sections['proj']."-".$sections['issue'].".html";
+		}else{
+			$url[] = $sections['proj'].".html";
+		}
+	}else{
+		$url[] = 'index.html';
+	}
+
+	return "/".implode($url,"/");
+
+}
+
+
+
+function parseSEF(){
+
+	$sefurl = explode("?",$_SERVER['REQUEST_URI']); // make sure the query string isn't included (some servers seem to)
+	$const = explode("/",ltrim($sefurl[0],"/"));
+
+	if ($const[0] != 'browse'){
+		return;
+	}
+
+	$refs = explode("-",$const[1]);
+	if (isset($refs[1]) && !empty($refs[1])){
+		$_GET['issue'] = $refs[1];
+	}
+
+	if (!empty($refs[0])){
+		$_GET['proj'] = $refs[0];
+	}
+
+	return;
+
+}
+

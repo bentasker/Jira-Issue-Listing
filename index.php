@@ -18,6 +18,7 @@
 require 'config.php';
 require 'utils.class.php';
 
+parseSEF();
 $db = new BTDB;
 
 ?>
@@ -71,7 +72,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 	foreach ($issues as $issue){
 
-		echo "<li><a href='{$conf->scriptname}?issue={$issue->issuenum}&proj={$issue->pkey}'>{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY)."</a></li>\n";
+		echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY)."</a></li>\n";
 
 
 	}
@@ -132,7 +133,7 @@ else:
 			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Priority</b>: <?php echo $issue->priority; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
-			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<a href="<?php echo "{$conf->scriptname}?proj={$issue->pkey}";?>"><?php echo $issue->pkey; ?></a>)</td>
+			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 				<td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
 
 			<tr><td><br /><br /></td><td></td>
@@ -173,7 +174,7 @@ else:
 
 							<td>
 								<?php if ($resolved):?><del><?php endif; ?>
-								<a href='<?php echo $conf->scriptname ."?issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"; ?>'>
+								<a href='<?php echo qs2sef("issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"); ?>'>
 									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
 								<?php if ($resolved):?></del><?php endif; ?>
 
