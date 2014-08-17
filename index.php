@@ -436,7 +436,8 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 		$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ".
 			"WHERE b.pkey='" . $db->stringEscape($_GET['proj']). "' ORDER BY a.PROJECT, a.issuenum ASC";
 
-		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n<h1>Project ".htmlspecialchars($_GET['proj'])."</h1>\n";
+		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n<h1>Project ".htmlspecialchars($_GET['proj'])."</h1>\n".
+		 "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . "-->\n";
 
 	}
 
@@ -591,7 +592,7 @@ else:
 
 
 
-
+<!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->pkey}";?>-->
 <?php
 endif;
 ?>
