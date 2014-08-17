@@ -72,7 +72,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 	foreach ($issues as $issue){
 
-		echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY)."</a></li>\n";
+		echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY))."</a></li>\n";
 
 
 	}
@@ -119,7 +119,7 @@ else:
 
 	?>
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
-		<meta name="description" content="<?php echo htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
+		<meta name="description" content="<?php echo htmlentities(htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION))); ?>">
 
 		</head>
 		<body>
@@ -143,7 +143,7 @@ else:
 				<tr><td><br /><br /></td><td></td>
 			<!--/sphider_noindex-->
 
-			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlspecialchars($issue->DESCRIPTION); ?></pre><br /><br /></td></tr>
+			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlentities(htmlspecialchars($issue->DESCRIPTION)); ?></pre><br /><br /></td></tr>
 
 		</table>
 
@@ -171,7 +171,7 @@ else:
 						?>
 						<tr>
 							<td>
-								<?php echo htmlspecialchars($reltype); ?>
+								<?php echo htmlentities(htmlspecialchars($reltype)); ?>
 							</td>
 
 							<td>
@@ -180,7 +180,7 @@ else:
 									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
 								<?php if ($resolved):?></del><?php endif; ?>
 
-									<?php echo htmlspecialchars($relatedissue->SUMMARY); ?>
+									<?php echo htmlentities(htmlspecialchars($relatedissue->SUMMARY)); ?>
 							
 							</td>
 						</tr>
@@ -202,7 +202,7 @@ else:
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 				
-				<pre><?php echo htmlspecialchars($comment->actionbody); ?></pre>
+				<pre><?php echo htmlentities(htmlspecialchars($comment->actionbody)); ?></pre>
 				
 	
 			</div>
