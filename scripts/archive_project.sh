@@ -6,10 +6,10 @@
 #
 
 
-JIRALIST="" # Set your JIRA url here
+JIRALIST="" # Set your JIRAlist url here
 
 read -p "Enter project JIRA reference: " PROJECT
-wget -P "tmp" -A "$PROJECT*.html" -R "robots.txt" -U "Jira-Project-Archive" -r -k "$JIRALIST/browse/$PROJECT.html"
+wget -P "tmp" -A "$PROJECT*"  -R "robots.txt" -U "Jira-Project-Archive" -p -r -k "$JIRALIST/browse/$PROJECT.html"
 mv tmp/* $PROJECT
 rm -rf tmp
 
@@ -20,8 +20,12 @@ cat << EOM > "$PROJECT/index.html"
 <meta http-equiv="refresh" content="0; url=browse/$PROJECT.html">
 </head>
 <body>
-<a href='browse/$PROJECT.html'>Index</a>
+<a href='browse/$PROJECT.html'>View the index page for Project $PROJECT</a>
+
+
+<!-- Created `date` -->
 </body>
 </html>
 EOM
+
 

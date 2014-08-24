@@ -21,6 +21,17 @@ require 'utils.class.php';
 parseSEF();
 $db = new BTDB;
 
+if (isset($_GET['attachid'])){
+
+	// No unauthorised access
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !checkIPs())){
+		die;
+	}
+	$inc_ok = true;
+	require 'attachment.php';
+	die;
+}
+
 ?>
 <html>
 <head>
@@ -135,6 +146,13 @@ else:
 	$relations = $db->loadResults();
 
 
+	// Get Attachments
+	$sql = "select * from fileattachment where issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
+	$db->setQuery($sql);
+	$attachments = $db->loadResults();
+
+
+
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
 	?>
@@ -165,6 +183,32 @@ else:
 			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlentities(htmlspecialchars($issue->DESCRIPTION)); ?></pre><br /><br /></td></tr>
 
 		</table>
+
+
+	<?php if (count($attachments) > 0):?>
+		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+			<h4>Attachments</h4>
+			<table style="width: 40%">
+				<tr><td>&nbsp</td></tr>
+				<?php foreach ($attachments as $attachment): ?>
+					<?php $alink = qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}"); ?>
+					<tr>
+						<td>
+							<a href="<?php echo $alink; ?>">
+							<?php if (!$attachment->thumbnailable):?>
+								<?php echo htmlspecialchars($attachment->FILENAME);?>
+							<?php else: ?>
+								<img style="margin: 5px;" src="<?php echo qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}&thumb=1"); ?>" title="<?php echo htmlspecialchars($attachment->FILENAME);?>">
+							<?php endif;?>
+							</a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+
+		</div>
+
+	<?php endif;?>
 
 
 	<?php if (count($relations) > 0):?>

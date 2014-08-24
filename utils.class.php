@@ -409,7 +409,6 @@ function qs2sef($qstring){
 	$parts = explode("&",$qstring);
 	$sections = array();
 	$url = array();
-
 	
 	foreach ($parts as $part){
 		$v = explode("=",$part);
@@ -426,6 +425,19 @@ function qs2sef($qstring){
 		}else{
 			$url[] = $sections['proj'].".html";
 		}
+	}elseif(isset($sections['attachment'])){
+		// Attachment links
+		$url[] = 'browse';
+		$url[] = 'attachments';
+
+		if (isset($sections['thumb'])){
+			$url[] = 'thumbs';
+			$url[] = $sections['attachment'];
+			$url[] = $sections['projid']. ":". "_thumb_".$sections['attachment'].".png";
+		}else{
+			$url[] = $sections['attachment'];
+			$url[] = $sections['projid']. ":" . $sections['fname'];
+		}
 	}else{
 		$url[] = 'index.html';
 	}
@@ -441,18 +453,48 @@ function parseSEF(){
 	$sefurl = explode("?",$_SERVER['REQUEST_URI']); // make sure the query string isn't included (some servers seem to)
 	$const = explode("/",ltrim($sefurl[0],"/"));
 
-	if ($const[0] != 'browse'){
+	if ($const[0] != 'browse' && $const[0] != 'attachments'){
 		return;
 	}
 
-	$refs = explode("-",str_replace(".html",'',$const[1]));
-	if (isset($refs[1]) && !empty($refs[1])){
-		$_GET['issue'] = $refs[1];
-	}
 
-	if (!empty($refs[0])){
-		$_GET['proj'] = $refs[0];
-	}
+		if ($const[1] == 'attachments'){
+
+			if ($const[2] == 'thumbs'){
+				$_GET['attachid'] = $const[3];
+				$pro = explode("-",$const[4]);
+				$_GET['projectID'] = $pro[0];
+				$id = explode(":",$pro[1]);
+				$_GET['issueid'] = $pro[0]."-".$id[0];
+
+				$_GET['thumbs'] = 1;
+				return;
+			}
+
+
+			// It's an attachment link
+			$_GET['attachid'] = $const[2];
+			$pro = explode(":",$const[3]);
+
+			$_GET['projectID'] = $pro[0];
+			$_GET['filename'] = $pro[1];
+
+			return;
+		}
+
+
+		$refs = explode("-",str_replace(".html",'',$const[1]));
+		if (isset($refs[1]) && !empty($refs[1])){
+			$_GET['issue'] = $refs[1];
+		}
+
+		if (!empty($refs[0])){
+			$_GET['proj'] = $refs[0];
+		}
+
+
+
+
 
 	return;
 
