@@ -120,7 +120,7 @@ else:
 
 
 	$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-		"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT ".
+		"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
 		"FROM jiraissue AS a ".
 		"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 		"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -134,7 +134,7 @@ else:
 	$issue = $db->loadResult();
 
 
-	$sql = "SELECT actionbody, CREATED, AUTHOR FROM jiraaction where actiontype='comment' AND issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
+	$sql = "SELECT ID, actionbody, CREATED, AUTHOR FROM jiraaction where actiontype='comment' AND issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
 	$db->setQuery($sql);
 	$comments = $db->loadResults();
 
@@ -166,19 +166,34 @@ else:
 				padding-bottom: 10px;
 				word-wrap: break-word;
 				}
+
+
+				.commentlink {font-size: 0.7em; float: right;}
+
+				.commenttext, .issuedescription {font-family: monospace}
+				table.issueInfo {width: 100%; border: 0px;}
+				.reporter {font-style: italic; }
+
+				.statusOpen {color: red}
+				.statusClosed {color: green}
+
+				.pty4, .pty5 {color: green;}
+				.pty3 {color: red; }
+				.pty1, .pty2 {color: red; font-weight: bolder; }
+
 		</style>
 
 		</head>
 		<body>
 
-		<h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
-
-		<table style="border: 0px;">
+		<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
+		<hr />
+		<a name="Info"></a><table class="issueInfo">
 
 
 			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
-			<tr><td><b>Priority</b>: <?php echo $issue->priority; ?></td><td>&nbsp;</td></tr>
-			<tr><td><b>Reported By</b>: <?php echo $issue->REPORTER; ?></td><td><b>Status</b>: <?php echo $issue->status;?></b></td></tr>
+			<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td>&nbsp;</td></tr>
+			<tr><td><b>Reported By</b>: <span class="reporter"><?php echo $issue->REPORTER; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
 			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 				<td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
 
@@ -189,13 +204,13 @@ else:
 				<tr><td><br /><br /></td><td></td>
 			<!--/sphider_noindex-->
 
-			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey); ?></pre><br /><br /></td></tr>
+			<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey)); ?></div><br /><br /></td></tr>
 
 		</table>
 
 
 	<?php if (count($attachments) > 0):?>
-		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<a name="Attachments"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 			<h4>Attachments</h4>
 			<table style="width: 40%">
 				<tr><td>&nbsp</td></tr>
@@ -225,7 +240,7 @@ else:
 
 		?>
 		<!--sphider_noindex-->
-		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<a name="Links"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 				<h4>Issue Links</h4>
 				<table>
 
@@ -271,7 +286,7 @@ else:
 
 
 		<?php if (count($subtasks) > 0): ?>
-			<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+			<a name="subtasks"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 					<h4>Subtasks</h4>
 					<table>
 
@@ -312,17 +327,17 @@ else:
 
 
 		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
-		<h4>Comments</h4>
+		<a name="comments"></a><h4>Comments</h4>
 			
 			<hr />
 
 			<?php foreach ($comments as $comment): ?>	
-			<div>
-				<b><?php echo $comment->AUTHOR; ?></b><br />
+			<div><a name="comment<?php echo $comment->ID;?>"></a>
+				<b><?php echo $comment->AUTHOR; ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 				
-				<pre><?php echo jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey); ?></pre>
+				<div class="commenttext"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
 				
 	
 			</div>
