@@ -211,7 +211,10 @@ else:
 	<?php endif;?>
 
 
-	<?php if (count($relations) > 0):?>
+	<?php if (count($relations) > 0):
+		$subtasks=array();
+
+		?>
 		<!--sphider_noindex-->
 		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
 				<h4>Issue Links</h4>
@@ -223,13 +226,19 @@ else:
 							$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 							$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
 
+							if ($reltype == "jira_subtask_outward"){
+								$subtasks[] = $relation;
+								continue;
+							}elseif($reltype == "jira_subtask_inward"){
+								$reltype="Parent Issue: ";
+							}
+
 							$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
 								"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 								"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID " .
 								"WHERE a.id=".(int)$remid;
 							$db->setQuery($sql);
 							$relatedissue = $db->loadResult();
-
 							$resolved = (empty($resolution))? false : true;
 						?>
 						<tr>
@@ -250,6 +259,45 @@ else:
 					<?php endforeach; ?>
 				</table>
 		</div>
+
+
+		<?php if (count($subtasks) > 0): ?>
+			<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+					<h4>Subtasks</h4>
+					<table>
+
+						<?php foreach ($subtasks as $relation):
+
+
+								$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
+								$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
+
+								$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
+									"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+									"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID " .
+									"WHERE a.id=".(int)$remid;
+								$db->setQuery($sql);
+								$relatedissue = $db->loadResult();
+								$resolved = (empty($resolution))? false : true;
+							?>
+							<tr>
+
+								<td>
+									<?php if ($resolved):?><del><?php endif; ?>
+									<a href='<?php echo qs2sef("issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"); ?>'>
+										<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
+									<?php if ($resolved):?></del><?php endif; ?>
+
+										<?php echo htmlentities(htmlspecialchars($relatedissue->SUMMARY)); ?>
+							
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</table>
+			</div>
+		<?php endif; ?>
+
+
 		<!--/sphider_noindex-->
 	<?php endif; ?>
 
