@@ -508,7 +508,7 @@ function parseSEF(){
 */
 function jiraMarkup($str,$pkey = false){
 
-        $str = preg_replace('/(\{quote\})(.*)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
+        $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
 
