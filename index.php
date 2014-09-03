@@ -159,6 +159,15 @@ else:
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY)); ?></title>
 		<meta name="description" content="<?php echo htmlentities(htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION))); ?>">
 
+		<style type="text/css">
+				blockquote{border-left: 1px solid black;
+				padding-left: 10px;
+				background: lightgray;
+				padding-bottom: 10px;
+				word-wrap: break-word;
+				}
+		</style>
+
 		</head>
 		<body>
 
@@ -180,7 +189,7 @@ else:
 				<tr><td><br /><br /></td><td></td>
 			<!--/sphider_noindex-->
 
-			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo htmlentities(htmlspecialchars($issue->DESCRIPTION)); ?></pre><br /><br /></td></tr>
+			<tr><td colspan="2"><b>Description</b><br /><pre><?php echo jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey); ?></pre><br /><br /></td></tr>
 
 		</table>
 
@@ -313,7 +322,7 @@ else:
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 				
-				<pre><?php echo htmlentities(htmlspecialchars($comment->actionbody)); ?></pre>
+				<pre><?php echo jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey); ?></pre>
 				
 	
 			</div>
