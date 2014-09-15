@@ -151,7 +151,43 @@ else:
 	$db->setQuery($sql);
 	$attachments = $db->loadResults();
 
+	// Get Workflow
+	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID." ORDER BY a.created ASC";
+	$db->setQuery($sql);
+	$workflow = $db->loadResults();
 
+
+	// Merge the workflow with comments, first bit's easy
+	$commentsmerged = array();
+
+	foreach ($comments as $comment){
+	    $k = "a".strtotime($comment->CREATED);
+	    $comment->rowtype = 'comment';
+	    // Don't overwrite a previous comment if two people commented at the same time
+	    // TODO: a graceful else
+	    if (!isset($commentsmerged[$k])){
+		$commentsmerged[$k] = $comment;
+	    }
+	}
+
+	// Now we need to process the workflow and turn it into comments
+	foreach ($workflow as $wf){
+	    $k = "a".strtotime($wf->CREATED);
+	    $co = new stdClass();
+	    $co->ID = 'wf'.$wf->ID;
+	    $co->AUTHOR = $wf->AUTHOR;
+	    $co->CREATED = $wf->CREATED;
+	    $co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
+	    $co->rowtype = 'statechange';
+
+	    if (!isset($commentsmerged[$k])){
+		$commentsmerged[$k] = $co;
+	    } 
+
+	}
+
+	// Sort by timestamp
+	ksort($commentsmerged);
 
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
@@ -169,7 +205,7 @@ else:
 
 
 				.commentlink {font-size: 0.7em; float: right;}
-
+				.statechangetext {font-style: italic;}
 				.commenttext, .issuedescription {font-family: monospace}
 				table.issueInfo {width: 100%; border: 0px;}
 				.reporter {font-style: italic; }
@@ -331,13 +367,13 @@ else:
 			
 			<hr />
 
-			<?php foreach ($comments as $comment): ?>	
+			<?php foreach ($commentsmerged as $comment): ?>	
 			<div><a name="comment<?php echo $comment->ID;?>"></a>
 				<b><?php echo $comment->AUTHOR; ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 				
-				<div class="commenttext"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
+				<div class="<?php echo $comment->rowtype;?>text"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
 				
 	
 			</div>
@@ -348,6 +384,11 @@ else:
 
 
 
+<?php foreach ($workflow as $wf): ?>
+<pre>
+<?php print_r($wf); ?>
+</pre><br />
+<?php endforeach; ?>
 
 
 
