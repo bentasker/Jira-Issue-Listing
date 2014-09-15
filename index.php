@@ -133,6 +133,12 @@ else:
 	$db->setQuery($sql);
 	$issue = $db->loadResult();
 
+	if (!$issue){
+	    header("HTTP/1.0 404 Not Found");
+	    echo "ISSUE NOT FOUND";
+	    die;
+	}
+
 
 	// Get Previous Issue
 	$sql = "SELECT a.issuenum, a.SUMMARY, b.pkey FROM jiraissue as a ".
