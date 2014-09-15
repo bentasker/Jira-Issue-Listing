@@ -211,7 +211,7 @@ else:
 	      if (!empty($wf->OLDSTRING)){
 		$co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
 	      }else{
-		$co->actionbody = "{$wf->AUTHOR} set {$wf->FIELD} to '{$wf->NEWSTRING}'";
+		$co->actionbody = "{$wf->AUTHOR} added {$wf->FIELD} to '{$wf->NEWSTRING}'";
 	      }
 
 	    }else{
