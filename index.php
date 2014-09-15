@@ -153,7 +153,7 @@ else:
 
 	// Get Workflow (exclude time estimate and timespent - we'll deal with those later)
 	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID.
-	" AND b.FIELD NOT IN ('timeestimate','timespent','WorklogId') ORDER BY a.created ASC";
+	" AND b.FIELD IN ('status','resolution','assignee','Fix Version') AND a.CREATED > '".$db->stringEscape($issue->CREATED)."' ORDER BY a.created ASC";
 	$db->setQuery($sql);
 	$workflow = $db->loadResults();
 
@@ -162,29 +162,39 @@ else:
 	$commentsmerged = array();
 
 	foreach ($comments as $comment){
-	    $k = "a".strtotime($comment->CREATED);
+	    $t = strtotime($comment->CREATED);
 	    $comment->rowtype = 'comment';
-	    // Don't overwrite a previous comment if two people commented at the same time
-	    // TODO: a graceful else
-	    if (!isset($commentsmerged[$k])){
-		$commentsmerged[$k] = $comment;
+
+	    // Don't overwrite a previous comment if two people commented at the same time. Increment the array key by one until we find a free one
+	    while (true){
+		$k = "a".$t;
+		if (!isset($commentsmerged[$k])){
+		    $commentsmerged[$k] = $comment;
+		    break;
+		}
+		$t++;
 	    }
+
 	}
 
 	// Now we need to process the workflow and turn it into comments
 	foreach ($workflow as $wf){
-	    $k = "a".strtotime($wf->CREATED);
+	    $t = strtotime($wf->CREATED);
 	    $co = new stdClass();
 	    $co->ID = 'wf'.$wf->ID;
-	    $co->AUTHOR = $wf->AUTHOR;
+	    $co->AUTHOR = '';
 	    $co->CREATED = $wf->CREATED;
 	    $co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
 	    $co->rowtype = 'statechange';
 
-	    if (!isset($commentsmerged[$k])){
-		$commentsmerged[$k] = $co;
-	    } 
-
+	    while (true){
+	      $k= "a".$t;
+	      if (!isset($commentsmerged[$k])){
+		  $commentsmerged[$k] = $co;
+		  break;
+	      } 
+	      $t++;
+	    }
 	}
 
 	// Sort by timestamp
