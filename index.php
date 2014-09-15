@@ -134,6 +134,27 @@ else:
 	$issue = $db->loadResult();
 
 
+	// Get Previous Issue
+	$sql = "SELECT a.issuenum, b.pkey FROM jiraissue as a ".
+	      "LEFT JOIN project as b on a.PROJECT = b.ID ".
+	      "WHERE a.CREATED < '".$db->stringEscape($issue->CREATED)."' ".
+	      " AND b.pkey='".$db->stringEscape($_GET['proj'])."'".
+	      "ORDER BY a.CREATED DESC";
+	$db->setQuery($sql);
+	$previssue = $db->loadResult();
+
+
+	// Get Next Issue
+	$sql = "SELECT a.issuenum, b.pkey FROM jiraissue as a ".
+	      "LEFT JOIN project as b on a.PROJECT = b.ID ".
+	      "WHERE a.CREATED > '".$db->stringEscape($issue->CREATED)."' ".
+	      " AND b.pkey='".$db->stringEscape($_GET['proj'])."'".
+	      "ORDER BY a.CREATED ASC";
+	$db->setQuery($sql);
+	$nextissue = $db->loadResult();
+
+
+
 	$sql = "SELECT ID, actionbody, CREATED, AUTHOR FROM jiraaction where actiontype='comment' AND issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
 	$db->setQuery($sql);
 	$comments = $db->loadResults();
@@ -227,12 +248,36 @@ else:
 				.pty4, .pty5 {color: green;}
 				.pty3 {color: red; }
 				.pty1, .pty2 {color: red; font-weight: bolder; }
+				.prevlink {float:left;}
+				.nextlink {float:right;}
+				.prevlink a {text-decoration: none;}
+				.nextlink a {text-decoration: none;}
 
 		</style>
 
 		</head>
 		<body>
 
+		<!--sphider_noindex-->
+		  <?php if($previssue): ?>
+		    <span class="prevlink">
+			<a href="<?php echo qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}"); ?>">
+				&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>
+			</a>
+		    </span>
+		  <?php endif;?>
+
+		  <?php if($nextissue): ?>
+		    <span class="nextlink">
+		      <a href="<?php echo qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}"); ?>">
+				 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?> &gt;
+		      </a>
+		    </span>
+		  <?php endif; ?>
+		  <div style="clear: both; width: 100%;"></div>
+		<!--/sphider_noindex-->
+
+		<hr />
 		<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 		<hr />
 		<a name="Info"></a><table class="issueInfo">
