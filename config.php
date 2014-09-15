@@ -29,5 +29,7 @@ $conf->jirahome = '/var/atlassian/application-data/jira/'; // If you're not goin
 $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-agents that are allowed to view these pages
 $conf->SphiderIP = array('192.168.1.65/32','192.168.1.96'); // You can use CIDR or specify individual IPs
 
+// Set this to be a URL (relative or otherwise) if you want to include your own custom CSS. Otherwise, leave as false
+$conf->cssURL = false;
 
 $conf->debug = false; // Enabling this will prevent redirection to JIRA

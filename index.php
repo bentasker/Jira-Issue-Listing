@@ -343,7 +343,17 @@ else:
 				.worklogindex {font-style: italic;}
 				.timespent {font-weight: bold;}
 
+				#worklogblock, #commentsblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 40px}
+				#attachmentsblock table {width: 40%}
+				#attachmentsblock img {margin: 5px;}
+
+
 		</style>
+
+		<?php if ($conf->cssURL):?>
+		      <link type="text/css" rel="stylesheet" href="<?php echo $conf->cssURL; ?>" />
+		<?php endif;?>
+
 
 		</head>
 		<body>
@@ -429,9 +439,9 @@ else:
 
 
 	<?php if (count($attachments) > 0):?>
-		<a name="Attachments"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<a name="Attachments"></a><div id="attachmentsblock">
 			<h4>Attachments</h4>
-			<table style="width: 40%">
+			<table>
 				<tr><td>&nbsp</td></tr>
 				<?php foreach ($attachments as $attachment): ?>
 					<?php $alink = qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}"); ?>
@@ -441,7 +451,7 @@ else:
 							<?php if (!$attachment->thumbnailable):?>
 								<?php echo htmlspecialchars($attachment->FILENAME);?>
 							<?php else: ?>
-								<img style="margin: 5px;" src="<?php echo qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}&thumb=1"); ?>" title="<?php echo htmlspecialchars($attachment->FILENAME);?>">
+								<img src="<?php echo qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}&thumb=1"); ?>" title="<?php echo htmlspecialchars($attachment->FILENAME);?>">
 							<?php endif;?>
 							</a>
 						</td>
@@ -459,7 +469,7 @@ else:
 
 		?>
 		<!--sphider_noindex-->
-		<a name="Links"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<a name="Links"></a><div id="linksblock">
 				<h4>Issue Links</h4>
 				<table>
 
@@ -505,7 +515,7 @@ else:
 
 
 		<?php if (count($subtasks) > 0): ?>
-			<a name="subtasks"></a><div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+			<a name="subtasks"></a><div id="subtasksblock">
 					<h4>Subtasks</h4>
 					<table>
 
@@ -545,7 +555,7 @@ else:
 	<?php endif; ?>
 
 
-		<div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<div id="commentsblock">
 		<a name="comments"></a><h4>Comments</h4>
 			
 			<hr />
@@ -569,7 +579,7 @@ else:
 
       <?php if (count($worklog) > 0): ?>
 	  <!--sphider_noindex-->
-	      <div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+	      <div id="worklogblock">
 		<a name="worklog"></a><h4>Work log</h4>
 			
 			<hr />
