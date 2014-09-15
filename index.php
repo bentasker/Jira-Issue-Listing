@@ -294,11 +294,23 @@ else:
 	$fixversions = $db->loadResults();
 
 
+	// Get Labels
+	$sql = "SELECT LABEL FROM `label` WHERE ISSUE=".(int)$issue->ID;
+	$db->setQuery($sql);
+	$labels = $db->loadResults();
+
+
+
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
 	?>
 		<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY)); ?></title>
 		<meta name="description" content="<?php echo htmlentities(htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION))); ?>">
+
+		<?php if (count($labels) > 0 ):?>
+		    <meta name="keywords" content="<?php foreach ($labels as $label){ echo "{$label->LABEL},"; }?>" />
+		<?php endif;?>
+
 
 		<style type="text/css">
 				blockquote{border-left: 1px solid black;
@@ -374,10 +386,22 @@ else:
 								  endforeach;
 								?></span>
 			    </td></tr>
-			<tr><td><b>Components: </b><span class="issuecomponents"><?php foreach ($components as $af):
+			<tr>
+			    <td>
+				<?php if (count($components) > 0): ?>
+				  <b>Components: </b><span class="issuecomponents">
+							<?php foreach ($components as $af):
 								      echo htmlentities(htmlspecialchars($af->cname)). ", " ;
-								  endforeach;
-								?></span></td><td>&nbsp;</td></tr>
+							endforeach;?>
+						    </span>
+				<?php endif; ?>
+			    </td>
+			    <td>
+			      <?php if (count($labels) > 0 ):?>
+				  <b>Labels: </b><?php foreach ($labels as $label){ echo "{$label->LABEL}, "; }?>
+			      <?php endif;?>
+			    </td>
+			</tr>
 			<tr><td><br /></td><td></td></tr>
 			<!--sphider_noindex-->
 				<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <?php echo $issue->TIMESPENT / 60; ?> minutes</td></tr>
