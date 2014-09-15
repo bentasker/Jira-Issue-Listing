@@ -376,16 +376,26 @@ else:
 			<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 				<td>&nbsp;</td></tr>
 
-			<tr><td><b>Affects Version: </b><span class="issueversions"><?php foreach ($affectsversions as $af):
+			<tr>
+			    <td>
+				<?php if (count($affectsversions) > 0):?>
+				  <b>Affects Version: </b><span class="issueversions">
+								<?php foreach ($affectsversions as $af):
 								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
-								  endforeach;
-								?></span>
-							    </td>
-			    <td><b>Target version: </b><span class="issueversions"><?php foreach ($fixversions as $af):
+								endforeach;?>
+							  </span>
+				<?php endif; ?>
+			    </td>
+			    <td>
+				<?php if (count($fixversions) > 0): ?>
+				  <b>Target version: </b><span class="issueversions">
+								<?php foreach ($fixversions as $af):
 								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
-								  endforeach;
-								?></span>
-			    </td></tr>
+								  endforeach;?>
+							  </span>
+				<?php endif; ?>
+			    </td>
+			</tr>
 			<tr>
 			    <td>
 				<?php if (count($components) > 0): ?>
