@@ -508,6 +508,10 @@ function parseSEF(){
 */
 function jiraMarkup($str,$pkey = false){
 
+	// This one's actually one used by this script
+	$str = preg_replace('/\[issuelistpty (.*?)\](.*?)\[\/issuelistpty\]/s','<span class="pty$1">$2</span>',$str);
+
+
         $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);

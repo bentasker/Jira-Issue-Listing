@@ -174,7 +174,8 @@ else:
 
 	// Get Workflow (exclude time estimate and timespent - we'll deal with those later)
 	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID.
-	" AND b.FIELD IN ('status','resolution','assignee','Fix Version','Version') AND a.CREATED > '".$db->stringEscape($issue->CREATED)."' ORDER BY a.created ASC";
+	" AND b.FIELD IN ('status','resolution','assignee','Fix Version','Version','labels','Attachment','priority,'timespent','Project','Key')".
+	" AND a.CREATED > '".$db->stringEscape($issue->CREATED)."' ORDER BY a.created ASC";
 	$db->setQuery($sql);
 	$workflow = $db->loadResults();
 
@@ -185,7 +186,7 @@ else:
 	foreach ($comments as $comment){
 	    $t = strtotime($comment->CREATED);
 	    $comment->rowtype = 'comment';
-
+	    
 	    // Don't overwrite a previous comment if two people commented at the same time. Increment the array key by one until we find a free one
 	    while (true){
 		$k = "a".$t;
@@ -208,14 +209,44 @@ else:
 
 	    if (!empty($wf->NEWSTRING)){
 
-	      if (!empty($wf->OLDSTRING)){
-		$co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
-	      }else{
-		$co->actionbody = "{$wf->AUTHOR} added {$wf->FIELD} to '{$wf->NEWSTRING}'";
-	      }
+		  // Tweak the value depending on field type
+		  switch ($wf->FIELD){
+			case 'timespent':
+			      $wf->NEWSTRING = ($wf->NEWSTRING / 60) . " minutes";
+			      $wf->OLDSTRING = ($wf->OLDSTRING / 60) . " minutes";
+			break;
+
+			case 'Attachment':
+			      $wf->FIELD = 'Attachments';
+			break;
+
+			case 'priority':
+			      $sql = "SELECT SEQUENCE FROM priority WHERE ID=".(int)$wf->NEWVALUE;
+			      $db->setQuery($sql);
+			      $s = $db->loadResult();
+
+			      $wf->NEWSTRING = '[issuelistpty '. $s->SEQUENCE .']'.$wf->NEWSTRING.'[/issuelistpty]';
+
+			      if (!empty($wf->OLDSTRING)){
+				  $sql = "SELECT SEQUENCE FROM priority WHERE ID=".(int)$wf->OLDVALUE;
+				  $db->setQuery($sql);
+				  $s = $db->loadResult();
+
+				  $wf->OLDSTRING = '[issuelistpty '. $s->SEQUENCE .']'.$wf->OLDSTRING.'[/issuelistpty]';
+			      }
+			break;
+
+		  }
+
+
+		  if (!empty($wf->OLDSTRING)){
+		    $co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
+		  }else{
+		    $co->actionbody = "{$wf->AUTHOR} added '{$wf->NEWSTRING}' to {$wf->FIELD}";
+		  }
 
 	    }else{
-	      $co->actionbody = "{$wf->AUTHOR} removed '{$wf->OLDSTRING}' from {$wf->FIELD}";
+		  $co->actionbody = "{$wf->AUTHOR} removed '{$wf->OLDSTRING}' from {$wf->FIELD}";
 	    }
 
 	    $co->rowtype = 'statechange';
