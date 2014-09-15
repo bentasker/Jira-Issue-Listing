@@ -221,6 +221,30 @@ else:
 	// Sort by timestamp
 	ksort($commentsmerged);
 
+	// Get Versions
+	$sql = "SELECT b.vname FROM nodeassociation AS a ".
+		"LEFT JOIN projectversion AS b on a.SINK_NODE_ID = b.ID ".
+		"WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueVersion'";
+	$db->setQuery($sql);
+	$affectsversions = $db->loadResults();
+
+
+	// Get Components
+	$sql = "SELECT a.SOURCE_NODE_ID, b.cname FROM nodeassociation AS a ".
+		"LEFT JOIN component AS b on a.SINK_NODE_ID = b.ID ".
+		"WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueComponent'";
+	$db->setQuery($sql);
+	$components = $db->loadResults();
+
+
+	// Get Target Fix version
+	$sql = "SELECT b.vname FROM nodeassociation AS a ".
+	"LEFT JOIN projectversion AS b on a.SINK_NODE_ID = b.ID ".
+	"WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueFixVersion'";
+	$db->setQuery($sql);
+	$fixversions = $db->loadResults();
+
+
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
 	?>
@@ -286,8 +310,23 @@ else:
 			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
 			<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td>&nbsp;</td></tr>
 			<tr><td><b>Reported By</b>: <span class="reporter"><?php echo $issue->REPORTER; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
-			<tr><td><b>Project:</b><?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
+			<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 				<td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+
+			<tr><td><b>Affects Version: </b><?php foreach ($affectsversions as $af):
+								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
+								  endforeach;
+								?>
+							    </td>
+			    <td><b>Target version: </b><?php foreach ($fixversions as $af):
+								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
+								  endforeach;
+								?>
+			    </td></tr>
+			<tr><td><b>Components: </b><?php foreach ($components as $af):
+								      echo htmlentities(htmlspecialchars($af->cname)). ", " ;
+								  endforeach;
+								?></td><td>&nbsp;</td></tr>
 
 			<tr><td><br /><br /></td><td></td>
 
