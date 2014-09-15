@@ -316,32 +316,32 @@ else:
 		<hr />
 		<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 		<hr />
-		<a name="Info"></a><table class="issueInfo">
-
-
+		<a name="Info"></a>
+			<h3>Issue Information</h3>
+			<table class="issueInfo">
 			<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
-			<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td>&nbsp;</td></tr>
-			<tr><td><b>Reported By</b>: <span class="reporter"><?php echo $issue->REPORTER; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
-			<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
-				<td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+			<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
+                        <tr><td><br /></td><td></td></tr>
 
-			<tr><td><b>Affects Version: </b><?php foreach ($affectsversions as $af):
+			<tr><td><b>Reported By</b>: <span class="reporter"><?php echo $issue->REPORTER; ?></span></td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+			<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
+				<td>&nbsp;</td></tr>
+
+			<tr><td><b>Affects Version: </b><span class="issueversions"><?php foreach ($affectsversions as $af):
 								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
 								  endforeach;
-								?>
+								?></span>
 							    </td>
-			    <td><b>Target version: </b><?php foreach ($fixversions as $af):
+			    <td><b>Target version: </b><span class="issueversions"><?php foreach ($fixversions as $af):
 								      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
 								  endforeach;
-								?>
+								?></span>
 			    </td></tr>
-			<tr><td><b>Components: </b><?php foreach ($components as $af):
+			<tr><td><b>Components: </b><span class="issuecomponents"><?php foreach ($components as $af):
 								      echo htmlentities(htmlspecialchars($af->cname)). ", " ;
 								  endforeach;
-								?></td><td>&nbsp;</td></tr>
-
-			<tr><td><br /><br /></td><td></td>
-
+								?></span></td><td>&nbsp;</td></tr>
+			<tr><td><br /></td><td></td></tr>
 			<!--sphider_noindex-->
 				<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <?php echo $issue->TIMESPENT / 60; ?> minutes</td></tr>
 				<tr><td><br /><br /></td><td></td>
