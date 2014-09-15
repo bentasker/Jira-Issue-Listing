@@ -76,6 +76,26 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 		$db->setQuery("SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'");
 		$project = $db->loadResult();
 
+		// Get details of timespent
+		$db->setQuery("SELECT SUM(TIMESPENT) as TIMESPENT, SUM(TIMEORIGINALESTIMATE) as estimate FROM jiraissue where PROJECT=".(int)$project->ID);
+		$time = $db->loadResult();
+
+		$timespent = ($time->TIMESPENT /60);
+                if ($timespent > 60){
+                    // Convert to hours
+                    $timespent = round(($timespent / 60),2) . " hours";
+                }else{
+                    $timespent .= " minutes";
+                }
+
+		$timeestimate = ($time->estimate / 60);
+                if ($timeestimate > 60){
+                    // Convert to hours
+                    $timeestimate = round(($timeestimate / 60),2) . " hours";
+                }else{
+                    $timeestimate .= " minutes";
+                }
+
 
 		$projdesc = "<h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1>";
 
@@ -83,7 +103,10 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 			$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
 		}	
 
-		$projdesc .= "<h3>Description</h3><pre>".htmlentities(htmlspecialchars($project->DESCRIPTION))."</pre>\n\n<h3>Issues</h3>\n";
+		$projdesc .= "<h3>Description</h3><pre>".htmlentities(htmlspecialchars($project->DESCRIPTION))."</pre>".
+			      "\n<i>Initial Estimate: </i> $timeestimate<br />\n".
+			      "<i>Time Logged: </i>$timespent<br />".
+			      "\n\n<h3>Issues</h3>\n";
 
 		echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n".
 		 "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
