@@ -205,7 +205,19 @@ else:
 	    $co->ID = 'wf'.$wf->ID;
 	    $co->AUTHOR = '';
 	    $co->CREATED = $wf->CREATED;
-	    $co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
+
+	    if (!empty($wf->NEWSTRING)){
+
+	      if (!empty($wf->OLDSTRING)){
+		$co->actionbody = "{$wf->AUTHOR} changed {$wf->FIELD} from '{$wf->OLDSTRING}' to '{$wf->NEWSTRING}'";
+	      }else{
+		$co->actionbody = "{$wf->AUTHOR} set {$wf->FIELD} to '{$wf->NEWSTRING}'";
+	      }
+
+	    }else{
+	      $co->actionbody = "{$wf->AUTHOR} removed '{$wf->OLDSTRING}' from {$wf->FIELD}";
+	    }
+
 	    $co->rowtype = 'statechange';
 
 	    while (true){
