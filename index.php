@@ -135,7 +135,7 @@ else:
 
 
 	// Get Previous Issue
-	$sql = "SELECT a.issuenum, b.pkey FROM jiraissue as a ".
+	$sql = "SELECT a.issuenum, a.SUMMARY, b.pkey FROM jiraissue as a ".
 	      "LEFT JOIN project as b on a.PROJECT = b.ID ".
 	      "WHERE a.CREATED < '".$db->stringEscape($issue->CREATED)."' ".
 	      " AND b.pkey='".$db->stringEscape($_GET['proj'])."'".
@@ -145,7 +145,7 @@ else:
 
 
 	// Get Next Issue
-	$sql = "SELECT a.issuenum, b.pkey FROM jiraissue as a ".
+	$sql = "SELECT a.issuenum, a.SUMMARY, b.pkey FROM jiraissue as a ".
 	      "LEFT JOIN project as b on a.PROJECT = b.ID ".
 	      "WHERE a.CREATED > '".$db->stringEscape($issue->CREATED)."' ".
 	      " AND b.pkey='".$db->stringEscape($_GET['proj'])."'".
@@ -262,7 +262,7 @@ else:
 		  <?php if($previssue): ?>
 		    <span class="prevlink">
 			<a href="<?php echo qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}"); ?>">
-				&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>
+				&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($previssue->SUMMARY)); ?>
 			</a>
 		    </span>
 		  <?php endif;?>
@@ -270,7 +270,7 @@ else:
 		  <?php if($nextissue): ?>
 		    <span class="nextlink">
 		      <a href="<?php echo qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}"); ?>">
-				 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?> &gt;
+				 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($nextissue->SUMMARY)); ?> &gt;
 		      </a>
 		    </span>
 		  <?php endif; ?>
