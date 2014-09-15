@@ -173,6 +173,12 @@ else:
 	$relations = $db->loadResults();
 
 
+	// Get external links
+	$sql = "SELECT * FROM remotelink WHERE ISSUEID=".(int)$issue->ID;
+	$db->setQuery($sql);
+	$relationsext = $db->loadResults();
+
+
 	// Get Attachments
 	$sql = "select * from fileattachment where issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
 	$db->setQuery($sql);
@@ -347,6 +353,8 @@ else:
 				#attachmentsblock table {width: 40%}
 				#attachmentsblock img {margin: 5px;}
 
+				.favicon {max-width: 20px;}
+
 
 		</style>
 
@@ -464,7 +472,7 @@ else:
 	<?php endif;?>
 
 
-	<?php if (count($relations) > 0):
+	<?php if (count($relations) > 0 || count($relationsext) > 0):
 		$subtasks=array();
 
 		?>
@@ -509,6 +517,12 @@ else:
 							
 							</td>
 						</tr>
+					<?php endforeach; ?>
+					<?php foreach ($relationsext as $relation):?>
+					    <tr>
+						    <td><img class='favicon' src="<?php echo $relation->ICONURL; ?>"></td>
+						    <td><a target=_blank href="<?php echo $relation->URL; ?>"><?php echo $relation->TITLE;?></a></td>
+					    </tr>
 					<?php endforeach; ?>
 				</table>
 		</div>
