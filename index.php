@@ -384,15 +384,6 @@ else:
 		</div>
 
 
-
-<?php foreach ($workflow as $wf): ?>
-<pre>
-<?php print_r($wf); ?>
-</pre><br />
-<?php endforeach; ?>
-
-
-
 <!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->issuenum}";?>:-->
 <?php
 endif;
