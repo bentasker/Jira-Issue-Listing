@@ -151,8 +151,9 @@ else:
 	$db->setQuery($sql);
 	$attachments = $db->loadResults();
 
-	// Get Workflow
-	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID." ORDER BY a.created ASC";
+	// Get Workflow (exclude time estimate and timespent - we'll deal with those later)
+	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID.
+	" AND b.FIELD NOT IN ('timeestimate','timespent','WorklogId') ORDER BY a.created ASC";
 	$db->setQuery($sql);
 	$workflow = $db->loadResults();
 
