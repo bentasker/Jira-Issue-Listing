@@ -299,7 +299,10 @@ else:
 	$db->setQuery($sql);
 	$labels = $db->loadResults();
 
-
+	// Get the Worklog
+	$sql = "SELECT * FROM worklog WHERE issueid=".(int)$issue->ID . " ORDER BY CREATED ASC";
+	$db->setQuery($sql);
+	$worklog = $db->loadResults();
 
 	$resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " ({$issue->RESOLUTIONDATE})";
 
@@ -337,6 +340,8 @@ else:
 				.nextlink {float:right;}
 				.prevlink a {text-decoration: none;}
 				.nextlink a {text-decoration: none;}
+				.worklogindex {font-style: italic;}
+				.timespent {font-weight: bold;}
 
 		</style>
 
@@ -414,7 +419,7 @@ else:
 			</tr>
 			<tr><td><br /></td><td></td></tr>
 			<!--sphider_noindex-->
-				<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <?php echo $issue->TIMESPENT / 60; ?> minutes</td></tr>
+				<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <a href="#worklog"><?php echo $issue->TIMESPENT / 60; ?> minutes</a></td></tr>
 				<tr><td><br /><br /></td><td></td>
 			<!--/sphider_noindex-->
 
@@ -559,6 +564,34 @@ else:
 			<?php endforeach; ?>
 
 		</div>
+
+
+
+      <?php if (count($worklog) > 0): ?>
+	  <!--sphider_noindex-->
+	      <div style="border: 1px solid #000; padding: 10px; margin-top: 40px;">
+		<a name="worklog"></a><h4>Work log</h4>
+			
+			<hr />
+
+			<?php foreach ($worklog as $work): ?>	
+			<div><a name="worklog<?php echo $work->ID;?>"></a>
+				<b><?php echo $work->AUTHOR; ?></b>    <a class="commentlink" href="#worklog<?php echo $work->ID;?>" rel="nofollow">Permalink</a><br />
+				<i><?php echo $work->CREATED; ?></i><br /><Br />
+
+				<span class='worklogindex'>Time Spent: </span><span class="timespent"><?php echo ($work->timeworked / 60) . " minutes"; ?></span>
+				<div class="worklogtext">
+				      <span class='worklogindex'>Log Entry: </span><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($work->worklogbody)),$issue->pkey)); ?>
+				</div>
+				
+	
+			</div>
+			<hr />
+			<?php endforeach; ?>
+
+		</div>
+	  <!--/sphider_noindex-->
+      <?php endif; ?>
 
 
 <!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->issuenum}";?>:-->
