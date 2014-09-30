@@ -103,7 +103,7 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 			$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
 		}	
 
-		$projdesc .= "<h3>Description</h3><pre>".htmlentities(htmlspecialchars($project->DESCRIPTION))."</pre>".
+		$projdesc .= "<h3>Description</h3>".$project->DESCRIPTION."<br /><br />".
 			      "\n<i>Initial Estimate: </i> $timeestimate<br />\n".
 			      "<i>Time Logged: </i>$timespent<br />".
 			      "\n\n<h3>Issues</h3>\n";
@@ -209,7 +209,7 @@ else:
 
 	// Get Workflow (exclude time estimate and timespent - we'll deal with those later)
 	$sql = "SELECT a.CREATED, a.AUTHOR, b.* FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID.
-	" AND b.FIELD IN ('status','resolution','assignee','Fix Version','Version','labels','Attachment','priority','timespent','Project','Key')".
+	" AND b.FIELD IN ('status','resolution','assignee','Fix Version','Version','labels','Attachment','priority,'timespent','Project','Key')".
 	" AND a.CREATED > '".$db->stringEscape($issue->CREATED)."' ORDER BY a.created ASC";
 	$db->setQuery($sql);
 	$workflow = $db->loadResults();
