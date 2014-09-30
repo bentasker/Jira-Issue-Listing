@@ -380,6 +380,18 @@ else:
 
 
 		</style>
+		<script type="text/javascript">
+			  function toggleStatusActivities(){
+			    var entries = document.getElementsByClassName('activitystatechange');
+			    for (i=0; i<entries.length;i++){
+				if (entries[i].style.display != 'none'){
+				    entries[i].style.display = 'none';
+				}else{
+				    entries[i].style.display = 'block';
+				}
+			    }
+			  }
+		</script>
 
 		<?php if ($conf->cssURL):?>
 		      <link type="text/css" rel="stylesheet" href="<?php echo $conf->cssURL; ?>" />
@@ -593,12 +605,13 @@ else:
 
 
 		<div id="commentsblock">
+		<a style="float:right; font-size: 0.8em; text-decoration: none;" onclick="toggleStatusActivities(); return false;" href="#">Toggle State Changes</a>
 		<a name="comments"></a><h4>Activity</h4>
 			
 			<hr />
 
 			<?php foreach ($commentsmerged as $comment): ?>	
-			<div><a name="comment<?php echo $comment->ID;?>"></a>
+			<div class="activity<?php echo $comment->rowtype;?>"><a name="comment<?php echo $comment->ID;?>"></a>
 				<b><?php echo $comment->AUTHOR; ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
 				<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
@@ -607,7 +620,7 @@ else:
 				
 	
 			</div>
-			<hr />
+			<hr class="activity<?php echo $comment->rowtype;?>" />
 			<?php endforeach; ?>
 
 		</div>
