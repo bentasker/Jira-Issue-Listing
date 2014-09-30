@@ -593,7 +593,7 @@ else:
 
 
 		<div id="commentsblock">
-		<a name="comments"></a><h4>Comments</h4>
+		<a name="comments"></a><h4>Activity</h4>
 			
 			<hr />
 
