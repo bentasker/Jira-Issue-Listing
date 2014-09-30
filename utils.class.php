@@ -511,6 +511,8 @@ function jiraMarkup($str,$pkey = false){
 	// This one's actually one used by this script
 	$str = preg_replace('/\[issuelistpty (.*?)\](.*?)\[\/issuelistpty\]/s','<span class="pty$1">$2</span>',$str);
 
+	// This one's specifically used by my commit notifications
+	$str = preg_replace('/(\[View Commit\|)(.*?)(\])/s','<a href="$2" target=_blank>View Commit</a>',$str);
 
         $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
