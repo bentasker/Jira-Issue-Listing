@@ -108,25 +108,8 @@ $issues = $db->loadResults();
 	echo $projdesc;
 
 ?>
-<table class="issuelistingtable sortable">
-<tr>
-	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th>
-</tr>
 
-<?php foreach ($issues as $issue):?>
-
-	<tr>
-           <td><a href='<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>'><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></td>
-	   <td><?php echo $issue->issuetype; ?></td>
-	   <td><span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td>
-	   <td><?php echo htmlspecialchars($issue->SUMMARY); ?></td>
-	   <td><span class="status<?php echo $issue->status;?>"><?php echo $issue->status; ?></span></td>
-	   <td><?php echo $issue->resolution; ?></td>
-	   <td sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>"><?php echo $issue->CREATED; ?></td>
-	</tr>
-
-<?php endforeach; ?>
-</table>
+<?php include 'issues-table.php'; ?>
 
 <br />
 <hr />
