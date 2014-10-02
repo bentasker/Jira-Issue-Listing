@@ -13,7 +13,7 @@
 *
 */
 
-
+date_default_timezone_set('Europe/London');
 $conf->db = 'JiraDB';
 $conf->host = 'localhost';
 $conf->user = 'jiradbuser';
