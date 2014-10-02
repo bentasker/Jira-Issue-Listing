@@ -236,50 +236,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 	<style type="text/css">
-			blockquote{border-left: 1px solid black;
-			padding-left: 10px;
-			background: lightgray;
-			padding-bottom: 10px;
-			word-wrap: break-word;
-			}
-
-			pre{border-radius: 3px 3px 3px 3px;
-			margin: 9px 0;
-			border: 1px solid #cccccc;
-			background: #f5f5f5;
-			font-size: 12px;
-			line-height: 1.33333333333333;
-			font-family: monospace;
-			word-wrap: break-word;
-			}
-
-
-			.commentlink {font-size: 0.7em; float: right;}
-			.statechangetext {font-style: italic;}
-			.commenttext, .issuedescription {font-family: monospace}
-			table.issueInfo {width: 100%; border: 0px;}
-			.reporter {font-style: italic; }
-
-			.statusOpen {color: red}
-			.statusClosed {color: green}
-
-			.pty4, .pty5 {color: green;}
-			.pty3 {color: red; }
-			.pty1, .pty2 {color: red; font-weight: bolder; }
-			.prevlink {float:left;}
-			.nextlink {float:right;}
-			.prevlink a {text-decoration: none;}
-			.nextlink a {text-decoration: none;}
-			.worklogindex {font-style: italic;}
-			.timespent {font-weight: bold;}
-
-			#worklogblock, #commentsblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 40px}
-			#attachmentsblock table {width: 40%}
-			#attachmentsblock img {margin: 5px;}
-
-			.favicon {max-width: 20px;}
-
-
+		<?php require 'css.php';?>
 	</style>
 	<script type="text/javascript">
 		  function toggleStatusActivities(){
@@ -293,12 +250,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		    }
 		  }
 	</script>
-
-	<?php if ($conf->cssURL):?>
-	      <link type="text/css" rel="stylesheet" href="<?php echo $conf->cssURL; ?>" />
-	<?php endif;?>
-
-
+	<?php require 'head-includes.php'; ?>
 	</head>
 	<body>
 

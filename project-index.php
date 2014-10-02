@@ -24,9 +24,6 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 	die;
 }
 
-$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ".
-	"WHERE b.pkey='" . $db->stringEscape($_GET['proj']). "' ORDER BY a.PROJECT, a.issuenum ASC";
-
 
 // Grab the project information
 
@@ -69,26 +66,58 @@ $projdesc .= "<h3>Description</h3>".$project->DESCRIPTION."<br /><br />".
 echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n".
  "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
 
+
+$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
+	"FROM jiraissue AS a ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
+	"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
+	"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
+	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
+	"WHERE b.pkey='".$db->stringEscape($_GET['proj'])."'" . 
+	" ORDER BY a.PROJECT, a.issuenum ASC" ;
+
 $db->setQuery($sql);
 $issues = $db->loadResults();
+
+
+
 
 
 ?>
 <html>
 <head>
 <title><?php echo htmlspecialchars($_GET['proj']); ?></title>
+<style type="text/css">
+<?php require 'css.php'; ?>
+</style>
+<?php require 'head-includes.php'; ?>
 </head>
 <body>
 <!--sphider_noindex-->
 <?php
 	echo $projdesc;
 
-foreach ($issues as $issue){
-
-	echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY))."</a></li>\n";
-
-}
 ?>
+<table class="issuelistingtable sortable">
+<tr>
+	<th>Key</th><th>Type</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th>
+</tr>
+
+<?php foreach ($issues as $issue):?>
+
+	<tr>
+           <td><a href='<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>'><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></td>
+	   <td><?php echo $issue->issuetype; ?></td>
+	   <td><?php echo htmlspecialchars($issue->SUMMARY); ?></td>
+	   <td><?php echo $issue->status; ?></td>
+	   <td><?php echo $issue->resolution; ?></td>
+	   <td sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>"><?php echo $issue->CREATED; ?></td>
+	</tr>
+
+<?php endforeach; ?>
+</table>
 <!--/sphider_noindex-->
 
 

@@ -37,7 +37,10 @@ $projdesc = null;
 ?>
 <html>
 <head>
-
+<style type="text/css">
+<?php require 'css.php'; ?>
+</style>
+<?php require 'head-includes.php'; ?>
 </head>
 <body>
 <!--sphider_noindex-->
