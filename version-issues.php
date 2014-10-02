@@ -15,6 +15,13 @@
 
 defined('listpage') or die;
 
+if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
+	// Redirect real users to JIRA
+	header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}/fixforversion/{$_GET['vers']}");
+	die;
+}
+
+
 
 $sql = "select a.*, b.pkey from projectversion AS a LEFT JOIN project AS b ON a.PROJECT = b.ID WHERE a.ID=".(int)$_GET['vers'];
 $db->setQuery($sql);
