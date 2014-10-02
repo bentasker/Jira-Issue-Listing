@@ -122,7 +122,7 @@ $issues = $db->loadResults();
 
 <?php foreach ($versions as $version):?>
 <tr>
-	<td><?php echo htmlspecialchars($version->vname); ?></td>
+        <td><a href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></td>
 	<td><?php echo htmlspecialchars($version->DESCRIPTION); ?></td>
 	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?></td>
 	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>

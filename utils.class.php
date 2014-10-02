@@ -422,6 +422,9 @@ function qs2sef($qstring){
 
 		if (isset($sections['issue'])){
 			$url[] = $sections['proj']."-".$sections['issue'].".html";
+		}elseif(isset($sections['vers'])){
+			$url[] = 'versions';
+			$url[] = $sections['proj']."-".$sections['vers'].".html";
 		}else{
 			$url[] = $sections['proj'].".html";
 		}
@@ -482,6 +485,14 @@ function parseSEF(){
 			return;
 		}
 
+		
+		// We're checking versions
+		if ($const[1] == "versions"){
+			$refs = explode("-",str_replace(".html","",$const[2]));
+			$_GET['proj'] = $refs[0];
+			$_GET['vers'] = $refs[1];
+			return;
+		}
 
 		$refs = explode("-",str_replace(".html",'',$const[1]));
 		if (isset($refs[1]) && !empty($refs[1])){

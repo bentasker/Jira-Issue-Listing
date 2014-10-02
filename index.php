@@ -33,6 +33,11 @@ if (isset($_GET['attachid'])){
 	die;
 }
 
+if (isset($_GET['vers'])){
+	require 'version-issues.php';
+	die;
+}
+
 if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 	if (!isset($_GET['proj']) || empty($_GET['proj'])){
