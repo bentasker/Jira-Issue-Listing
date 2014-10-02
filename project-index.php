@@ -52,6 +52,14 @@ if ($timeestimate > 60){
 }
 
 
+// Get Versions
+
+$sql = "select * from projectversion WHERE PROJECT=".(int)$project->ID;
+$db->setQuery($sql);
+$versions = $db->loadResults();
+
+
+
 $projdesc = "<h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1>";
 
 if (!empty($project->URL)){
@@ -102,7 +110,7 @@ $issues = $db->loadResults();
 ?>
 <table class="issuelistingtable sortable">
 <tr>
-	<th>Key</th><th>Type</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th>
+	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th>
 </tr>
 
 <?php foreach ($issues as $issue):?>
@@ -110,14 +118,37 @@ $issues = $db->loadResults();
 	<tr>
            <td><a href='<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>'><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></td>
 	   <td><?php echo $issue->issuetype; ?></td>
+	   <td><span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td>
 	   <td><?php echo htmlspecialchars($issue->SUMMARY); ?></td>
-	   <td><?php echo $issue->status; ?></td>
+	   <td><span class="status<?php echo $issue->status;?>"><?php echo $issue->status; ?></span></td>
 	   <td><?php echo $issue->resolution; ?></td>
 	   <td sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>"><?php echo $issue->CREATED; ?></td>
 	</tr>
 
 <?php endforeach; ?>
 </table>
+
+<br />
+<hr />
+<br />
+
+<a name="versions"></a>
+<h3>Versions</h3>
+
+<table class="projectVersionstbl">
+
+<?php foreach ($versions as $version):?>
+<tr>
+	<td><?php echo htmlspecialchars($version->vname); ?></td>
+	<td><?php echo htmlspecialchars($version->DESCRIPTION); ?></td>
+	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?></td>
+	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
+</tr>
+
+<?php endforeach; ?>
+
+</table>
+
 <!--/sphider_noindex-->
 
 

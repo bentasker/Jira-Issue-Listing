@@ -60,4 +60,5 @@ table.issueInfo {width: 100%; border: 0px;}
 .favicon {max-width: 20px;}
 .issuelistingtable td {text-align: center;}
 .issuelistingtable {width: 70%;}
+.projectVersionstbl {width: 70%;}
 
