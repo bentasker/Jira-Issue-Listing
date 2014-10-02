@@ -352,6 +352,16 @@ else:
 				word-wrap: break-word;
 				}
 
+				pre{border-radius: 3px 3px 3px 3px;
+				margin: 9px 0;
+				border: 1px solid #cccccc;
+				background: #f5f5f5;
+				font-size: 12px;
+				line-height: 1.33333333333333;
+				font-family: monospace;
+				word-wrap: break-word;
+				}
+
 
 				.commentlink {font-size: 0.7em; float: right;}
 				.statechangetext {font-style: italic;}
