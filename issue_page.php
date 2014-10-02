@@ -182,7 +182,7 @@ foreach ($workflow as $wf){
 ksort($commentsmerged);
 
 // Get Versions
-$sql = "SELECT b.vname FROM nodeassociation AS a ".
+$sql = "SELECT b.vname, b.ID FROM nodeassociation AS a ".
 	"LEFT JOIN projectversion AS b on a.SINK_NODE_ID = b.ID ".
 	"WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueVersion'";
 $db->setQuery($sql);
@@ -198,7 +198,7 @@ $components = $db->loadResults();
 
 
 // Get Target Fix version
-$sql = "SELECT b.vname FROM nodeassociation AS a ".
+$sql = "SELECT b.vname, b.ID FROM nodeassociation AS a ".
 "LEFT JOIN projectversion AS b on a.SINK_NODE_ID = b.ID ".
 "WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueFixVersion'";
 $db->setQuery($sql);
@@ -291,18 +291,18 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		    <td>
 			<?php if (count($affectsversions) > 0):?>
 			  <b>Affects Version: </b><span class="issueversions">
-							<?php foreach ($affectsversions as $af):
-							      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
-							endforeach;?>
+							<?php foreach ($affectsversions as $af):?>
+							      <a href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,  
+							<?php endforeach;?>
 						  </span>
 			<?php endif; ?>
 		    </td>
 		    <td>
 			<?php if (count($fixversions) > 0): ?>
 			  <b>Target version: </b><span class="issueversions">
-							<?php foreach ($fixversions as $af):
-							      echo htmlentities(htmlspecialchars($af->vname)). ", " ;
-							  endforeach;?>
+							<?php foreach ($fixversions as $af):?>
+							      <a href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,
+							  <?php endforeach;?>
 						  </span>
 			<?php endif; ?>
 		    </td>
