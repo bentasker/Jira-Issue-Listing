@@ -21,7 +21,7 @@ $db->setQuery($sql);
 $version = $db->loadResult();
 
 
-$sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
+$sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
 	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
 	"FROM projectversion AS pv ".
 	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
@@ -31,8 +31,9 @@ $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname
 	"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
 	"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
 	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
-	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."'" . 
-	" ORDER BY a.PROJECT, a.issuenum ASC" ;
+	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+	"ORDER BY a.PROJECT, a.issuenum ASC" ;
 
 $db->setQuery($sql);
 $issues = $db->loadResults();
