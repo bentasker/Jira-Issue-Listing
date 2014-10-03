@@ -16,12 +16,12 @@
 
 defined('listpage') or die;
 
-/*
+
 if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
 	// Redirect real users to JIRA
-	header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}/fixforversion/{$_GET['vers']}");
+	header("Location: {$conf->jiralocation}/browse/{$_GET['proj']}/component/{$_GET['comp']}");
 	die;
-}*/
+}
 
 
 
