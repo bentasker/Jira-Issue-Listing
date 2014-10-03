@@ -59,6 +59,11 @@ $db->setQuery($sql);
 $versions = $db->loadResults();
 
 
+// Get Components
+$sql = "select * from component WHERE PROJECT=".(int)$project->ID . " ORDER BY cname ASC";
+$db->setQuery($sql);
+$components = $db->loadResults();
+
 
 $projdesc = "<h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1>";
 
@@ -115,6 +120,26 @@ $issues = $db->loadResults();
 <hr />
 <br />
 
+<a name="Components"></a>
+<h3>Components</h3>
+
+<table class="projectVersionstbl">
+
+<?php foreach ($components as $component):?>
+<tr>
+        <td><a href="<?php echo qs2sef("comp={$component->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($component->cname); ?></a></td>
+	<td><?php echo htmlspecialchars($component->DESCRIPTION); ?></td>
+</tr>
+
+<?php endforeach; ?>
+
+</table>
+
+
+<br />
+<hr />
+<br />
+
 <a name="versions"></a>
 <h3>Versions</h3>
 
@@ -123,7 +148,7 @@ $issues = $db->loadResults();
 <?php foreach ($versions as $version):?>
 <tr>
         <td><a href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></td>
-	<td><?php echo htmlspecialchars($version->DESCRIPTION); ?></td>
+	<td><?php echo htmlspecialchars($version->description); ?></td>
 	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?></td>
 	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
 </tr>
