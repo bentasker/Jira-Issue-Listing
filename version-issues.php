@@ -55,7 +55,7 @@ $issues = $db->loadResults();
 <?php require 'head-includes.php'; ?>
 </head>
 <body>
-<!--sphider_noindex-->
+
 <h1>Version: <?php echo htmlspecialchars($version->vname); ?></h1>
 
 <table class="versinfotable">
@@ -74,7 +74,7 @@ $issues = $db->loadResults();
 </table>
 
 <hr />
-
+<!--sphider_noindex-->
 <h3>Issues</h3>
 <?php include 'issues-table.php'; ?>
 
