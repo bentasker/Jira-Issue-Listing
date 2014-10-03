@@ -190,7 +190,7 @@ $affectsversions = $db->loadResults();
 
 
 // Get Components
-$sql = "SELECT a.SOURCE_NODE_ID, b.cname FROM nodeassociation AS a ".
+$sql = "SELECT a.SOURCE_NODE_ID, b.cname, b.ID FROM nodeassociation AS a ".
 	"LEFT JOIN component AS b on a.SINK_NODE_ID = b.ID ".
 	"WHERE a.SOURCE_NODE_ID=".(int)$issue->ID." AND a.ASSOCIATION_TYPE='IssueComponent'";
 $db->setQuery($sql);
@@ -311,9 +311,9 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		    <td>
 			<?php if (count($components) > 0): ?>
 			  <b>Components: </b><span class="issuecomponents">
-						<?php foreach ($components as $af):
-							      echo htmlentities(htmlspecialchars($af->cname)). ", " ;
-						endforeach;?>
+						<?php foreach ($components as $af):?>
+							      <a href="<?php echo qs2sef("comp={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->cname));?></a> , 
+						<?php endforeach;?>
 					    </span>
 			<?php endif; ?>
 		    </td>

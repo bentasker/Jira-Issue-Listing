@@ -33,10 +33,18 @@ if (isset($_GET['attachid'])){
 	die;
 }
 
+
 if (isset($_GET['vers'])){
 	require 'version-issues.php';
 	die;
 }
+
+if (isset($_GET['comp'])){
+	require 'component-issues.php';
+	die;
+}
+
+
 
 if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
