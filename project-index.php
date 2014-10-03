@@ -54,7 +54,7 @@ if ($timeestimate > 60){
 
 // Get Versions
 
-$sql = "select * from projectversion WHERE PROJECT=".(int)$project->ID;
+$sql = "select * from projectversion WHERE PROJECT=".(int)$project->ID. " ORDER BY SEQUENCE ASC";
 $db->setQuery($sql);
 $versions = $db->loadResults();
 
