@@ -25,7 +25,7 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ENVIRONMENT ".
 	"FROM jiraissue AS a ".
 	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -323,11 +323,19 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		      <?php endif;?>
 		    </td>
 		</tr>
+
+		<?php if (!empty($issue->ENVIRONMENT)):?>
+			<tr><td><b>Environment:</b></td><td><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->ENVIRONMENT)),$issue->pkey)); ?></td></re>
+		<?php endif; ?>
+
 		<tr><td><br /></td><td></td></tr>
 		<!--sphider_noindex-->
 			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <a href="#worklog"><?php echo $issue->TIMESPENT / 60; ?> minutes</a></td></tr>
 			<tr><td><br /><br /></td><td></td>
 		<!--/sphider_noindex-->
+
+
+
 
 		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey)); ?></div><br /><br /></td></tr>
 
