@@ -538,8 +538,14 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace('/(\[View Changes\|)(.*?)(\])/s','<a href="$2" target=_blank>View Changes</a>',$str);
 
         $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
+        $str = preg_replace('/((?<!\\\)\*)([^\s].*?[^\s])((?<!\\\)\*)/s','<b>$2</b>',$str); // Bolds
+        $str = preg_replace('/((?<!\\\)_)([^\s].*?[^\s])((?<!\\\)_)/s','<i>$2</i>',$str); // Italics
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
+
+
+// Bold: 
+// Italic: 
 
 	if ($pkey){
 		$str = preg_replace("/($pkey\-)([0-9]*)/","<a href='".qs2sef("issue=$2&proj=$pkey")."'>$pkey-$2</a>",$str);
