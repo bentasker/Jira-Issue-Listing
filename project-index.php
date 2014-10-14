@@ -149,7 +149,7 @@ $issues = $db->loadResults();
 <tr>
         <td><a href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></td>
 	<td><?php echo htmlspecialchars($version->description); ?></td>
-	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?></td>
+	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?> <?php echo ($version->ARCHIVED)? '(Archived)':'';?></td>
 	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
 </tr>
 

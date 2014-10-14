@@ -66,7 +66,8 @@ $issues = $db->loadResults();
 		<th>Description</th><td><?php echo htmlspecialchars($version->DESCRIPTION); ?></td>
 	</tr>
 	<tr>
-		<th>Status</th><td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?></td>
+		<th>Status</th><td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?> 
+				    <?php echo ($version->ARCHIVED)? '(Archived)':'';?></td>
 	</tr>
 	<tr>
 		<th></th><td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
