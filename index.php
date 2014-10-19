@@ -21,6 +21,7 @@ require 'utils.class.php';
 
 parseSEF();
 $db = new BTDB;
+$authip = checkIPs();
 
 if (isset($_GET['attachid'])){
 

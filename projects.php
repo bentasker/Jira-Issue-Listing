@@ -17,7 +17,6 @@ defined('listpage') or die;
 
 
 // See whether the client IP is allowed to view us
-$authip = checkIPs();
 $projdesc = null;
 
 // Which view are we displaying?
