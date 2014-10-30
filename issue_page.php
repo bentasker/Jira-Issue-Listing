@@ -476,7 +476,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<hr />
 
 		<?php foreach ($commentsmerged as $comment): ?>	
-		<div class="activity<?php echo $comment->rowtype;?>"><a name="comment<?php echo $comment->ID;?>"></a>
+		<div class="activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"><a name="comment<?php echo $comment->ID;?>"></a>
 			<b><?php echo $comment->AUTHOR; ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
 			<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
