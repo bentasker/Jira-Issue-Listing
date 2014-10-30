@@ -500,7 +500,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<hr />
 
 		<?php foreach ($worklog as $work): ?>	
-		<div><a name="worklog<?php echo $work->ID;?>"></a>
+		<div><a name="worklog<?php echo $work->ID;?> worklog_author_<?php echo $work->AUTHOR;?>"></a>
 			<b><?php echo $work->AUTHOR; ?></b>    <a class="commentlink" href="#worklog<?php echo $work->ID;?>" rel="nofollow">Permalink</a><br />
 			<i><?php echo $work->CREATED; ?></i><br /><Br />
 

@@ -544,9 +544,18 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
 
+      
+	// Strip any formatting back out of pre-s
+	preg_match_all('/\<pre\>(.*?)\<\/pre\>/s', $str, $match);
 
-// Bold: 
-// Italic: 
+	foreach($match as $a){
+	    foreach($a as $b){
+	     $str = str_replace('<pre>'.$b.'</pre>', "<pre>".str_replace("<i>", "_", str_replace("</i>","_",
+		    str_replace("<b>","*",str_replace("</b>","*",$b))))."</pre>", $str); // no, I'm not proud of this, but its getting late and this has been bugging me...
+	   	  
+	    }
+	}
+	
 
 	if ($pkey){
 		$str = preg_replace("/($pkey\-)([0-9]*)/","<a href='".qs2sef("issue=$2&proj=$pkey")."'>$pkey-$2</a>",$str);
