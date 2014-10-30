@@ -83,6 +83,10 @@ $sql = "SELECT * FROM remotelink WHERE ISSUEID=".(int)$issue->ID;
 $db->setQuery($sql);
 $relationsext = $db->loadResults();
 
+if (count($relationsext) < 1){ // Make sure we don't generate a NOTICE later
+  $relationsext = array();
+}
+
 
 // Get Attachments
 $sql = "select * from fileattachment where issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
