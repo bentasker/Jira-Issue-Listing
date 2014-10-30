@@ -341,7 +341,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 
-		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey)); ?></div><br /><br /></td></tr>
+		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey)); ?></div><br /><br /></td></tr>
 
 	</table>
 
@@ -481,7 +481,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 			
-			<div class="<?php echo $comment->rowtype;?>text"><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
+			<div class="<?php echo $comment->rowtype;?>text"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
 			
 
 		</div>

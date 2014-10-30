@@ -538,6 +538,7 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace('/(\[View Changes\|)(.*?)(\])/s','<a href="$2" target=_blank>View Changes</a>',$str);
 
         $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
+        $str = preg_replace('/(\{noformat\})(.*?)(\{noformat\})/s','<pre>$2</pre>',$str);
         $str = preg_replace('/((?<!\\\)\*)([^\s].*?[^\s])((?<!\\\)\*)/s','<b>$2</b>',$str); // Bolds
         $str = preg_replace('/((?<!\\\)_)([^\s].*?[^\s])((?<!\\\)_)/s','<i>$2</i>',$str); // Italics
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
@@ -552,4 +553,22 @@ function jiraMarkup($str,$pkey = false){
 	}
 
 	return $str;
+}
+
+
+
+
+/** Taken from the PHP Manual - change newlines to <br /> apart from within pre tags
+*
+*/
+function my_nl2br($string){
+$string = str_replace("\n", "<br />", $string);
+if(preg_match_all('/\<pre\>(.*?)\<\/pre\>/', $string, $match)){
+    foreach($match as $a){
+        foreach($a as $b){
+        $string = str_replace('<pre>'.$b.'</pre>', "<pre>".str_replace("<br />", "", $b)."</pre>", $string);
+        }
+    }
+}
+return $string;
 }
