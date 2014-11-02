@@ -34,11 +34,6 @@ $projdesc = null;
 	$db->setQuery($sql);
 	$projects = $db->loadResults();
 
-	//$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ORDER BY a.PROJECT, a.issuenum ASC";
-
-	//$db->setQuery($sql);
-	//$issues = $db->loadResults();
-
 ?>
 <html>
 <head>
@@ -67,17 +62,7 @@ $projdesc = null;
   <?php endforeach; ?>
 
 </table>
-<?php
-/*
 
-	foreach ($issues as $issue){
-
-		echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY))."</a></li>\n";
-
-
-	}
-*/
-?>
 <!--/sphider_noindex-->
 </body>
 </html>
