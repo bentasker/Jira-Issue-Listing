@@ -28,10 +28,16 @@ $projdesc = null;
 		die;
 	}
 
-	$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ORDER BY a.PROJECT, a.issuenum ASC";
 
+	
+	$sql = "SELECT ID, pname, pkey, DESCRIPTION from project ORDER BY pkey ASC";
 	$db->setQuery($sql);
-	$issues = $db->loadResults();
+	$projects = $db->loadResults();
+
+	//$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ORDER BY a.PROJECT, a.issuenum ASC";
+
+	//$db->setQuery($sql);
+	//$issues = $db->loadResults();
 
 ?>
 <html>
@@ -41,15 +47,36 @@ $projdesc = null;
 </style>
 <?php require 'head-includes.php'; ?>
 </head>
-<body>
+<body class="homepage">
 <!--sphider_noindex-->
+<h1>Projects</h1>
+
+<table class="prjtbl sortable">
+  <tr>
+    <th></th>
+    <th></th>
+    <th class="desc"></th>
+  </tr>
+
+  <?php foreach ($projects as $project): ?>
+    <tr>
+	<td><a href="<?php echo qs2sef("proj={$project->pkey}"); ?>"><?php echo $project->pkey;?></a></td>
+	<td><?php echo $project->pname; ?></td>
+	<td class="desc"><?php echo $project->DESCRIPTION; ?></td>
+    </tr>
+  <?php endforeach; ?>
+
+</table>
 <?php
+/*
+
 	foreach ($issues as $issue){
 
 		echo "<li><a href='".qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}")."'>{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY))."</a></li>\n";
 
 
 	}
+*/
 ?>
 <!--/sphider_noindex-->
 </body>
