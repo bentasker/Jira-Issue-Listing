@@ -293,7 +293,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
                 <tr><td><br /></td><td></td></tr>
 
-		<tr><td><b>Reported By</b>: <span class="reporter"><?php echo $issue->REPORTER; ?></span></td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
+		<tr><td><b>Reported By</b>: <span class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
 		<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 			<td>&nbsp;</td></tr>
 
@@ -483,7 +483,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 		<?php foreach ($commentsmerged as $comment): ?>	
 		<div class="activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"><a name="comment<?php echo $comment->ID;?>"></a>
-			<b><?php echo $comment->AUTHOR; ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
+			<b><?php echo translateUser($comment->AUTHOR); ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
 			<i><?php echo $comment->CREATED; ?></i><br /><Br />
 
 			
@@ -507,7 +507,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 		<?php foreach ($worklog as $work): ?>	
 		<div><a name="worklog<?php echo $work->ID;?> worklog_author_<?php echo $work->AUTHOR;?>"></a>
-			<b><?php echo $work->AUTHOR; ?></b>    <a class="commentlink" href="#worklog<?php echo $work->ID;?>" rel="nofollow">Permalink</a><br />
+			<b><?php echo translateUser($work->AUTHOR); ?></b>    <a class="commentlink" href="#worklog<?php echo $work->ID;?>" rel="nofollow">Permalink</a><br />
 			<i><?php echo $work->CREATED; ?></i><br /><Br />
 
 			<span class='worklogindex'>Time Spent: </span><span class="timespent"><?php echo ($work->timeworked / 60) . " minutes"; ?></span>

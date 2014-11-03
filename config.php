@@ -24,6 +24,7 @@ $conf->scriptname='index.php';
 $conf->jiralocation = 'http://jira.example.com';
 $conf->jirahome = '/var/atlassian/application-data/jira/'; // If you're not going to be using the archival script/attachment functionality, you can ignore this
 
+$conf->usernames = 'name'; // Set this to username to leave as usernames
 
 // Authorisation params - Any request with the wrong UA, or not originating from an authorised IP will be redirected to JIRA
 $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-agents that are allowed to view these pages

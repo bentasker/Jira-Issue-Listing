@@ -620,3 +620,40 @@ function buildProjectFilter($tblname=false, $retarray=false){
 
 	return $sql;
 }
+
+
+/** Translate a username into a realname
+*
+* See JILS-14
+*
+* @arg username
+*
+* @return string
+*/
+function translateUser($username){
+
+    global $conf;
+    if ($conf->usernames = 'name'){
+
+	// Check if we've already cached it
+	if (isset($GLOBALS['usernamecache']) && isset($GLOBALS['usernamecache']['a'.$username])){
+	      return $GLOBALS['usernamecache']['a'.$username];
+	}
+
+	$db = new BTDB();
+	$sql = "SELECT * FROM cwd_user WHERE user_name='".$db->stringEscape($username)."'";
+	$db->setQuery($sql);
+	$user = $db->loadResult();
+
+	$user_string = $user->first_name . " " . $user->last_name;
+	return $user_string;
+
+
+    }else{
+	return $username;
+    }
+
+
+
+
+}
