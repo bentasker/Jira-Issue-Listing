@@ -412,7 +412,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 							"WHERE a.id=".(int)$remid;
 						$db->setQuery($sql);
 						$relatedissue = $db->loadResult();
-						$resolved = (empty($resolution))? false : true;
+						$resolved = (empty($relatedissue->resolution))? false : true;
 					?>
 					<tr class='issue<?php echo str_replace(" ","_",htmlentities(htmlspecialchars($reltype))); ?> related_is_resolved_<?php echo $resolved; ?>'>
 						<td>
