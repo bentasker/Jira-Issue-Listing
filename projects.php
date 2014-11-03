@@ -63,9 +63,9 @@ $projdesc = null;
 
 <table class="prjtbl sortable">
   <tr>
-    <th></th>
-    <th></th>
-    <th class="desc"></th>
+    <th>Key</th>
+    <th>Title</th>
+    <th class="desc">Description</th>
   </tr>
 
   <?php foreach ($projects as $project): ?>
