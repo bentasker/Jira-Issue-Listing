@@ -587,11 +587,13 @@ return $string;
 /** If the client filter header is set, build an SQL filter based upon it
 *
 */
-function buildProjectFilter(){
+function buildProjectFilter($tblname=false){
 	$sql = false;
 	
 	if (isset($_SERVER['HTTP_X_PROJECT_LIMIT']) && !empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
 		$db = new BTDB();
+		$sql = ($tblname)? "$tblname.":'';
+		
 		$sql .= "pkey IN (";
 		$options = '';
 
