@@ -32,19 +32,12 @@ $projdesc = null;
 	
 	$sql = "SELECT ID, pname, pkey, DESCRIPTION from project ";
 
-	// This will be moved somewhere more suitable (and global) in future
-	if (isset($_SERVER['HTTP_X_PROJECT_LIMIT']) && !empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
-
-		$sql .= "WHERE pkey IN (";
-		$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
-		foreach ($keys as $k){
-		      $sql .= "'".$db->stringEscape($k)."',";
-		}
-
-		$sql .= "'') ";
-
+	$filter = buildProjectFilter(); // See JILS-12
+	if ($filter){
+	    $sql .= "WHERE ".$filter;
 	}
-	$sql .= 'ORDER BY pkey ASC';
+
+	$sql .= ' ORDER BY pkey ASC';
 
 	$db->setQuery($sql);
 	$projects = $db->loadResults();

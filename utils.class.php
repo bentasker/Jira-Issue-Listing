@@ -581,3 +581,30 @@ if(preg_match_all('/\<pre\>(.*?)\<\/pre\>/', $string, $match)){
 }
 return $string;
 }
+
+
+
+/** If the client filter header is set, build an SQL filter based upon it
+*
+*/
+function buildProjectFilter(){
+	$sql = false;
+	
+	if (isset($_SERVER['HTTP_X_PROJECT_LIMIT']) && !empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
+		$db = new BTDB();
+		$sql .= "pkey IN (";
+		$options = '';
+
+		// Break down the header
+		$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
+
+		foreach ($keys as $k){
+		      $options .= "'".$db->stringEscape($k)."',";
+		}
+		// Trim the final comma and drop into the SQL statement
+		
+		$sql .= rtrim($options,",").") ";
+	}
+
+	return $sql;
+}
