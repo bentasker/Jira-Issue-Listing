@@ -54,3 +54,13 @@ table.issueInfo {width: 100%; border: 0px;}
 .issuelistingtable td {text-align: center;}
 .issuelistingtable {width: 70%;}
 .projectVersionstbl {width: 70%;}
+
+
+#linksblock table {width: 100%;}
+#linksblock td {padding: 0px 5px;}
+
+
+
+/* Issue relation types */
+/*tr.issueblocks, tr.issueis_blocked_by {background-color: #cc3333;} */ 
+tr.related_is_resolved_ {background-color: #ff9; }

@@ -414,7 +414,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 						$relatedissue = $db->loadResult();
 						$resolved = (empty($resolution))? false : true;
 					?>
-					<tr>
+					<tr class='issue<?php echo str_replace(" ","_",htmlentities(htmlspecialchars($reltype))); ?>'>
 						<td>
 							<?php echo htmlentities(htmlspecialchars($reltype)); ?>
 						</td>
