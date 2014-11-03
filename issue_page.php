@@ -244,10 +244,6 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	    <meta name="keywords" content="<?php foreach ($labels as $label){ echo "{$label->LABEL},"; }?>" />
 	<?php endif;?>
 
-
-	<style type="text/css">
-		<?php require 'css.php';?>
-	</style>
 	<script type="text/javascript">
 		  function toggleStatusActivities(){
 		    var entries = document.getElementsByClassName('activitystatechange');
@@ -286,6 +282,16 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<hr />
 	<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 	<hr />
+
+	<ul class="breadcrumbs">
+	      <li><a href="../../index.html">Projects</a></li>
+	      <li><a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a></li>
+	      <li><a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></li>
+	</ul>
+	<hr />
+
+
+
 	<a name="Info"></a>
 		<h3>Issue Information</h3>
 		<table class="issueInfo">

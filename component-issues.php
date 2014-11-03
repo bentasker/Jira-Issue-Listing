@@ -68,9 +68,6 @@ $issues = $db->loadResults();
 <html>
 <head>
 <title><?php echo $component->pkey;?> / <?php echo htmlspecialchars($component->cname); ?></title>
-<style type="text/css">
-<?php require 'css.php'; ?>
-</style>
 <?php require 'head-includes.php'; ?>
 </head>
 <body>

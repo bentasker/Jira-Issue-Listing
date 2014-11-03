@@ -18,3 +18,4 @@ defined('listpage') or die;
 
 // Define anything you want to add to <head>
 ?>
+<link rel="stylesheet" type="text/css" href="/static/core.css"/>

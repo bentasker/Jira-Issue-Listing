@@ -60,9 +60,7 @@ $issues = $db->loadResults();
 <html>
 <head>
 <title>Version: <?php echo htmlspecialchars($version->vname); ?></title>
-<style type="text/css">
-<?php require 'css.php'; ?>
-</style>
+
 <?php require 'head-includes.php'; ?>
 </head>
 <body>
