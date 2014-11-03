@@ -633,12 +633,27 @@ function buildProjectFilter($tblname=false, $retarray=false){
 function translateUser($username){
 
     global $conf;
-    if ($conf->usernames = 'name'){
+
+
+    // Are custom overrides enabled, and is one set for this user?
+    if ($conf->customUsernames){
+	  include 'authors.php';
+	  if (isset($authors['a'.$username])){
+	      return expandUserRecord($authors['a'.$username]);
+	  }
+    }
+
+
+    if ($conf->usernames == 'name'){
 
 	// Check if we've already cached it
 	if (isset($GLOBALS['usernamecache']) && isset($GLOBALS['usernamecache']['a'.$username])){
 	      return $GLOBALS['usernamecache']['a'.$username];
 	}
+
+
+
+
 
 	$db = new BTDB();
 	$sql = "SELECT * FROM cwd_user WHERE user_name='".$db->stringEscape($username)."'";
@@ -653,7 +668,18 @@ function translateUser($username){
 	return $username;
     }
 
+}
 
 
+/** Seems a bit overblown having a seperate function for something so simple, but it's likely going to do a lot more in future!
+*
+*/
+function expandUserRecord($user){
 
+      if (isset($user['URL']) && !empty($user['URL'])){
+	    return "<a class='extauthorLink' title='View Profile (external site)' href='{$user['URL']}' target=_blank>{$user['DisplayName']}</a>";
+      }
+
+      return $user['DisplayName'];
+    
 }
