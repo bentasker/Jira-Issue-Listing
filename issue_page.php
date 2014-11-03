@@ -283,8 +283,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 	<hr />
 
-	<ul class="breadcrumbs">
-	      <li><a href="../../index.html">Projects</a></li>
+	<ul itemprop="breadcrumb" class="breadcrumbs">
+	      <li><a href="../index.html">Projects</a></li>
 	      <li><a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a></li>
 	      <li><a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></li>
 	</ul>

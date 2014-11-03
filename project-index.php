@@ -78,7 +78,13 @@ $db->setQuery($sql);
 $components = $db->loadResults();
 
 
-$projdesc = "<h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1>";
+$projdesc = "<hr /><h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1><hr />";
+
+$projdesc .= '<ul itemprop="breadcrumb" class="breadcrumbs">
+	      <li><a href="../index.html">Projects</a></li>
+	      <li><a href="'.qs2sef("proj={$project->pkey}").'">'.$project->pkey.'</a></li>
+	    </ul>
+	    <hr />';
 
 if (!empty($project->URL)){
 	$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
@@ -119,6 +125,9 @@ $issues = $db->loadResults();
 <?php require 'head-includes.php'; ?>
 </head>
 <body>
+
+
+
 <!--sphider_noindex-->
 <?php
 	echo $projdesc;

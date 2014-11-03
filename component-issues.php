@@ -72,7 +72,14 @@ $issues = $db->loadResults();
 </head>
 <body>
 
-<h1><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1>
+<hr /><h1><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
+	<ul itemprop="breadcrumb" class="breadcrumbs">
+	      <li><a href="../../index.html">Projects</a></li>
+	      <li><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey; ?></a></li>
+	      <li><a href="<?php echo qs2sef("comp={$component->ID}&proj={$component->pkey}");?>"><?php echo htmlspecialchars($component->cname); ?></a></li>
+	</ul>
+
+	<hr />
 
 <table class="versinfotable">
 	<tr>

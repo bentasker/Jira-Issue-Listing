@@ -50,7 +50,11 @@ $projdesc = null;
 </head>
 <body class="homepage">
 <!--sphider_noindex-->
-<h1>Projects</h1>
+<hr /><h1>Projects</h1><hr />
+<ul itemprop="breadcrumb" class="breadcrumbs">
+      <li><a href="index.html">Projects</a></li>
+</ul>
+<hr />
 
 <table class="prjtbl sortable">
   <tr>

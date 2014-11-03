@@ -65,7 +65,14 @@ $issues = $db->loadResults();
 </head>
 <body>
 
-<h1>Version: <?php echo htmlspecialchars($version->vname); ?></h1>
+<hr /><h1>Version: <?php echo htmlspecialchars($version->vname); ?></h1><hr />
+
+<ul itemprop="breadcrumb" class="breadcrumbs">
+      <li><a href="../../index.html">Projects</a></li>
+      <li><a href="<?php echo qs2sef("proj={$version->pkey}");?>"><?php echo $version->pkey; ?></a></li>
+      <li><a href="<?php echo qs2sef("vers={$version->ID}&proj={$version->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></li>
+</ul>
+<hr />
 
 <table class="versinfotable">
 	<tr>
