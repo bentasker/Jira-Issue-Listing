@@ -35,6 +35,12 @@ $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, 
 	"WHERE a.issuenum='".$db->stringEscape($_GET['issue']) . 
 	"' AND b.pkey='".$db->stringEscape($_GET['proj'])."'";
 
+	$filter = buildProjectFilter('b'); // See JILS-12
+	if ($filter){
+	    $sql .= " AND ".$filter;
+	}
+
+
 $db->setQuery($sql);
 $issue = $db->loadResult();
 
