@@ -109,11 +109,12 @@ $workflow = $db->loadResults();
 
 // Merge the workflow with comments, first bit's easy
 $commentsmerged = array();
+$comment_authors = array();
 
 foreach ($comments as $comment){
     $t = strtotime($comment->CREATED);
     $comment->rowtype = 'comment';
-    
+    $comment_authors[] = $comment->AUTHOR;
     // Don't overwrite a previous comment if two people commented at the same time. Increment the array key by one until we find a free one
     while (true){
 	$k = "a".$t;
@@ -133,7 +134,7 @@ foreach ($workflow as $wf){
     $co->ID = 'wf'.$wf->ID;
     $co->AUTHOR = '';
     $co->CREATED = $wf->CREATED;
-
+    $comment_authors[] = $wf->AUTHOR;
     if (!empty($wf->NEWSTRING)){
 
 	  // Tweak the value depending on field type
@@ -187,6 +188,8 @@ foreach ($workflow as $wf){
       $t++;
     }
 }
+
+$authors_list = array_unique($comment_authors);
 
 // Sort by timestamp
 ksort($commentsmerged);
@@ -258,20 +261,20 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	</script>
 	<?php require 'head-includes.php'; ?>
 	</head>
-	<body>
+	<body itemscope itemtype="http://schema.org/WebPage">
 
 	<!--sphider_noindex-->
 	  <?php if($previssue): ?>
-	    <span class="prevlink">
-		<a href="<?php echo qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}"); ?>">
+	    <span itemscope itemtype="http://schema.org/SiteNavigationElement" class="prevlink">
+		<a itemprop="url" href="<?php echo qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}"); ?>">
 			&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($previssue->SUMMARY)); ?>
 		</a>
 	    </span>
 	  <?php endif;?>
 
 	  <?php if($nextissue): ?>
-	    <span class="nextlink">
-	      <a href="<?php echo qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}"); ?>">
+	    <span itemscope itemtype="http://schema.org/SiteNavigationElement" class="nextlink">
+	      <a itemprop="url" href="<?php echo qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}"); ?>">
 			 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($nextissue->SUMMARY)); ?> &gt;
 	      </a>
 	    </span>
@@ -280,7 +283,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<!--/sphider_noindex-->
 
 	<hr />
-	<a name="top"></a><h1><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
+	<a name="top"></a><h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
 	<hr />
 
 	<ul itemprop="breadcrumb" class="breadcrumbs">
@@ -300,7 +303,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
                 <tr><td><br /></td><td></td></tr>
 
 		<tr><td><b>Reported By</b>: <span class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
-		<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
+		<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a itemprop="isPartOf" href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
 			<td>&nbsp;</td></tr>
 
 		<tr>
@@ -317,7 +320,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<?php if (count($fixversions) > 0): ?>
 			  <b>Target version: </b><span class="issueversions">
 							<?php foreach ($fixversions as $af):?>
-							      <a href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,
+							      <a itemprop="version" href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,
 							  <?php endforeach;?>
 						  </span>
 			<?php endif; ?>
@@ -335,7 +338,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		    </td>
 		    <td>
 		      <?php if (count($labels) > 0 ):?>
-			  <b>Labels: </b><?php foreach ($labels as $label){ echo "{$label->LABEL}, "; }?>
+			  <b>Labels: </b><span itemprop="keywords"><?php foreach ($labels as $label){ echo "{$label->LABEL}, "; }?></span>
 		      <?php endif;?>
 		    </td>
 		</tr>
@@ -488,13 +491,20 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<hr />
 
 		<?php foreach ($commentsmerged as $comment): ?>	
-		<div class="activityentry activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"><a name="comment<?php echo $comment->ID;?>"></a>
+		<div class="activityentry activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"
+		    <?php if ($comment->rowtype == 'comment'): ?>
+			itemscope itemtype="http://schema.org/Comment"
+		    <?php else: ?>
+			itemscope itemtype="http://schema.org/StateChange"
+		    <?php endif; ?>
+		    >
+		      <a name="comment<?php echo $comment->ID;?>"></a>
 		      <div class="commentMetadata">
-			<b><?php echo translateUser($comment->AUTHOR); ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
-			<i><?php echo $comment->CREATED; ?></i>
+			<b itemprop="author"><?php echo translateUser($comment->AUTHOR); ?></b>    <a itemprop="url" class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
+			<i itemprop="dateCreated"><?php echo $comment->CREATED; ?></i>
 		      </div>
 			
-			<div class="<?php echo $comment->rowtype;?>text"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
+			<div class="<?php echo $comment->rowtype;?>text" itemprop="text"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
 			
 
 		</div>
@@ -531,6 +541,9 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
   <!--/sphider_noindex-->
 <?php endif; ?>
 
+<?php foreach ($authors_list as $author): ?>
+  <meta itemprop="contributor" content="<?php echo $author; ?>" />
+<?php endforeach; ?>
 
 <!--URLKEY:/browse/<?php echo "{$issue->pkey}-{$issue->issuenum}";?>:-->
 
