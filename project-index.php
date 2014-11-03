@@ -27,8 +27,14 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 // Grab the project information
 
+$sql = "SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'";
 
-$db->setQuery("SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'");
+$filter = buildProjectFilter(); // See JILS-12
+if ($filter){
+    $sql .= " AND ".$filter;
+}
+
+$db->setQuery($sql);
 $project = $db->loadResult();
 
 

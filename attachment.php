@@ -29,13 +29,20 @@ if (!isset($_GET['thumbs'])):
 	$ident = explode("-",$_GET['projectID']);
 	$id = (int)$_GET['attachid'];
 
-	
+	// Shouldn't ever need to break at this point (we don't tend to link to another project's attachments, but just to be safe)
+	$filters = buildProjectFilter(false, true);
+	if (is_array($filters) && !in_array($ident[0],$filters)){
+		header("HTTP/1.0 404 Not Found",true,404);
+		echo "NOT FOUND";
+		die;
+	}
 
 	//$_GET['attachid'] = $_GET['attachid']; no point actually doing this, just here to make for easy reference
 
 
 	if (!file_exists($conf->jirahome."data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}")){
 		header("HTTP/1.0 404 Not Found",true,404);
+		echo "NOT FOUND";
 		die;
 	}
 

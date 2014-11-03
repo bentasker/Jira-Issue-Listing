@@ -28,6 +28,13 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "select a.*, b.pkey from component AS a LEFT JOIN project AS b ON a.PROJECT = b.ID WHERE a.ID=".(int)$_GET['comp'];
+
+$filter = buildProjectFilter('b'); // See JILS-12
+if ($filter){
+    $sql .= " AND ".$filter;
+}
+
+
 $db->setQuery($sql);
 $component = $db->loadResult();
 
@@ -50,8 +57,8 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 	"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
 	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
 	"WHERE pv.ID='".$db->stringEscape($_GET['comp'])."' " . 
-	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
-	"ORDER BY a.PROJECT, a.issuenum ASC" ;
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."'" .
+	" ORDER BY a.PROJECT, a.issuenum ASC" ;
 
 $db->setQuery($sql);
 $issues = $db->loadResults();

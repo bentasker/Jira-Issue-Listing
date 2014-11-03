@@ -586,19 +586,29 @@ return $string;
 
 /** If the client filter header is set, build an SQL filter based upon it
 *
+* @arg tblname - Table name/alias to use in the sql statement
+* @arg retarry - if true, no SQL will be generated, an array will simply be returned containing the filter values
+*
+* @return mixed
 */
-function buildProjectFilter($tblname=false){
+function buildProjectFilter($tblname=false, $retarray=false){
 	$sql = false;
 	
 	if (isset($_SERVER['HTTP_X_PROJECT_LIMIT']) && !empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
+		// Break down the header
+		$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
+
+		if ($retarray){
+		    return $keys; 
+		}
+
 		$db = new BTDB();
 		$sql = ($tblname)? "$tblname.":'';
 		
 		$sql .= "pkey IN (";
 		$options = '';
 
-		// Break down the header
-		$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
+
 
 		foreach ($keys as $k){
 		      $options .= "'".$db->stringEscape($k)."',";

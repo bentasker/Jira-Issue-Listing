@@ -24,6 +24,12 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "select a.*, b.pkey from projectversion AS a LEFT JOIN project AS b ON a.PROJECT = b.ID WHERE a.ID=".(int)$_GET['vers'];
+
+$filter = buildProjectFilter('b'); // See JILS-12
+if ($filter){
+    $sql .= " AND ".$filter;
+}
+
 $db->setQuery($sql);
 $version = $db->loadResult();
 
