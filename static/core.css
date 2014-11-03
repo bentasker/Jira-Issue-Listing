@@ -3,7 +3,7 @@
 .breadcrumbs {margin-left: 0; list-style-type: none; clear: both; font-size: 0.7em; -webkit-padding-start: 0px;}
 .breadcrumbs li {display: inline; padding: 0px;}
 .breadcrumbs li a {color: 494949;}
-.breadcrumbs li:after {content: "» ";}
+.breadcrumbs li:after {content: " >> ";}
 .breadcrumbs li:last-child {font-weight: bold;}
 .breadcrumbs li:last-child:after { content: "";}
 
