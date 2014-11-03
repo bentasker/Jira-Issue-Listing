@@ -90,10 +90,14 @@ if (!empty($project->URL)){
 	$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
 }	
 
-$projdesc .= "<h3>Description</h3>".$project->DESCRIPTION."<br /><br />".
-	      "\n<i>Initial Estimate: </i> $timeestimate<br />\n".
-	      "<i>Time Logged: </i>$timespent<br />".
-	      "\n\n<h3>Issues</h3>\n";
+$projdesc .= "<h3>Description</h3>".$project->DESCRIPTION."<br /><br />";
+
+if ($timeestimate > 0 || $timespent > 0){
+	$projdesc .= "\n<i>Initial Estimate: </i> $timeestimate<br />\n".
+		      "<i>Time Logged: </i>$timespent<br />";
+}
+
+$projdesc .= "\n\n<h3>Issues</h3>\n";
 
 echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n".
  "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
