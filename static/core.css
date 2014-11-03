@@ -41,8 +41,9 @@ table.issueInfo {width: 100%; border: 0px;}
 .pty4, .pty5 {color: green;}
 .pty3 {color: red; }
 .pty1, .pty2 {color: red; font-weight: bolder; }
-.prevlink {float:left;}
-.nextlink {float:right;}
+.prevlink {float:left; border-radius: 5px; -moz-border-radius: 5px;}
+.nextlink {float:right; border-radius: 5px; -moz-border-radius: 5px;}
+
 .prevlink a {text-decoration: none;}
 .nextlink a {text-decoration: none;}
 .worklogindex {font-style: italic;}
