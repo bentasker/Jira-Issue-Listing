@@ -27,6 +27,11 @@ $sql = "select a.*, b.pkey from projectversion AS a LEFT JOIN project AS b ON a.
 $db->setQuery($sql);
 $version = $db->loadResult();
 
+if (!$version){
+    header("HTTP/1.0 404 Not Found",true,404);
+    echo "VERSION NOT FOUND";
+    die;
+}
 
 $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
 	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".

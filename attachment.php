@@ -35,7 +35,7 @@ if (!isset($_GET['thumbs'])):
 
 
 	if (!file_exists($conf->jirahome."data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}")){
-		header("HTTP/1.0 404 Not Found");
+		header("HTTP/1.0 404 Not Found",true,404);
 		die;
 	}
 

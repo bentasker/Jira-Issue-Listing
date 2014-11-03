@@ -32,7 +32,11 @@ $db->setQuery($sql);
 $component = $db->loadResult();
 
 
-
+if (!$component){
+    header("HTTP/1.0 404 Not Found",true,404);
+    echo "COMPONENT NOT FOUND";
+    die;
+}
 
 
 $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".

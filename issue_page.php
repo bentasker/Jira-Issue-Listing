@@ -39,7 +39,7 @@ $db->setQuery($sql);
 $issue = $db->loadResult();
 
 if (!$issue){
-    header("HTTP/1.0 404 Not Found");
+    header("HTTP/1.0 404 Not Found",true,404);
     echo "ISSUE NOT FOUND";
     die;
 }

@@ -31,6 +31,13 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 $db->setQuery("SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'");
 $project = $db->loadResult();
 
+
+if (!$project){
+    header("HTTP/1.0 404 Not Found",true,404);
+    echo "PROJECT NOT FOUND";
+    die;
+}
+
 // Get details of timespent
 $db->setQuery("SELECT SUM(TIMESPENT) as TIMESPENT, SUM(TIMEORIGINALESTIMATE) as estimate FROM jiraissue where PROJECT=".(int)$project->ID);
 $time = $db->loadResult();
