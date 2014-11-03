@@ -8,6 +8,7 @@
 .breadcrumbs li:last-child:after { content: "";}
 
 
+body{ max-width: 1025px; margin: auto; border-left: 1px solid; border-right: 1px solid; padding: 5px;}
 
 blockquote{border-left: 1px solid black;
 padding-left: 10px;
@@ -29,7 +30,8 @@ word-wrap: break-word;
 
 .commentlink {font-size: 0.7em; float: right;}
 .statechangetext {font-style: italic;}
-.commenttext, .issuedescription {font-family: monospace}
+.commenttext, .issuedescription {font-family: monospace; }
+.issuedescription {padding: 10px 20px 10px; border-top: 1px #D0D0D0 solid;}
 table.issueInfo {width: 100%; border: 0px;}
 .reporter {font-style: italic; }
 
@@ -46,7 +48,8 @@ table.issueInfo {width: 100%; border: 0px;}
 .worklogindex {font-style: italic;}
 .timespent {font-weight: bold;}
 
-#worklogblock, #commentsblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 40px}
+#worklogblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 40px}
+#commentsblock {padding: 10px; margin-top: 40px}
 #attachmentsblock table {width: 40%}
 #attachmentsblock img {margin: 5px;}
 
@@ -64,3 +67,11 @@ table.issueInfo {width: 100%; border: 0px;}
 /* Issue relation types */
 /*tr.issueblocks, tr.issueis_blocked_by {background-color: #cc3333;} */ 
 tr.related_is_resolved_ {background-color: #ff9; }
+
+
+.commentMetadata {background-color: #ddd;
+border: 1px solid gray;
+padding: 5px;
+}
+.commenttext {border: 1px solid gray; padding: 5px;}
+.activityentry {margin-bottom: 20px; box-shadow: 2px 2px #dde;}

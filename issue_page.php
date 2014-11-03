@@ -488,16 +488,17 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<hr />
 
 		<?php foreach ($commentsmerged as $comment): ?>	
-		<div class="activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"><a name="comment<?php echo $comment->ID;?>"></a>
+		<div class="activityentry activity<?php echo $comment->rowtype;?> comment_author_<?php echo $comment->AUTHOR; ?>"><a name="comment<?php echo $comment->ID;?>"></a>
+		      <div class="commentMetadata">
 			<b><?php echo translateUser($comment->AUTHOR); ?></b>    <a class="commentlink" href="#comment<?php echo $comment->ID;?>" rel="nofollow">Permalink</a><br />
-			<i><?php echo $comment->CREATED; ?></i><br /><Br />
-
+			<i><?php echo $comment->CREATED; ?></i>
+		      </div>
 			
 			<div class="<?php echo $comment->rowtype;?>text"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
 			
 
 		</div>
-		<hr class="activity<?php echo $comment->rowtype;?>" />
+		
 		<?php endforeach; ?>
 
 	</div>
