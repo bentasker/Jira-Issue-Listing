@@ -30,7 +30,22 @@ $projdesc = null;
 
 
 	
-	$sql = "SELECT ID, pname, pkey, DESCRIPTION from project ORDER BY pkey ASC";
+	$sql = "SELECT ID, pname, pkey, DESCRIPTION from project ";
+
+	// This will be moved somewhere more suitable (and global) in future
+	if (isset($_SERVER['HTTP_X_PROJECT_LIMIT']) && !empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
+
+		$sql .= "WHERE pkey IN (";
+		$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
+		foreach ($keys as $k){
+		      $sql .= "'".$db->stringEscape($k)."',";
+		}
+
+		$sql .= "'') ";
+
+	}
+	$sql .= 'ORDER BY pkey ASC';
+
 	$db->setQuery($sql);
 	$projects = $db->loadResults();
 
