@@ -45,7 +45,7 @@ $projdesc = null;
 ?>
 <html>
 <head>
-
+<title>Available Projects</title>
 <?php require 'head-includes.php'; ?>
 </head>
 <body class="homepage">
@@ -56,6 +56,8 @@ $projdesc = null;
 </ul>
 <hr />
 
+<p>The following projects are available for browsing</p>
+
 <table class="prjtbl sortable">
   <tr>
     <th>Key</th>
@@ -65,8 +67,8 @@ $projdesc = null;
 
   <?php foreach ($projects as $project): ?>
     <tr>
-	<td><a href="<?php echo qs2sef("proj={$project->pkey}"); ?>"><?php echo $project->pkey;?></a></td>
-	<td><?php echo $project->pname; ?></td>
+	<td class="prjkey"><a href="<?php echo qs2sef("proj={$project->pkey}"); ?>"><?php echo $project->pkey;?></a></td>
+	<td class="prjname"><?php echo $project->pname; ?></td>
 	<td class="desc"><?php echo $project->DESCRIPTION; ?></td>
     </tr>
   <?php endforeach; ?>

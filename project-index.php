@@ -90,7 +90,9 @@ if (!empty($project->URL)){
 	$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
 }	
 
-$projdesc .= "<h3>Description</h3>".$project->DESCRIPTION."<br /><br />";
+if (!empty($project->DESCRIPTION)){
+  $projdesc .= "<div class='projdesc'>".$project->DESCRIPTION."</div>";
+}
 
 if ($timeestimate > 0 || $timespent > 0){
 	$projdesc .= "\n<i>Initial Estimate: </i> $timeestimate<br />\n".

@@ -55,7 +55,7 @@ table.issueInfo {width: 100%; border: 0px;}
 
 .favicon {max-width: 20px;}
 .issuelistingtable td {text-align: center;}
-.issuelistingtable {width: 70%;}
+.issuelistingtable {width: 90%;}
 .projectVersionstbl {width: 70%;}
 
 
@@ -75,3 +75,16 @@ padding: 5px;
 }
 .commenttext {border: 1px solid gray; padding: 5px;}
 .activityentry {margin-bottom: 20px; box-shadow: 2px 2px #dde;}
+
+
+/* Project Pages */
+.projdesc {font-family: monospace; padding: 10px 20px 10px; border-bottom: 1px #D0D0D0 solid; margin-bottom: 10px;}
+.issSummary {max-width: 300px;}
+.issKey {font-weight: bolder; }
+
+/* Homepage specific */
+
+.prjtbl {margin-top: 30px; margin-bottom: 20px;}
+.prjtbl th {text-align: left;}
+.prjtbl td.prjkey {padding-right: 10px;}
+
