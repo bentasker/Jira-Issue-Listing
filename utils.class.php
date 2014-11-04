@@ -561,11 +561,6 @@ function jiraMarkup($str,$pkey = false){
 		$str = preg_replace("/($pkey\-)([0-9]*)/","<a href='".qs2sef("issue=$2&proj=$pkey")."'>$pkey-$2</a>",$str);
 	}
 
-	$keys = explode(",",$_SERVER['HTTP_X_PROJECT_LIMIT']);
-	foreach ($keys as $pkey){
-	      $str = preg_replace("/($pkey\-)([0-9]*)/","<a href='".qs2sef("issue=$2&proj=$pkey")."'>$pkey-$2</a>",$str);
-	}
-
 	return $str;
 }
 
