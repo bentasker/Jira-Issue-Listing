@@ -365,7 +365,6 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<a name="Attachments"></a><div id="attachmentsblock">
 		<h4>Attachments</h4>
 		<table>
-			<tr><td>&nbsp</td></tr>
 			<?php foreach ($attachments as $attachment): ?>
 				<?php $alink = qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}"); ?>
 				<tr>
