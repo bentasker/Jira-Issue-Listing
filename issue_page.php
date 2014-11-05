@@ -369,7 +369,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 				<?php $alink = qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}"); ?>
 				<tr>
 					<td>
-						<a href="<?php echo $alink; ?>">
+						<a target=_blank href="<?php echo $alink; ?>">
 						<?php if (!$attachment->thumbnailable):?>
 							<?php echo htmlspecialchars($attachment->FILENAME);?>
 						<?php else: ?>
