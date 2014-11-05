@@ -240,8 +240,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 ?>
 <html>
 <head>
-	<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities(htmlspecialchars($issue->SUMMARY)); ?></title>
-	<meta name="description" content="<?php echo htmlentities(htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION))); ?>">
+	<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlspecialchars($issue->SUMMARY); ?></title>
+	<meta name="description" content="<?php echo htmlspecialchars(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
 
 	<?php if (count($labels) > 0 ):?>
 	    <meta name="keywords" content="<?php foreach ($labels as $label){ echo "{$label->LABEL},"; }?>" />
@@ -267,7 +267,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	  <?php if($previssue): ?>
 	    <span itemscope itemtype="http://schema.org/SiteNavigationElement" class="prevlink">
 		<a itemprop="url" href="<?php echo qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}"); ?>">
-			&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($previssue->SUMMARY)); ?>
+			&lt; <?php echo $previssue->pkey."-".$previssue->issuenum;?>: <?php echo htmlspecialchars($previssue->SUMMARY); ?>
 		</a>
 	    </span>
 	  <?php endif;?>
@@ -275,7 +275,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	  <?php if($nextissue): ?>
 	    <span itemscope itemtype="http://schema.org/SiteNavigationElement" class="nextlink">
 	      <a itemprop="url" href="<?php echo qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}"); ?>">
-			 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?>: <?php echo htmlentities(htmlspecialchars($nextissue->SUMMARY)); ?> &gt;
+			 <?php echo $nextissue->pkey."-".$nextissue->issuenum;?>: <?php echo htmlspecialchars($nextissue->SUMMARY); ?> &gt;
 	      </a>
 	    </span>
 	  <?php endif; ?>
@@ -283,7 +283,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<!--/sphider_noindex-->
 
 	<hr />
-	<a name="top"></a><h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities(htmlspecialchars($issue->SUMMARY)); ?></h1>
+	<a name="top"></a><h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlspecialchars($issue->SUMMARY); ?></h1>
 	<hr />
 
 	<ul itemprop="breadcrumb" class="breadcrumbs">
@@ -311,7 +311,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<?php if (count($affectsversions) > 0):?>
 			  <b>Affects Version: </b><span class="issueversions">
 							<?php foreach ($affectsversions as $af):?>
-							      <a href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,  
+							      <a href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlspecialchars($af->vname);?></a>,  
 							<?php endforeach;?>
 						  </span>
 			<?php endif; ?>
@@ -320,7 +320,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<?php if (count($fixversions) > 0): ?>
 			  <b>Target version: </b><span class="issueversions">
 							<?php foreach ($fixversions as $af):?>
-							      <a itemprop="version" href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->vname));?></a>,
+							      <a itemprop="version" href="<?php echo qs2sef("vers={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlspecialchars($af->vname);?></a>,
 							  <?php endforeach;?>
 						  </span>
 			<?php endif; ?>
@@ -331,7 +331,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<?php if (count($components) > 0): ?>
 			  <b>Components: </b><span class="issuecomponents">
 						<?php foreach ($components as $af):?>
-							      <a href="<?php echo qs2sef("comp={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlentities(htmlspecialchars($af->cname));?></a> , 
+							      <a href="<?php echo qs2sef("comp={$af->ID}&proj={$issue->pkey}"); ?>"><?php echo htmlspecialchars($af->cname);?></a> , 
 						<?php endforeach;?>
 					    </span>
 			<?php endif; ?>
@@ -344,7 +344,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		</tr>
 
 		<?php if (!empty($issue->ENVIRONMENT)):?>
-			<tr><td><b>Environment:</b></td><td><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->ENVIRONMENT)),$issue->pkey)); ?></td></re>
+			<tr><td><b>Environment:</b></td><td><?php echo nl2br(jiraMarkup(htmlspecialchars($issue->ENVIRONMENT),$issue->pkey)); ?></td></re>
 		<?php endif; ?>
 
 		<tr><td><br /></td><td></td></tr>
@@ -356,7 +356,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 
-		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($issue->DESCRIPTION)),$issue->pkey)); ?></div><br /><br /></td></tr>
+		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo my_nl2br(jiraMarkup(htmlspecialchars($issue->DESCRIPTION),$issue->pkey)); ?></div><br /><br /></td></tr>
 
 	</table>
 
@@ -416,9 +416,9 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 						$relatedissue = $db->loadResult();
 						$resolved = (empty($relatedissue->resolution))? false : true;
 					?>
-					<tr class='issue<?php echo str_replace(" ","_",htmlentities(htmlspecialchars($reltype))); ?> related_is_resolved_<?php echo $resolved; ?>'>
+					<tr class='issue<?php echo str_replace(" ","_",htmlspecialchars($reltype)); ?> related_is_resolved_<?php echo $resolved; ?>'>
 						<td>
-							<?php echo htmlentities(htmlspecialchars($reltype)); ?>
+							<?php echo htmlspecialchars($reltype); ?>
 						</td>
 
 						<td>
@@ -427,7 +427,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 								<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
 							<?php if ($resolved):?></del><?php endif; ?>
 
-								<?php echo htmlentities(htmlspecialchars($relatedissue->SUMMARY)); ?>
+								<?php echo htmlspecialchars($relatedissue->SUMMARY); ?>
 						
 						</td>
 					</tr>
@@ -469,7 +469,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
 								<?php if ($resolved):?></del><?php endif; ?>
 
-									<?php echo htmlentities(htmlspecialchars($relatedissue->SUMMARY)); ?>
+									<?php echo htmlspecialchars($relatedissue->SUMMARY); ?>
 						
 							</td>
 						</tr>
@@ -503,7 +503,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<i itemprop="dateCreated"><?php echo $comment->CREATED; ?></i>
 		      </div>
 			
-			<div class="<?php echo $comment->rowtype;?>text" itemprop="text"><?php echo my_nl2br(jiraMarkup(htmlentities(htmlspecialchars($comment->actionbody)),$issue->pkey)); ?></div>
+			<div class="<?php echo $comment->rowtype;?>text" itemprop="text"><?php echo my_nl2br(jiraMarkup(htmlspecialchars($comment->actionbody),$issue->pkey)); ?></div>
 			
 
 		</div>
@@ -528,7 +528,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 			<span class='worklogindex'>Time Spent: </span><span class="timespent"><?php echo ($work->timeworked / 60) . " minutes"; ?></span>
 			<div class="worklogtext">
-			      <span class='worklogindex'>Log Entry: </span><?php echo nl2br(jiraMarkup(htmlentities(htmlspecialchars($work->worklogbody)),$issue->pkey)); ?>
+			      <span class='worklogindex'>Log Entry: </span><?php echo nl2br(jiraMarkup(htmlspecialchars($work->worklogbody),$issue->pkey)); ?>
 			</div>
 			
 
