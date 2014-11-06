@@ -544,6 +544,17 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
 
+	// Not the best way of doing it, but a quick fix for the time being
+	// Strip out the characters MS seem to insist on using
+	$str = str_replace(chr(130), ',', $str);    // baseline single quote
+	$str = str_replace(chr(132), '"', $str);    // baseline double quote
+	$str = str_replace(chr(133), '...', $str);  // ellipsis
+	$str = str_replace(chr(145), "'", $str);    // left single quote
+	$str = str_replace(chr(146), "'", $str);    // right single quote
+	$str = str_replace(chr(147), '"', $str);    // left double quote
+	$str = str_replace(chr(148), '"', $str);    // right double quote
+
+
       
 	// Strip any formatting back out of pre-s
 	preg_match_all('/\<pre\>(.*?)\<\/pre\>/s', $str, $match);
