@@ -22,14 +22,14 @@
 
 <?php foreach ($issues as $issue):?>
 
-	<tr>
-           <td class='issKey'><a href='<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>'><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></td>
+	<tr itemscope itemtype="http://schema.org/WebPage">
+           <td class='issKey'><a itemprop="url name" href='<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>'><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></td>
 	   <td class='issType type<?php echo $issue->issuetype; ?>'><?php echo $issue->issuetype; ?></td>
 	   <td class='issPty'><span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td>
-	   <td class='issSummary'><?php echo htmlspecialchars($issue->SUMMARY); ?></td>
+	   <td class='issSummary' itemprop="description"><?php echo htmlspecialchars($issue->SUMMARY); ?></td>
 	   <td class='issStatus'><span class="status<?php echo $issue->status;?>"><?php echo $issue->status; ?></span></td>
 	   <td class='issRes'><?php echo $issue->resolution; ?></td>
-	   <td class='issCreated' sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>"><?php echo $issue->CREATED; ?></td>
+	   <td class='issCreated' sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>" itemprop="dateCreated"><?php echo $issue->CREATED; ?></td>
 	</tr>
 
 <?php endforeach; ?>

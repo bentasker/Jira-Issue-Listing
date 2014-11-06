@@ -78,7 +78,7 @@ $db->setQuery($sql);
 $components = $db->loadResults();
 
 
-$projdesc = "<hr /><h1>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1><hr />";
+$projdesc = "<hr /><h1 itemprop='name'>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1><hr />";
 
 $projdesc .= '<ul itemprop="breadcrumb" class="breadcrumbs">
 	      <li><a href="../index.html">Projects</a></li>
@@ -87,7 +87,7 @@ $projdesc .= '<ul itemprop="breadcrumb" class="breadcrumbs">
 	    <hr />';
 
 if (!empty($project->URL)){
-	$projdesc .= "<i><a href='{$project->URL}'>{$project->URL}</a></i>\n";
+	$projdesc .= "<i><a itemprop='relatedLink' href='{$project->URL}'>{$project->URL}</a></i>\n";
 }	
 
 if (!empty($project->DESCRIPTION)){
@@ -100,9 +100,6 @@ if ($timeestimate > 0 || $timespent > 0){
 }
 
 $projdesc .= "\n\n<h3>Issues</h3>\n";
-
-echo "<title>Project: ". htmlspecialchars($_GET['proj']). "</title>\n</head></body>\n".
- "<!--URLKEY:/browse/" . htmlspecialchars($_GET['proj']) . ":-->\n";
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
@@ -128,9 +125,11 @@ $issues = $db->loadResults();
 <head>
 <title><?php echo htmlspecialchars($_GET['proj']); ?></title>
 
+<meta name="description" content="<?php echo htmlentities($project->DESCRIPTION); ?>" />
+
 <?php require 'head-includes.php'; ?>
 </head>
-<body>
+<body itemscope itemtype="http://schema.org/CollectionPage">
 
 
 
