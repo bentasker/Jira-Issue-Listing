@@ -633,6 +633,22 @@ function buildProjectFilter($tblname=false, $retarray=false){
 }
 
 
+/** Apply any relevant IP based filters
+*
+*/
+function apply_filters(){
+
+
+  global $conf;
+
+  // Limit IP to Projects
+  if (array_key_exists("a".$_SERVER['REMOTE_ADDR'],$conf->IPProjectRestrictions)){
+      $_SERVER['HTTP_X_PROJECT_LIMIT'] = $conf->IPProjectRestrictions["a".$_SERVER['REMOTE_ADDR']];
+  }
+  
+
+}
+
 /** Translate a username into a realname
 *
 * See JILS-14

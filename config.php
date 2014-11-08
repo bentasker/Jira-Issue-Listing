@@ -31,6 +31,9 @@ $conf->customUsernames = false; // Set this to true if you want to honour anythi
 $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-agents that are allowed to view these pages
 $conf->SphiderIP = array('192.168.1.65/32','192.168.1.96'); // You can use CIDR or specify individual IPs
 
+// Limit requests for a given IP to a specific set of project keys, prefix the IP with a lowercase a
+$conf->IPProjectRestrictions = array(); // Example: array('a192.168.1.2'=> 'FOO,BAR,CHAR');
+
 // Set this to be a URL (relative or otherwise) if you want to include your own custom CSS. Otherwise, leave as false
 $conf->cssURL = false;
 

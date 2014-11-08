@@ -19,6 +19,8 @@ define('listpage',1);
 require 'config.php';
 require 'utils.class.php';
 
+apply_filters();
+
 parseSEF();
 $db = new BTDB;
 $authip = checkIPs();
