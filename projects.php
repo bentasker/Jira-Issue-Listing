@@ -75,6 +75,9 @@ $projdesc = null;
 
 </table>
 
+<div style="font-size: 0.5em; ">
+  <a href="<?php echo qs2sef('action=sitemap'); ?>">XML Sitemap</a>
+</div>
 <!--/sphider_noindex-->
 </body>
 </html>
