@@ -416,6 +416,19 @@ function qs2sef($qstring){
 	}
 
 	// Build the URL
+	if (isset($sections['action'])){
+
+	      switch ($sections['action']){
+
+		      case 'sitemap':
+			  $url[] = 'sitemap.xml';
+		      break;
+
+	      }
+
+	    return "/".implode($url,"/");
+	}
+
 
 	if (isset($sections['proj'])){
 		$url[] = 'browse';
@@ -461,6 +474,13 @@ function parseSEF(){
 
 	if ($const[0] == 'status'){
 		$_GET['checkstatus'] = true;
+		return;
+	}
+
+
+	if ($const[0] == 'sitemap.xml'){
+		$_GET['rendersitemap'] = true;
+		$_GET['sitemapbase'] = $_SERVER['HTTP_X_SITEMAP_BASE'];
 		return;
 	}
 

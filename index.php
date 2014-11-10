@@ -37,6 +37,19 @@ if (isset($_GET['checkstatus'])){
 
 
 
+if (isset($_GET['rendersitemap'])){
+
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
+		die;
+	}
+
+      $inc_ok = true;
+      require 'sitemap.php';
+      die;
+
+}
+
+
 if (isset($_GET['attachid'])){
 
 	// No unauthorised access
