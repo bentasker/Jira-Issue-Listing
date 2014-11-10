@@ -459,6 +459,11 @@ function parseSEF(){
 	$sefurl = explode("?",$_SERVER['REQUEST_URI']); // make sure the query string isn't included (some servers seem to)
 	$const = explode("/",ltrim($sefurl[0],"/"));
 
+	if ($const[0] == 'status'){
+		$_GET['checkstatus'] = true;
+		return;
+	}
+
 	if ($const[0] != 'browse' && $const[0] != 'attachments'){
 		return;
 	}
@@ -710,3 +715,24 @@ function expandUserRecord($user){
       return $user['DisplayName'];
     
 }
+
+
+
+/** Check the script status - fairly simplistic check for now
+*
+* See JILS-24
+*/
+function check_status(){
+      $db = new BTDB;
+      $db->setQuery('SELECT COUNT(*) AS issuecount from jiraissue');
+      $res = $db->loadResult();
+
+      if (!$res){
+	  echo "QUERY FAILED";
+      }else{
+	  echo "QUERY SUCCESS";
+      }
+
+}
+
+

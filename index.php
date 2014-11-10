@@ -25,10 +25,22 @@ parseSEF();
 $db = new BTDB;
 $authip = checkIPs();
 
+
+if (isset($_GET['checkstatus'])){
+	// No unauthorised access
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
+		die;
+	}
+	check_status(); 
+	die;
+}
+
+
+
 if (isset($_GET['attachid'])){
 
 	// No unauthorised access
-	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !checkIPs())){
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
 		die;
 	}
 	$inc_ok = true;
