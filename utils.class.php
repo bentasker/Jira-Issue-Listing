@@ -538,6 +538,12 @@ function jiraMarkup($str,$pkey = false){
 	// This one's actually one used by this script
 	$str = preg_replace('/\[issuelistpty (.*?)\](.*?)\[\/issuelistpty\]/s','<span class="pty$1">$2</span>',$str);
 
+
+
+	// From http://stackoverflow.com/questions/6038061/regular-expression-to-find-urls-within-a-string
+	$str = preg_replace('/(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/s',
+			    '<a href="$1://$2$3" target=_blank>$1://$2$3</a>',$str); // Introduced in JILS-25
+
 	// This one's specifically used by my commit notifications
 	$str = preg_replace('/(\[View Commit\|)(.*?)(\])/s','<a href="$2" target=\_blank>View Commit</a>',$str);
 	$str = preg_replace('/(\[View Changes\|)(.*?)(\])/s','<a href="$2" target=\_blank>View Changes</a>',$str);
