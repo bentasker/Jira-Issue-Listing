@@ -18,8 +18,6 @@ defined('listpage') or die;
 ?>
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
-
-
 <?php
 /** Project Entries */
 
@@ -35,14 +33,35 @@ $sql .= ' ORDER BY pkey ASC';
 $db->setQuery($sql);
 $projects = $db->loadResults();
 
-foreach ($projects as $project):?>
 
+/** Project Issues */
+$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, a.RESOLUTIONDATE FROM jiraissue AS a LEFT JOIN project AS b on a.PROJECT = b.ID ";
+$filter = buildProjectFilter('b');
+if ($filter){
+    $sql .= "WHERE ".$filter;
+}
+
+$sql .= ' ORDER BY a.PROJECT, a.issuenum ASC';
+
+$db->setQuery($sql);
+$issues = $db->loadResults();
+
+
+
+foreach ($projects as $project):?>
   <url>
     <loc><?php echo $_GET['sitemapbase'] . qs2sef("proj={$project->pkey}"); ?></loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
-<?php endforeach; ?>
+<?php endforeach;
 
+foreach ($issues as $issue):?>
+  <url>
+    <loc><?php echo $_GET['sitemapbase'] . qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}"); ?></loc>
+    <changefreq><?php if (is_null($issue->RESOLUTIONDATE)):?>daily<?php else: ?>yearly<?php endif;?></changefreq>
+    <priority>0.5</priority>
+  </url>
+<?php endforeach; ?>
 </urlset>
 
