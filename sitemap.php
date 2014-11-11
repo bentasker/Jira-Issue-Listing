@@ -38,7 +38,7 @@ $projects = $db->loadResults();
 foreach ($projects as $project):?>
 
   <url>
-    <loc><?php echo $_GET['sitemapbase'] ."/" . qs2sef("proj={$project->pkey}"); ?></loc>
+    <loc><?php echo $_GET['sitemapbase'] . qs2sef("proj={$project->pkey}"); ?></loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
