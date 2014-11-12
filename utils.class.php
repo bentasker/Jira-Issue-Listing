@@ -598,15 +598,30 @@ function jiraMarkup($str,$pkey = false){
 	    }
 	}
 	
-
+	/* Disabled in JILS-20
 	if ($pkey){
 		$str = preg_replace("/($pkey\-)([0-9]*)/","<a href='".qs2sef("issue=$2&proj=$pkey")."'>$pkey-$2</a>",$str);
-	}
+			
+	}*/
+
+	// See JILS-20
+	$projects = buildProjectFilter(false, true);
+	$projects[] = $pkey;
+	
+
+	$str = preg_replace_callback("/((".implode("|",$projects).")\-)([0-9]*)/",'linkIssueKey',$str);
 
 	return $str;
 }
 
 
+/** See JILS-20
+*
+*/
+function linkIssueKey($m){
+  $m[1] = rtrim($m[1],"-");
+  return "<a href='".qs2sef("issue={$m[3]}&proj={$m[2]}")."'>{$m[2]}-{$m[3]}</a>";
+}
 
 
 /** Taken from the PHP Manual - change newlines to <br /> apart from within pre tags
