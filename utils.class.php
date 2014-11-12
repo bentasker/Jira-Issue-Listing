@@ -718,12 +718,25 @@ function translateUser($username){
 	$db->setQuery($sql);
 	$user = $db->loadResult();
 
-	$user_string = $user->first_name . " " . $user->last_name;
-	return $user_string;
+	// See JILS-17 - Add semantic markup
+	//$user_string = $user->first_name . " " . $user->last_name;
+
+	$str = "<div style='display: inline' itemscope itemtype='http://schema.org/Person'>";
+
+	if ($user){
+		$str .= "<span itemprop='givenName'>{$user->first_name}</span> <span itemprop='familyName'>{$user->last_name}</span>";
+	}else{
+		$str .= 'Unassigned';
+	}
+		
+
+	$str .= "</div>";
+
+	return $str;
 
 
     }else{
-	return $username;
+	return "<div style='display: inline' itemscope itemtype='http://schema.org/Person'><span itemprop='alternateName'>$username</span></div>";
     }
 
 }
@@ -734,12 +747,17 @@ function translateUser($username){
 */
 function expandUserRecord($user){
 
+      $str = "<div style='display: inline' itemscope itemtype='http://schema.org/Person'>";
+
       if (isset($user['URL']) && !empty($user['URL'])){
-	    return "<a class='extauthorLink' title='View Profile (external site)' href='{$user['URL']}' target=_blank>{$user['DisplayName']}</a>";
+	    $str .= "<a class='extauthorLink' title='View Profile (external site)' href='{$user['URL']}' itemprop='alternateName' target=_blank>{$user['DisplayName']}</a>".
+		    "<meta itemprop='url' content='{$user['URL']}' />";
+      }else{
+	    $str .= "<span itemprop='alternateName'>{$user['DisplayName']}</span>";
       }
 
-      return $user['DisplayName'];
-    
+      $str .= "</div>";
+      return $str;
 }
 
 
