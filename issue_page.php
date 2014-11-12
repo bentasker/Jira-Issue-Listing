@@ -25,7 +25,7 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ENVIRONMENT ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ENVIRONMENT, a.ASSIGNEE ".
 	"FROM jiraissue AS a ".
 	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -302,9 +302,16 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
                 <tr><td><br /></td><td></td></tr>
 
-		<tr><td><b>Reported By</b>: <span class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></td><td><b>Resolution:</b> <?php echo $resolution; ?></td></tr>
-		<tr><td><b>Project:</b> <?php echo $issue->pname; ?> (<a itemprop="isPartOf" href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
-			<td>&nbsp;</td></tr>
+		<tr>
+		    <td><b>Reported By:</b> <span itemprop="contributor" class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></td>
+		    <td><b>Assigned To:</b> <span itemprop="contributor" class="assignee"><?php echo translateUser($issue->ASSIGNEE); ?></span></td>
+		</tr>
+
+
+		<tr>
+		    <td><b>Project:</b> <?php echo $issue->pname; ?> (<a itemprop="isPartOf" href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
+		    <td><b>Resolution:</b> <?php echo $resolution; ?></td>
+		</tr>
 
 		<tr>
 		    <td>
