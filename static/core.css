@@ -8,7 +8,7 @@
 .breadcrumbs li:last-child:after { content: "";}
 
 
-body{ max-width: 1025px; margin: auto; border-left: 1px solid; border-right: 1px solid; padding: 5px;}
+body{ max-width: 1025px; margin: auto; border-left: 1px solid; border-right: 1px solid; padding: 5px; height: 100%}
 
 blockquote{border-left: 1px solid black;
 padding-left: 10px;
