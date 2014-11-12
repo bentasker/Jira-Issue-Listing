@@ -103,7 +103,7 @@ $projdesc .= "\n\n<h3>Issues</h3>\n";
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
 	"FROM jiraissue AS a ".
 	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".

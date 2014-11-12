@@ -17,7 +17,7 @@
 
 <table class="issuelistingtable sortable">
 <tr>
-	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th>
+	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th><th>Assigned To</th>
 </tr>
 
 <?php foreach ($issues as $issue):?>
@@ -30,6 +30,7 @@
 	   <td class='issStatus'><span class="status<?php echo $issue->status;?>"><?php echo $issue->status; ?></span></td>
 	   <td class='issRes'><?php echo $issue->resolution; ?></td>
 	   <td class='issCreated' sorttable_custom_key="<?php echo strtotime($issue->CREATED); ?>" itemprop="dateCreated"><?php echo $issue->CREATED; ?></td>
+	   <td class='issAssignee' itemprop="contributor"><?php echo translateUser($issue->ASSIGNEE); ?></td>
 	</tr>
 
 <?php endforeach; ?>

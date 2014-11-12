@@ -47,7 +47,7 @@ if (!$component){
 
 
 $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
 	"FROM component AS pv ".
 	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
 	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
