@@ -441,7 +441,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 				<?php endforeach; ?>
 				<?php foreach ($relationsext as $relation):?>
 				    <tr>
-					    <td><img class='favicon' src="<?php echo $relation->ICONURL; ?>"></td>
+					    <td><?php if (!empty($relation->ICONURL)):?><img class='favicon' src="<?php echo $relation->ICONURL; ?>"><?php endif; ?></td>
 					    <td><a target=_blank href="<?php echo $relation->URL; ?>"><?php echo $relation->TITLE;?></a></td>
 				    </tr>
 				<?php endforeach; ?>
