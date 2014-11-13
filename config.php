@@ -27,6 +27,15 @@ $conf->jirahome = '/var/atlassian/application-data/jira/'; // If you're not goin
 $conf->usernames = 'name'; // Set this to username to leave as usernames
 $conf->customUsernames = false; // Set this to true if you want to honour anything set in authors.php
 
+
+/* Email obfuscation style - 
+
+none, part, bot or full. 
+
+Part will completely strip the domain name from the address, Full will fully remove the email address, and bot will simply obscure the address for bots (requires javascript), None will leave the address alone
+*/
+$conf->emailObfs = 'bot'; 
+
 // Authorisation params - Any request with the wrong UA, or not originating from an authorised IP will be redirected to JIRA
 $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-agents that are allowed to view these pages
 $conf->SphiderIP = array('192.168.1.65/32','192.168.1.96'); // You can use CIDR or specify individual IPs

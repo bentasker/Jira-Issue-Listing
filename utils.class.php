@@ -625,24 +625,42 @@ function jiraMarkup($str,$pkey = false){
 */
 function obscureEmail($match){
 
+	global $conf;
 	$parts = explode('@',$match[0]);
 
-	$u = '';
-	for ($i = 0; $i < strlen($parts[0]); $i++){
-		$u .= '&#' . ord($parts[0][$i]) . ';';
+
+	switch (strtolower($conf->emailObfs)){
+
+		case 'part':
+			$str = "{$parts[0]}@&lt;Domain Hidden&gt;";
+			break;
+
+		case 'full':
+			$str = "&lt;Email Hidden&gt;";
+			break;
+
+		case 'none':
+			$str = $match[0];
+			break;
+
+		default:
+			$u = '';
+			for ($i = 0; $i < strlen($parts[0]); $i++){
+				$u .= '&#' . ord($parts[0][$i]) . ';';
+			}
+
+			$d = '';
+			for ($i = 0; $i < strlen($parts[1]); $i++){
+				$d .= '&#' . ord($parts[1][$i]) . ';';
+			}
+
+
+			$str = "<script type='text/javascript'>\n".
+				"document.write('$u');\n" .
+				"document.write('@');\n\n" .
+				"document.write('$d');" .
+				"</script>";
 	}
-
-        $d = '';
-        for ($i = 0; $i < strlen($parts[1]); $i++){
-                $d .= '&#' . ord($parts[1][$i]) . ';';
-        }
-
-
-	$str = "<script type='text/javascript'>\n".
-		"document.write('$u');\n" .
-		"document.write('@');\n\n" .
-		"document.write('$d');" .
-		"</script>";
 
 	return $str;
 }
