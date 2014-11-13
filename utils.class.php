@@ -852,6 +852,13 @@ function expandUserRecord($user){
 * See JILS-24
 */
 function check_status(){
+      global $conf;
+
+      if ($conf->maintenance){
+	echo "IN MAINTENANCE";
+	return;
+      }
+
       $db = new BTDB;
       $db->setQuery('SELECT COUNT(*) AS issuecount from jiraissue');
       $res = $db->loadResult();

@@ -53,3 +53,4 @@ $conf->IPProjectRestrictions = array(); // Example: array('a192.168.1.2'=> 'FOO,
 $conf->cssURL = false;
 
 $conf->debug = false; // Enabling this will prevent redirection to JIRA
+$conf->maintenance = false; // Enabling this will force the status check to fail
