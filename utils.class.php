@@ -742,6 +742,18 @@ function apply_filters(){
   // Limit IP to Projects
   if (array_key_exists("a".$_SERVER['REMOTE_ADDR'],$conf->IPProjectRestrictions)){
       $_SERVER['HTTP_X_PROJECT_LIMIT'] = $conf->IPProjectRestrictions["a".$_SERVER['REMOTE_ADDR']];
+  }elseif(!isset($_SERVER['HTTP_X_PROJECT_LIMIT']) || empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
+      $db = new BTDB;
+      $sql = 'SELECT pkey FROM project';
+      $db->setQuery($sql);
+      $projects = $db->loadResults();
+
+      $keys = array();
+
+      foreach ($projects as $pr){
+		$keys[] = $pr->pkey;
+      }
+      $_SERVER['HTTP_X_PROJECT_LIMIT'] = implode(",",$keys);
   }
 
 
