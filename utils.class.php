@@ -612,8 +612,41 @@ function jiraMarkup($str,$pkey = false){
 
 	$str = preg_replace_callback("/((".implode("|",$projects).")\-)([0-9]*)/",'linkIssueKey',$str);
 
+	// See JILS-27
+	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
+
+
 	return $str;
 }
+
+
+/** See JILS-27
+*
+*/
+function obscureEmail($match){
+
+	$parts = explode('@',$match[0]);
+
+	$u = '';
+	for ($i = 0; $i < strlen($parts[0]); $i++){
+		$u .= '&#' . ord($parts[0][$i]) . ';';
+	}
+
+        $d = '';
+        for ($i = 0; $i < strlen($parts[1]); $i++){
+                $d .= '&#' . ord($parts[1][$i]) . ';';
+        }
+
+
+	$str = "<script type='text/javascript'>\n".
+		"document.write('$u');\n" .
+		"document.write('@');\n\n" .
+		"document.write('$d');" .
+		"</script>";
+
+	return $str;
+}
+
 
 
 /** See JILS-20
