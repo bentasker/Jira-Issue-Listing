@@ -33,8 +33,14 @@ $conf->customUsernames = false; // Set this to true if you want to honour anythi
 none, part, bot or full. 
 
 Part will completely strip the domain name from the address, Full will fully remove the email address, and bot will simply obscure the address for bots (requires javascript), None will leave the address alone
+
+See also IPemailObfs below
 */
 $conf->emailObfs = 'bot'; 
+
+// Works in a similar manner to the config value above, but allows the default to be overridden on a per-IP basis. As with IPProjectRestrictions, the IP address should be prefixed with a lowercase a
+// example array('a1.1.1.1'=>'Full')
+$conf->IPemailObfs = array();
 
 // Authorisation params - Any request with the wrong UA, or not originating from an authorised IP will be redirected to JIRA
 $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-agents that are allowed to view these pages
