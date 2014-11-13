@@ -572,7 +572,7 @@ function jiraMarkup($str,$pkey = false){
         $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s','<blockquote>$2</blockquote>',$str);
         $str = preg_replace('/(\{noformat\})(.*?)(\{noformat\})/s','<pre>$2</pre>',$str);
         $str = preg_replace('/((?<!\\\)\*)([^\s].*?[^\s])((?<!\\\)\*)/s','<b>$2</b>',$str); // Bolds
-        //$str = preg_replace('/((?<!\\\)_)([^\s].*?[^\s])((?<!\\\)_)/s','<i>$2</i>',$str); // Italics - currently causes more trouble than I can be arsed with
+        $str = preg_replace('/((^|\s)(?<!\\\)_)([^\s].*?[^\s])((?<!\\\)_(\b))/s','<i> $3 </i>',$str); // Italics - currently causes more trouble than I can be arsed with
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
 
