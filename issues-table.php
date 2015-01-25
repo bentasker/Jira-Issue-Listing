@@ -14,6 +14,7 @@
 */
 ?>
 
+<div id='addIssueTop' class='jsAddition'></div>
 
 <table class="issuelistingtable sortable">
 <tr>
@@ -35,3 +36,5 @@
 
 <?php endforeach; ?>
 </table>
+
+<div id='addIssueBottom' class='jsAddition'></div>

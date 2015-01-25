@@ -517,6 +517,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		
 		<?php endforeach; ?>
 
+		<div id='addComment' class='jsAddition'></div>
+
 	</div>
 
 
