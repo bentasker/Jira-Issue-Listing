@@ -123,6 +123,7 @@ $issues = $db->loadResults();
 ?>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo htmlspecialchars($_GET['proj']); ?></title>
 
 <meta name="description" content="<?php echo htmlentities($project->DESCRIPTION); ?>" />

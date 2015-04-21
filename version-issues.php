@@ -59,6 +59,7 @@ $issues = $db->loadResults();
 ?>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Version: <?php echo htmlspecialchars($version->vname); ?></title>
 
 <?php require 'head-includes.php'; ?>

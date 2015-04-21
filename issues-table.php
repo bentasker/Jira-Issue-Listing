@@ -18,7 +18,7 @@
 
 <table class="issuelistingtable sortable">
 <tr>
-	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th><th>Assigned To</th>
+	<th>Key</th><th class='issType'>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th class='issRes'>Resolution</th><th class='issCreated'>Created</th><th class='issAssignee'>Assigned To</th>
 </tr>
 
 <?php foreach ($issues as $issue):?>
