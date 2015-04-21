@@ -45,6 +45,7 @@ $projdesc = null;
 ?>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Available Projects</title>
 <?php require 'head-includes.php'; ?>
 </head>
