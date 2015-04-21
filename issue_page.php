@@ -400,7 +400,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			</div>
 		</div>
 	</div>
-
+	<div style="clear: both"></div>
 
 <?php if (count($attachments) > 0):?>
 	<a name="Attachments"></a><div id="attachmentsblock">
