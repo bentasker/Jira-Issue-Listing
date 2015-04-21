@@ -90,3 +90,51 @@ padding: 5px;
 .prjtbl td.prjkey {padding-right: 10px;}
 
 .jsAddition {display: none;}
+
+
+div.mobilespacer {display: none; height: 15px;}
+div.row {display:block; padding: 10px;}
+div.leftcol {float:left; width: 50%}
+div.rightcol {float:right; width: 50%}
+div.colspan2 {float: left; width: 100%;}
+
+
+/** Media Queries Start **/
+
+
+@media (max-width: 550px) {
+     .issuedescription {padding: 1px;}
+     div.mobilespacer {display: block;}
+     div.leftcol, div.rightcol {float: none; width: 100%;}
+     div.row {padding: 0px;}
+     .breadcrumbs {font-size: 1em;}
+}
+
+
+
+@media (max-width: 650px) {
+    .nextlink {display: none}
+    .prevlink {display: none}
+    h1 { font-size: 1em; }
+   .breadcrumbs {font-size: 0.9em;}
+}
+
+
+@media (max-width: 750px) {
+        body {
+              	max-width: 98%;
+                margin: auto;
+                border: 0px;
+        }
+	.isspty, .issrptr, .issRes, .issfixver, .isslabels, .issworktime {display: none;}
+
+        .nextlink a {font-size: 0.9em;}
+        .prevlink a {font-size: 0.9em;}
+	.breadcrumbs {font-size: 0.8em;}
+}
+
+
+
+
+
+
