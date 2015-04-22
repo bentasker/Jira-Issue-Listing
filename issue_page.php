@@ -110,7 +110,7 @@ $workflow = $db->loadResults();
 // Merge the workflow with comments, first bit's easy
 $commentsmerged = array();
 $comment_authors = array();
-
+$comment_count=0;
 foreach ($comments as $comment){
     $t = strtotime($comment->CREATED);
     $comment->rowtype = 'comment';
@@ -125,6 +125,7 @@ foreach ($comments as $comment){
 	$t++;
     }
 
+    $comment_count++;
 }
 
 // Now we need to process the workflow and turn it into comments
@@ -263,6 +264,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<?php require 'head-includes.php'; ?>
 	</head>
 	<body itemscope itemtype="http://schema.org/WebPage">
+
+	<meta itemprop="commentCount" content="<?php echo $comment_count; ?>" />
 
 	<!--sphider_noindex-->
 	  <?php if($previssue): ?>
