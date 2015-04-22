@@ -855,7 +855,8 @@ function expandUserRecord($user){
 
       if (isset($user['URL']) && !empty($user['URL'])){
 	    $str .= "<a class='extauthorLink' title='View Profile (external site)' href='{$user['URL']}' itemprop='alternateName' target=_blank>{$user['DisplayName']}</a>".
-		    "<meta itemprop='url' content='{$user['URL']}' />";
+		    "<meta itemprop='url' content='{$user['URL']}' />".
+		    "<meta itemprop='name' content='{$user['DisplayName']}' />";
       }else{
 	    $str .= "<span itemprop='alternateName'>{$user['DisplayName']}</span>";
       }
