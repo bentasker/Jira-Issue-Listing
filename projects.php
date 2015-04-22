@@ -51,7 +51,12 @@ $projdesc = null;
 </head>
 <body class="homepage">
 <!--sphider_noindex-->
-<hr /><h1>Projects</h1><hr />
+<hr />
+	<div id='logoarea'></div>
+	<h1>Projects</h1>
+<hr />
+
+
 <ul itemprop="breadcrumb" class="breadcrumbs">
       <li><a href="index.html">Projects</a></li>
 </ul>

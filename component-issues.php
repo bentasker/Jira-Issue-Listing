@@ -73,7 +73,9 @@ $issues = $db->loadResults();
 </head>
 <body>
 
-<hr /><h1><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
+<hr /><h1>		
+	<div id='logoarea'></div>
+	<a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
 	<ul itemprop="breadcrumb" class="breadcrumbs">
 	      <li><a href="../../index.html">Projects</a></li>
 	      <li><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey; ?></a></li>

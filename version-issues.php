@@ -66,7 +66,10 @@ $issues = $db->loadResults();
 </head>
 <body>
 
-<hr /><h1>Version: <?php echo htmlspecialchars($version->vname); ?></h1><hr />
+<hr />
+		<div id='logoarea'></div>
+		<h1>Version: <?php echo htmlspecialchars($version->vname); ?></h1>
+<hr />
 
 <ul itemprop="breadcrumb" class="breadcrumbs">
       <li><a href="../../index.html">Projects</a></li>

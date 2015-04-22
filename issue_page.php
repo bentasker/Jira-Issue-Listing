@@ -284,7 +284,9 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<!--/sphider_noindex-->
 
 	<hr />
-	<a name="top"></a><h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities($issue->SUMMARY); ?></h1>
+	<a name="top"></a>
+		<div id='logoarea'></div>
+		<h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities($issue->SUMMARY); ?></h1>
 	<hr />
 
 	<ul itemprop="breadcrumb" class="breadcrumbs">

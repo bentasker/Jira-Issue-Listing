@@ -77,8 +77,8 @@ $sql = "select * from component WHERE PROJECT=".(int)$project->ID . " ORDER BY c
 $db->setQuery($sql);
 $components = $db->loadResults();
 
-
-$projdesc = "<hr /><h1 itemprop='name'>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1><hr />";
+/** TODO: Sort this mess out! */
+$projdesc = "<hr /><div id='logoarea'></div><h1 itemprop='name'>".htmlspecialchars($project->pkey).": ".htmlentities(htmlspecialchars($project->pname))."</h1><hr />";
 
 $projdesc .= '<ul itemprop="breadcrumb" class="breadcrumbs">
 	      <li><a href="../index.html">Projects</a></li>
