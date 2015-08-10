@@ -12,11 +12,12 @@
 * @version 1.2
 *
 */
+$tblid=mt_rand();
 ?>
 
 <div id='addIssueTop' class='jsAddition'></div>
 
-<table class="issuelistingtable sortable">
+<table class="issuelistingtable sortable" id="issuelistingtbl<?php echo $tblid;?>">
 <tr>
 	<th>Key</th><th>Type</th><th>Pty</th><th>Summary</th><th>Status</th><th>Resolution</th><th>Created</th><th>Assigned To</th>
 </tr>
@@ -38,3 +39,19 @@
 </table>
 
 <div id='addIssueBottom' class='jsAddition'></div>
+<script type="text/javascript">
+      var tf = new TableFilter('issuelistingtbl<?php echo $tblid;?>', {
+          base_path: '/static/tablefilter/',
+          auto_filter: "true",
+          col_1: "select",
+          col_2: "select",
+          col_4: "select",
+          col_5: "select",
+          col_7: "select",
+          paging: true,
+          paging_length: 20 
+      });
+
+      tf.init();
+</script>
+

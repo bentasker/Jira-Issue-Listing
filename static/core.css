@@ -90,3 +90,5 @@ padding: 5px;
 .prjtbl td.prjkey {padding-right: 10px;}
 
 .jsAddition {display: none;}
+
+.flt, .flt_s, .single_flt {height: auto !important;}
