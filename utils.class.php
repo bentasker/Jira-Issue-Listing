@@ -579,7 +579,6 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace('/((?<!\\\)\\\\\\*)/s','*',$str);
 
 
-
 	$str = preg_replace('/(\&amp;gt;)/','&gt;',$str);
 	$str = preg_replace('/(\&amp;lt;)/','&lt;',$str);
 
@@ -623,7 +622,20 @@ function jiraMarkup($str,$pkey = false){
 	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
 
 
+	// User mentions (see JILS-4) e.g. [~ben]
+	$str = preg_replace_callback("/(\[~)(.*?)(\])/s","embedUserLink",$str);
+
+
+
 	return $str;
+}
+
+
+/** See JILS-4 - Specifically designed for user mentions within comments
+*
+*/
+function embedUserLink($match){
+	return translateUser($match[2]);
 }
 
 
@@ -843,7 +855,8 @@ function expandUserRecord($user){
 
       if (isset($user['URL']) && !empty($user['URL'])){
 	    $str .= "<a class='extauthorLink' title='View Profile (external site)' href='{$user['URL']}' itemprop='alternateName' target=_blank>{$user['DisplayName']}</a>".
-		    "<meta itemprop='url' content='{$user['URL']}' />";
+		    "<meta itemprop='url' content='{$user['URL']}' />".
+		    "<meta itemprop='name' content='{$user['DisplayName']}' />";
       }else{
 	    $str .= "<span itemprop='alternateName'>{$user['DisplayName']}</span>";
       }

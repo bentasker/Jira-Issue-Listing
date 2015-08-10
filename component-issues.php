@@ -67,12 +67,15 @@ $issues = $db->loadResults();
 ?>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $component->pkey;?> / <?php echo htmlspecialchars($component->cname); ?></title>
 <?php require 'head-includes.php'; ?>
 </head>
 <body>
 
-<hr /><h1><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
+<hr /><h1>		
+	<div id='logoarea'></div>
+	<a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
 	<ul itemprop="breadcrumb" class="breadcrumbs">
 	      <li><a href="../../index.html">Projects</a></li>
 	      <li><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey; ?></a></li>

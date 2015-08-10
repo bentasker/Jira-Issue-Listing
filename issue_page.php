@@ -110,7 +110,7 @@ $workflow = $db->loadResults();
 // Merge the workflow with comments, first bit's easy
 $commentsmerged = array();
 $comment_authors = array();
-
+$comment_count=0;
 foreach ($comments as $comment){
     $t = strtotime($comment->CREATED);
     $comment->rowtype = 'comment';
@@ -125,6 +125,7 @@ foreach ($comments as $comment){
 	$t++;
     }
 
+    $comment_count++;
 }
 
 // Now we need to process the workflow and turn it into comments
@@ -240,6 +241,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 ?>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities($issue->SUMMARY); ?></title>
 	<meta name="description" content="<?php echo htmlentities(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
 
@@ -263,6 +265,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	</head>
 	<body itemscope itemtype="http://schema.org/WebPage">
 
+	<meta itemprop="commentCount" content="<?php echo $comment_count; ?>" />
+
 	<!--sphider_noindex-->
 	  <?php if($previssue): ?>
 	    <span itemscope itemtype="http://schema.org/SiteNavigationElement" class="prevlink">
@@ -283,7 +287,9 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 	<!--/sphider_noindex-->
 
 	<hr />
-	<a name="top"></a><h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities($issue->SUMMARY); ?></h1>
+	<a name="top"></a>
+		<div id='logoarea'></div>
+		<h1 itemprop="name"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?>: <?php echo htmlentities($issue->SUMMARY); ?></h1>
 	<hr />
 
 	<ul itemprop="breadcrumb" class="breadcrumbs">
@@ -296,25 +302,43 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 	<a name="Info"></a>
-		<h3>Issue Information</h3>
-		<table class="issueInfo">
-		<tr><td><b>Issue Type</b>: <?php echo $issue->issuetype; ?></td><td>&nbsp;</td></tr>
-		<tr><td><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></td><td><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></td></tr>
-                <tr><td><br /></td><td></td></tr>
+	<h3>Issue Information</h3>
 
-		<tr>
-		    <td><b>Reported By:</b> <span itemprop="contributor" class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></td>
-		    <td><b>Assigned To:</b> <span itemprop="contributor" class="assignee"><?php echo translateUser($issue->ASSIGNEE); ?></span></td>
-		</tr>
+	<div class="issueInfo">
+		<div class="row">
+			<div class="leftcol"><b>Issue Type</b>: <?php echo $issue->issuetype; ?></div>
+			<div class="rightcol">&nbsp;</div>
+		</div>
 
+		<div class="row">
+			<div class="leftcol" id="isspty"><b>Priority</b>: <span class="pty<?php echo $issue->ptysequence;?>"><?php echo $issue->priority; ?></span></div>
+			<div class="rightcol" id="issstatus"><b>Status</b>: <span class="status<?php echo $issue->status;?>"><?php echo $issue->status;?></span></b></div>
+		</div>
 
-		<tr>
-		    <td><b>Project:</b> <?php echo $issue->pname; ?> (<a itemprop="isPartOf" href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)</td>
-		    <td><b>Resolution:</b> <?php echo $resolution; ?></td>
-		</tr>
+		<div class="row">
+                	<div class="leftcol"><br /></div>
+			<div class="rightcol"></div>
+		</div>
 
-		<tr>
-		    <td>
+		<div class="row">
+		    <div class="leftcol" id="issrptr"><b>Reported By:</b> <span itemprop="contributor" class="reporter"><?php echo translateUser($issue->REPORTER); ?></span></div>
+		    <div class="rightcol" id="issassignee"><b>Assigned To:</b> <span itemprop="contributor" class="assignee"><?php echo translateUser($issue->ASSIGNEE); ?></span></div>
+		</div>
+		<div class="mobilespacer">
+		</div>
+
+		<div class="row">
+		    <div class="leftcol" id="issproject">
+			<b>Project:</b> <?php echo $issue->pname; ?> (<a itemprop="isPartOf" href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a>)
+		    </div>
+		    <div class="rightcol" id="issresolution"><b>Resolution:</b> <?php echo $resolution; ?></div>
+		</div>
+
+		<div class="mobilespacer">
+		</div>
+
+		<div class="row">
+		    <div class="leftcol" id="issaffectsver">
 			<?php if (count($affectsversions) > 0):?>
 			  <b>Affects Version: </b><span class="issueversions">
 							<?php foreach ($affectsversions as $af):?>
@@ -322,8 +346,8 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 							<?php endforeach;?>
 						  </span>
 			<?php endif; ?>
-		    </td>
-		    <td>
+		    </div>
+		    <div class="rightcol" id="issfixver">
 			<?php if (count($fixversions) > 0): ?>
 			  <b>Target version: </b><span class="issueversions">
 							<?php foreach ($fixversions as $af):?>
@@ -331,10 +355,11 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 							  <?php endforeach;?>
 						  </span>
 			<?php endif; ?>
-		    </td>
-		</tr>
-		<tr>
-		    <td>
+		    </div>
+		</div>
+
+		<div class="row">
+		    <div class="leftcol" id="isscomponents">
 			<?php if (count($components) > 0): ?>
 			  <b>Components: </b><span class="issuecomponents">
 						<?php foreach ($components as $af):?>
@@ -342,31 +367,45 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 						<?php endforeach;?>
 					    </span>
 			<?php endif; ?>
-		    </td>
-		    <td>
+		    </div>
+		    <div class="rightcol" id="isslabels">
 		      <?php if (count($labels) > 0 ):?>
 			  <b>Labels: </b><span itemprop="keywords"><?php foreach ($labels as $label){ echo "{$label->LABEL}, "; }?></span>
 		      <?php endif;?>
-		    </td>
-		</tr>
+		    </div>
+		</div>
 
 		<?php if (!empty($issue->ENVIRONMENT)):?>
-			<tr><td><b>Environment:</b></td><td><?php echo nl2br(jiraMarkup(htmlentities($issue->ENVIRONMENT),$issue->pkey)); ?></td></re>
+		<div class="row" id="issenvironment">
+			<div class="leftcol"><b>Environment:</b></div>
+			<div class="rightcol"><?php echo nl2br(jiraMarkup(htmlentities($issue->ENVIRONMENT),$issue->pkey)); ?></div>
+		</div>
 		<?php endif; ?>
 
-		<tr><td><br /></td><td></td></tr>
+		<div class="row">
+			<div class="leftcol"><br /></div>
+			<div class="rightcol"></div>
+		</div>
 		<!--sphider_noindex-->
-			<tr><td><b>Created</b>: <?php echo $issue->CREATED; ?></td><td><b>Time Spent Working</b>: <a href="#worklog"><?php echo $issue->TIMESPENT / 60; ?> minutes</a></td></tr>
-			<tr><td><br /><br /></td><td></td>
+		<div class="row">
+			<div class="leftcol" id="isscreated"><b>Created</b>: <?php echo $issue->CREATED; ?></div>
+			<div class="rightcol" id="isstimelogged"><b>Time Spent Working</b>: <a href="#worklog"><?php echo $issue->TIMESPENT / 60; ?> minutes</a></div>
+		</div>
+		<div class="row">
+			<div class="leftcol"><br /><br /></div>
+			<div class="rightcol"></div>
+		</div>
 		<!--/sphider_noindex-->
 
 
 
-
-		<tr><td colspan="2"><b>Description</b><br /><div class="issuedescription"><?php echo my_nl2br(jiraMarkup(htmlentities($issue->DESCRIPTION),$issue->pkey)); ?></div><br /><br /></td></tr>
-
-	</table>
-
+		<div class="row">
+			<div class="colspan2" id="issdescription">
+				<b>Description</b><br /><div class="issuedescription"><?php echo my_nl2br(jiraMarkup(htmlentities($issue->DESCRIPTION),$issue->pkey)); ?></div><br /><br />
+			</div>
+		</div>
+	</div>
+	<div style="clear: both"></div>
 
 <?php if (count($attachments) > 0):?>
 	<a name="Attachments"></a><div id="attachmentsblock">

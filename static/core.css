@@ -27,7 +27,7 @@ font-family: monospace;
 word-wrap: break-word;
 }
 
-
+#logoarea {display: none;}
 .commentlink {font-size: 0.7em; float: right;}
 .statechangetext {font-style: italic;}
 .commenttext, .issuedescription {font-family: monospace; }
@@ -49,20 +49,23 @@ table.issueInfo {width: 100%; border: 0px;}
 .worklogindex {font-style: italic;}
 .timespent {font-weight: bold;}
 
-#worklogblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 40px}
+#worklogblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 45px; border-left: 0px; border-right: 0px;}
 #commentsblock {padding: 10px; margin-top: 40px}
 #attachmentsblock table {width: 40%}
 #attachmentsblock img {margin: 5px;}
 
+#worklogblock h4, #attachmentsblock h4, #linksblock h4 {margin-top: -30px;}
+
+
 .favicon {max-width: 20px;}
 .issuelistingtable td {text-align: center;}
-.issuelistingtable {width: 90%;}
+.issuelistingtable {width: 100%;}
 .projectVersionstbl {width: 70%;}
 
 
-#linksblock table {width: 100%;}
+#linksblock table {width: 100%; font-size: 0.8em;}
 #linksblock td {padding: 0px 5px;}
-
+ 
 
 
 /* Issue relation types */
@@ -79,7 +82,7 @@ padding: 5px;
 
 
 /* Project Pages */
-.projdesc {font-family: monospace; padding: 10px 20px 10px; border-bottom: 1px #D0D0D0 solid; margin-bottom: 10px;}
+.projdesc {font-family: monospace; padding: 10px 20px 10px; border-bottom: 1px #D0D0D0 solid; margin-bottom: 10px; word-wrap: break-word;}
 .issSummary {max-width: 300px;}
 .issKey {font-weight: bolder; }
 
@@ -92,3 +95,51 @@ padding: 5px;
 .jsAddition {display: none;}
 
 .flt, .flt_s, .single_flt {height: auto !important;}
+
+div.mobilespacer {display: none; height: 15px;}
+div.row {display:block; padding: 10px;}
+div.leftcol {float:left; width: 50%}
+div.rightcol {float:right; width: 50%}
+div.colspan2 {float: left; width: 100%;}
+
+
+/** Media Queries Start **/
+
+
+@media (max-width: 550px) {
+     .issuedescription {padding: 1px;}
+     div.mobilespacer {display: block;}
+     div.leftcol, div.rightcol {float: none; width: 100%;}
+     div.row {padding: 0px;}
+     .breadcrumbs {font-size: 1em;}
+     .issuelistingtable .issRes {display: none;}
+     .issuelistingtable {font-size: 0.9em;}
+}
+
+
+
+@media (max-width: 650px) {
+    .nextlink {display: none}
+    .prevlink {display: none}
+    h1 { font-size: 1em; }
+   .breadcrumbs {font-size: 0.9em;}
+   .issuelistingtable .issCreated {display: none;}
+}
+
+
+@media (max-width: 750px) {
+        body {
+              	max-width: 98%;
+                margin: auto;
+                border: 0px;
+        }
+
+        .nextlink a {font-size: 0.9em;}
+        .prevlink a {font-size: 0.9em;}
+	.breadcrumbs {font-size: 0.8em;}
+}
+
+@media (max-width: 900px) {
+     .issuelistingtable .issAssignee {display: none;}
+}
+
