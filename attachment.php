@@ -22,12 +22,12 @@ if (!isset($inc_ok) || !$inc_ok){
 	die;
 }
 
-
-
 if (!isset($_GET['thumbs'])):
 
 	$ident = explode("-",$_GET['projectID']);
 	$id = (int)$_GET['attachid'];
+
+
 
 	// Shouldn't ever need to break at this point (we don't tend to link to another project's attachments, but just to be safe)
 	$filters = buildProjectFilter(false, true);
@@ -39,6 +39,7 @@ if (!isset($_GET['thumbs'])):
 
 	//$_GET['attachid'] = $_GET['attachid']; no point actually doing this, just here to make for easy reference
 
+	$ident[0] = getOriginalKey($ident[0],$db);
 
 	if (!file_exists($conf->jirahome."data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}")){
 		header("HTTP/1.0 404 Not Found",true,404);
@@ -62,16 +63,18 @@ else:
 
 	$ident = $_GET['projectID'];
 	$id = (int)$_GET['attachid'];
-	$key = $_GET['issueid'];
+	$key = explode("-",$_GET['issueid']);
 
+	// Should we not be checking filters here?
 
-	if (!file_exists($conf->jirahome."/data/attachments/$ident/$key/thumbs/_thumb_{$id}.png")){
+	$ident = getOriginalKey($ident,$db);
+	if (!file_exists($conf->jirahome."/data/attachments/$ident/$ident-${key[1]}/thumbs/_thumb_{$id}.png")){
 		header("HTTP/1.0 404 Not Found");
 		die;
 	}
 
 
 	header("Content-Type: image/png");
-	print file_get_contents($conf->jirahome."/data/attachments/$ident/$key/thumbs/_thumb_{$id}.png");
+	print file_get_contents($conf->jirahome."/data/attachments/$ident/$ident-{$key[1]}/thumbs/_thumb_{$id}.png");
 
 endif;

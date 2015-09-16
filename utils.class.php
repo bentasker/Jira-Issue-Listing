@@ -892,3 +892,11 @@ function check_status(){
 }
 
 
+function getOriginalKey($key,$db){
+
+	$key = $db->stringEscape($key);
+	$db->setQuery("SELECT ORIGINALKEY from project where pkey='".$key."'");
+	$p = $db->loadResult();
+	return $p->ORIGINALKEY;
+
+}
