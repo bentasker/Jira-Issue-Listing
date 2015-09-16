@@ -65,7 +65,12 @@ else:
 	$id = (int)$_GET['attachid'];
 	$key = explode("-",$_GET['issueid']);
 
-	// Should we not be checking filters here?
+	$filters = buildProjectFilter(false, true);
+	if (is_array($filters) && !in_array($ident,$filters)){
+		header("HTTP/1.0 404 Not Found",true,404);
+		echo "NOT FOUND";
+		die;
+	}
 
 	$ident = getOriginalKey($ident,$db);
 	if (!file_exists($conf->jirahome."/data/attachments/$ident/$ident-${key[1]}/thumbs/_thumb_{$id}.png")){
