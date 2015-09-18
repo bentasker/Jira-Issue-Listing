@@ -102,6 +102,12 @@ div.leftcol {float:left; width: 50%}
 div.rightcol {float:right; width: 50%}
 div.colspan2 {float: left; width: 100%;}
 
+table.timegraph {min-width: 80px; max-width: 150px; line-height: 5px; display: inline-table;}
+tr.estimate .logged {background-color: #89afd7;}
+tr.recorded .logged {background-color: #51a825;}
+span.timegraphlbl {width: 15%;}
+
+#isstimelogged .timegraph {line-height: 0.7em;}
 
 /** Media Queries Start **/
 

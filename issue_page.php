@@ -25,7 +25,7 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ENVIRONMENT, a.ASSIGNEE ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, a.TIMEESTIMATE, f.SEQUENCE as ptysequence, a.ENVIRONMENT, a.ASSIGNEE ".
 	"FROM jiraissue AS a ".
 	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -397,7 +397,10 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 		<!--sphider_noindex-->
 		<div class="row">
 			<div class="leftcol" id="isscreated"><b>Created</b>: <?php echo $issue->CREATED; ?></div>
-			<div class="rightcol" id="isstimelogged"><b>Time Spent Working</b>: <a href="#worklog"><?php echo $issue->TIMESPENT / 60; ?> minutes</a></div>
+			<div class="rightcol" id="isstimelogged">
+			    <b>Time Spent Working</b><br >
+			    <?php echo createTimeBar($issue->TIMESPENT,$issue->TIMEESTIMATE,true) ;?>
+			</div>
 		</div>
 		<div class="row">
 			<div class="leftcol"><br /><br /></div>
@@ -506,7 +509,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 							$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 							$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
 
-							$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
+							$sql = "SELECT a.SUMMARY, a.TIMESPENT, a.TIMEESTIMATE, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
 								"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 								"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID " .
 								"WHERE a.id=".(int)$remid;
@@ -521,9 +524,13 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 								<a href='<?php echo qs2sef("issue={$relatedissue->issuenum}&proj={$relatedissue->pkey}"); ?>'>
 									<?php echo "{$relatedissue->pkey}-{$relatedissue->issuenum}</a>: ";?>
 								<?php if ($resolved):?></del><?php endif; ?>
+							</td>
+							<td>
 
-									<?php echo htmlentities($relatedissue->SUMMARY); ?>
-						
+									<?php echo htmlentities($relatedissue->SUMMARY); ?>						
+							</td>
+							<td>
+									<?php echo createTimeBar($relatedissue->TIMESPENT,$relatedissue->TIMEESTIMATE,false); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

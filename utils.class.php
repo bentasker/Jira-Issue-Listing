@@ -900,3 +900,57 @@ function getOriginalKey($key,$db){
 	return $p->ORIGINALKEY;
 
 }
+
+
+/** Create a HTML table based on Timespent and Estimate
+*
+*/
+function createTimeBar($timespent,$estimate=0,$showtime=true){
+
+    // We need to work out which is bigger, so that we can scale correctly
+    $reference = ($timespent > $estimate)? $timespent : $estimate;
+
+    // Check we've actually got something to output
+    if ($reference == 0){
+	return '';
+    }
+
+    $display = ($showtime)? 'inline-block' : 'none';
+
+    $timespent_perc = round(($timespent / $reference) * 100);
+    $estimate_perc = round(($estimate / $reference) * 100);
+
+    // The first 1% will always have a colour in it, to mark the line
+    $estimate_perc = ($estimate_perc == 0)? 1 : $estimate_perc;
+    $timespent_perc = ($timespent_perc == 0)? 1 : $timespent_perc;
+
+    $est_null = $tblwidth - $estimate_perc;
+    $ts_null = $tblwidth - $timespent_perc;
+  
+    $htmlstr = "<span class='timegraphlbl' style='display: $display'>Estimated:</span>" .
+    "<table class='timegraph' title='Estimated: ". ($estimate / 60) . " minutes'>".
+    "<tr class='estimate'>".
+    "<td class='logged' style='width: $estimate_perc%;'>&nbsp;</td><td class='notlogged' style='width: $est_null%;'>&nbsp;</td>".
+    "</tr>".
+    "</table><div class='clr'></div>".
+    "<span class='timegraphlbl' style='display: $display'>Logged:</span>" .
+    "<table class='timegraph' title='Logged: ". ($timespent / 60) . " minutes'>".
+    "<tr class='recorded'>".
+    "<td class='logged' style='width: $timespent_perc%;'>&nbsp;</td><td class='notlogged' style='width: $ts_null%;'>&nbsp;</td>".
+    "</tr>".
+    "</table><div class='clr'></div>";
+
+    if ($showtime){
+	$htmlstr .= "<table class='timelogged'><tr class='timeopt'><td colspan='2'><a href='#worklog'>" . 
+		  ($timespent / 60) . " minutes</a></td></tr></table>";
+    }
+
+
+
+
+    return $htmlstr;
+	
+}
+
+
+
