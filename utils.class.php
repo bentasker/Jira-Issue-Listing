@@ -920,23 +920,27 @@ function createTimeBar($timespent,$estimate=0,$showtime=true){
     $timespent_perc = round(($timespent / $reference) * 100);
     $estimate_perc = round(($estimate / $reference) * 100);
 
-    // The first 1% will always have a colour in it, to mark the line
-    $estimate_perc = ($estimate_perc == 0)? 1 : $estimate_perc;
-    $timespent_perc = ($timespent_perc == 0)? 1 : $timespent_perc;
-
     $est_null = 100 - $estimate_perc;
     $ts_null = 100 - $timespent_perc;
+
+    $est_ndisp = ($est_null == 0)? 'none' : 'table-cell';
+    $ts_ndisp = ($ts_null == 0)? 'none' : 'table-cell';
+
+    $est_disp = ($est_null == 100)? 'none' : 'table-cell';
+    $ts_disp = ($ts_null == 100)? 'none' : 'table-cell';
   
     $htmlstr = "<span class='timegraphlbl' style='display: $display'>Estimated:</span>" .
     "<table class='timegraph' title='Estimated: ". ($estimate / 60) . " minutes'>".
     "<tr class='estimate'>".
-    "<td class='logged' style='width: $estimate_perc%;'>&nbsp;</td><td class='notlogged' style='width: $est_null%;'>&nbsp;</td>".
+    "<td class='logged' style='display: $est_disp; width: $estimate_perc%;'>&nbsp;</td>".
+    "<td class='notlogged' style='display: $est_ndisp; width: $est_null%;'>&nbsp;</td>".
     "</tr>".
     "</table><div class='clr'></div>".
     "<span class='timegraphlbl' style='display: $display'>Logged:</span>" .
     "<table class='timegraph' title='Logged: ". ($timespent / 60) . " minutes'>".
     "<tr class='recorded'>".
-    "<td class='logged' style='width: $timespent_perc%;'>&nbsp;</td><td class='notlogged' style='width: $ts_null%;'>&nbsp;</td>".
+    "<td class='logged' style='display: $ts_disp; width: $timespent_perc%;'>&nbsp;</td>".
+    "<td class='notlogged' style='display: $ts_ndisp; width: $ts_null%;'>&nbsp;</td>".
     "</tr>".
     "</table><div class='clr'></div>";
 
@@ -944,9 +948,6 @@ function createTimeBar($timespent,$estimate=0,$showtime=true){
 	$htmlstr .= "<table class='timelogged'><tr class='timeopt'><td colspan='2'><a href='#worklog'>" . 
 		  ($timespent / 60) . " minutes</a></td></tr></table>";
     }
-
-
-
 
     return $htmlstr;
 	
