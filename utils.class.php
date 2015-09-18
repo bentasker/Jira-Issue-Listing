@@ -973,10 +973,6 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
     "<span class='timegraphannota' style='display: $display'>$ts_txt</span>".
     "<div class='clr'></div>";
 
-    if ($showtime){
-	$htmlstr .= "<table class='timelogged'><tr class='timeopt'><td colspan='2'><a href='#worklog'>" . 
-		  ($timespent / 60) . " minutes</a></td></tr></table>";
-    }
 
     return $htmlstr;
 	
