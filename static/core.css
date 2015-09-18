@@ -107,11 +107,45 @@ tr.estimate .logged {background-color: #89afd7;}
 tr.recorded .logged {background-color: #51a825;}
 tr.remaining .logged {background-color: #ec8e00;}
 td.notlogged {background-color: #cccccc;}
-span.timegraphlbl {width: 15%;}
+
+span.timegraphlbl {width: 15%; margin-right: 10px; font-size: 0.9em;}
+span.timegraphannota {margin-left: 10px; font-size: 0.9em;}
+
+
 
 #isstimelogged .timegraph {line-height: 0.7em; width: 150px;}
 
 /** Media Queries Start **/
+
+
+@media (max-width: 900px) {
+     .issuelistingtable .issAssignee {display: none;}
+     #isstimelogged .timegraph {width: 100px;}
+}
+
+
+@media (max-width: 750px) {
+        body {
+              	max-width: 98%;
+                margin: auto;
+                border: 0px;
+        }
+
+        .nextlink a {font-size: 0.9em;}
+        .prevlink a {font-size: 0.9em;}
+	.breadcrumbs {font-size: 0.8em;}
+       #isstimelogged .timegraph {margin-left: 10px;}
+
+}
+
+@media (max-width: 650px) {
+    .nextlink {display: none}
+    .prevlink {display: none}
+    h1 { font-size: 1em; }
+   .breadcrumbs {font-size: 0.9em;}
+   .issuelistingtable .issCreated {display: none;}
+   #isstimelogged .timegraph {margin-left: 20px;}
+}
 
 
 @media (max-width: 550px) {
@@ -126,28 +160,10 @@ span.timegraphlbl {width: 15%;}
 
 
 
-@media (max-width: 650px) {
-    .nextlink {display: none}
-    .prevlink {display: none}
-    h1 { font-size: 1em; }
-   .breadcrumbs {font-size: 0.9em;}
-   .issuelistingtable .issCreated {display: none;}
-}
 
 
-@media (max-width: 750px) {
-        body {
-              	max-width: 98%;
-                margin: auto;
-                border: 0px;
-        }
 
-        .nextlink a {font-size: 0.9em;}
-        .prevlink a {font-size: 0.9em;}
-	.breadcrumbs {font-size: 0.8em;}
-}
 
-@media (max-width: 900px) {
-     .issuelistingtable .issAssignee {display: none;}
-}
+
+
 
