@@ -949,16 +949,16 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
 	$rem_ndisp = ($rem_null == 0)? 'none' : 'table-cell';
 	$rem_disp = ($rem_null == 100)? 'none' : 'table-cell';
 
-	$tr_txt = ($remaining == 0)? 'Not Provided' : ($remaining / 60) . " minutes";
+	$tr_txt = ($remaining == 0)? '0' : ($remaining / 60);
 
 	$htmlstr .= "<span class='timegraphlbl' style='display: $display'>Remaining:</span>" .
-	"<table class='timegraph' title='Remaining: $tr_txt'>".
+	"<table class='timegraph' title='Remaining: $tr_txt minutes'>".
 	"<tr class='remaining'>".
 	"<td class='notlogged' style='display: $rem_ndisp; width: $rem_null%;'>&nbsp;</td>".
 	"<td class='logged' style='display: $rem_disp; width: $rem_perc%;'>&nbsp;</td>".
 	"</tr>".
 	"</table>".
-	"<span class='timegraphannota' style='display: $display'>$tr_txt</span>".
+	"<span class='timegraphannota' style='display: $display'>$tr_txt minutes</span>".
 	"<div class='clr'></div>";
     }
 
