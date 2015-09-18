@@ -25,7 +25,7 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 
 
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.DESCRIPTION, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, a.TIMEESTIMATE, f.SEQUENCE as ptysequence, a.ENVIRONMENT, a.ASSIGNEE ".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, a.TIMEESTIMATE, a.TIMEORIGINALESTIMATE f.SEQUENCE as ptysequence, a.ENVIRONMENT, a.ASSIGNEE ".
 	"FROM jiraissue AS a ".
 	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
@@ -399,7 +399,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<div class="leftcol" id="isscreated"><b>Created</b>: <?php echo $issue->CREATED; ?></div>
 			<div class="rightcol" id="isstimelogged">
 			    <b>Time Spent Working</b><br >
-			    <?php echo createTimeBar($issue->TIMESPENT,$issue->TIMEESTIMATE,true) ;?>
+			    <?php echo createTimeBar($issue->TIMESPENT,$issue->TIMEESTIMATE,$issue->TIMEORIGINALESTIMATE,true) ;?>
 			</div>
 		</div>
 		<div class="row">
@@ -509,7 +509,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 							$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 							$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
 
-							$sql = "SELECT a.SUMMARY, a.TIMESPENT, a.TIMEESTIMATE, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
+							$sql = "SELECT a.SUMMARY, a.TIMESPENT, a.TIMEESTIMATE, a.TIMEORIGINALESTIMATE, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
 								"LEFT JOIN project AS b on a.PROJECT = b.ID ".
 								"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID " .
 								"WHERE a.id=".(int)$remid;
@@ -530,7 +530,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 									<?php echo htmlentities($relatedissue->SUMMARY); ?>						
 							</td>
 							<td>
-									<?php echo createTimeBar($relatedissue->TIMESPENT,$relatedissue->TIMEESTIMATE,false); ?>
+									<?php echo createTimeBar($relatedissue->TIMESPENT,$relatedissue->TIMEESTIMATE,$relatedissue->TIMEORIGINALESTIMATE,false); ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

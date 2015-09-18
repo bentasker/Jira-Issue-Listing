@@ -105,6 +105,7 @@ div.colspan2 {float: left; width: 100%;}
 table.timegraph {min-width: 80px; max-width: 150px; line-height: 5px; display: inline-table; border-collapse: collapse;}
 tr.estimate .logged {background-color: #89afd7;}
 tr.recorded .logged {background-color: #51a825;}
+tr.remaining .logged {background-color: #ec8e00;}
 td.notlogged {background-color: #cccccc;}
 span.timegraphlbl {width: 15%;}
 

@@ -905,20 +905,19 @@ function getOriginalKey($key,$db){
 /** Create a HTML table based on Timespent and Estimate
 *
 */
-function createTimeBar($timespent,$estimate=0,$showtime=true){
+function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=true){
 
     // We need to work out which is bigger, so that we can scale correctly
-    $reference = ($timespent > $estimate)? $timespent : $estimate;
+    $reference = ($timespent > $originalestimate)? $timespent : $originalestimate;
 
     // Check we've actually got something to output
     if ($reference == 0){
 	return '';
     }
-
     $display = ($showtime)? 'inline-block' : 'none';
 
     $timespent_perc = round(($timespent / $reference) * 100);
-    $estimate_perc = round(($estimate / $reference) * 100);
+    $estimate_perc = round(($originalestimate / $reference) * 100);
 
     $est_null = 100 - $estimate_perc;
     $ts_null = 100 - $timespent_perc;
@@ -928,15 +927,34 @@ function createTimeBar($timespent,$estimate=0,$showtime=true){
 
     $est_disp = ($est_null == 100)? 'none' : 'table-cell';
     $ts_disp = ($ts_null == 100)? 'none' : 'table-cell';
-  
+
+    // Generate the bar for original estimate
     $htmlstr = "<span class='timegraphlbl' style='display: $display'>Estimated:</span>" .
-    "<table class='timegraph' title='Estimated: ". ($estimate / 60) . " minutes'>".
+    "<table class='timegraph' title='Estimated: ". ($originalestimate / 60) . " minutes'>".
     "<tr class='estimate'>".
     "<td class='logged' style='display: $est_disp; width: $estimate_perc%;'>&nbsp;</td>".
     "<td class='notlogged' style='display: $est_ndisp; width: $est_null%;'>&nbsp;</td>".
     "</tr>".
-    "</table><div class='clr'></div>".
-    "<span class='timegraphlbl' style='display: $display'>Logged:</span>" .
+    "</table><div class='clr'></div>";
+    
+    if ($display){
+	// Generate the Bar for estimated remaining time
+	$remaining_perc = round(($remaining / $reference) * 100);
+	$rem_null = 100 - $remaining_perc;
+	$rem_ndisp = ($rem_null == 0)? 'none' : 'table-cell';
+	$rem_disp = ($rem_null == 100)? 'none' : 'table-cell';
+
+	$htmlstr .= "<span class='timegraphlbl' style='display: $display'>Remaining:</span>" .
+	"<table class='timegraph' title='Remaining: ". ($remaining / 60) . " minutes'>".
+	"<tr class='remaining'>".
+	"<td class='notlogged' style='display: $rem_ndisp; width: $rem_null%;'>&nbsp;</td>".
+	"<td class='logged' style='display: $rem_disp; width: $rem_perc%;'>&nbsp;</td>".
+	"</tr>".
+	"</table><div class='clr'></div>";
+    }
+
+    // Generate the bar for time logged
+    $htmlstr .= "<span class='timegraphlbl' style='display: $display'>Logged:</span>" .
     "<table class='timegraph' title='Logged: ". ($timespent / 60) . " minutes'>".
     "<tr class='recorded'>".
     "<td class='logged' style='display: $ts_disp; width: $timespent_perc%;'>&nbsp;</td>".
