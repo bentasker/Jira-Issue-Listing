@@ -79,9 +79,17 @@ $comments = $db->loadResults();
 
 
 // Get Relations
-$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE a.SOURCE=".(int)$issue->ID . " OR a.DESTINATION=".(int)$issue->ID;
+$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE (a.SOURCE=".(int)$issue->ID . " OR a.DESTINATION=".(int)$issue->ID .
+") AND b.OUTWARD != 'jira_subtask_outward'";
 $db->setQuery($sql);
 $relations = $db->loadResults();
+
+// Get Subtasks
+$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE (a.SOURCE=".(int)$issue->ID . " OR a.DESTINATION=".(int)$issue->ID .
+") AND b.OUTWARD = 'jira_subtask_outward'";
+$db->setQuery($sql);
+$subtasks = $db->loadResults();
+
 
 
 // Get external links
@@ -433,8 +441,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 <?php if (count($relations) > 0 || count($relationsext) > 0):
-	$subtasks=array();
-
+	
 	?>
 	<!--sphider_noindex-->
 	<a name="Links"></a><div id="linksblock">
@@ -447,10 +454,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 						$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 						$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
 
-						if ($reltype == "jira_subtask_outward"){
-							$subtasks[] = $relation;
-							continue;
-						}elseif($reltype == "jira_subtask_inward"){
+						if($reltype == "jira_subtask_inward"){
 							$reltype="Parent Issue: ";
 						}
 
@@ -486,9 +490,12 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 				<?php endforeach; ?>
 			</table>
 	</div>
+	<!--/sphider_noindex-->
+<?php endif; ?>
 
 
-	<?php if (count($subtasks) > 0): ?>
+<?php if (count($subtasks) > 0): ?>
+	<!--sphider_noindex-->
 		<a name="subtasks"></a><div id="subtasksblock">
 				<h4>Subtasks</h4>
 				<table>
@@ -522,7 +529,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 					<?php endforeach; ?>
 				</table>
 		</div>
-	<?php endif; ?>
+
 
 
 	<!--/sphider_noindex-->
