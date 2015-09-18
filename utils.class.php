@@ -933,7 +933,7 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
 
     // Generate the bar for original estimate
     $htmlstr = "<span class='timegraphlbl' style='display: $display'>Estimated:</span>" .
-    "<table class='timegraph' title='Estimated: $est_txt minutes'>".
+    "<table class='timegraph' title='Estimated: $est_txt'>".
     "<tr class='estimate'>".
     "<td class='logged' style='display: $est_disp; width: $estimate_perc%;'>&nbsp;</td>".
     "<td class='notlogged' style='display: $est_ndisp; width: $est_null%;'>&nbsp;</td>".
@@ -964,7 +964,7 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
 
     // Generate the bar for time logged
     $htmlstr .= "<span class='timegraphlbl' style='display: $display'>Logged:</span>" .
-    "<table class='timegraph' title='Logged: $ts_txt minutes'>".
+    "<table class='timegraph' title='Logged: $ts_txt'>".
     "<tr class='recorded'>".
     "<td class='logged' style='display: $ts_disp; width: $timespent_perc%;'>&nbsp;</td>".
     "<td class='notlogged' style='display: $ts_ndisp; width: $ts_null%;'>&nbsp;</td>".
