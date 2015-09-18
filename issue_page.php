@@ -85,8 +85,8 @@ $db->setQuery($sql);
 $relations = $db->loadResults();
 
 // Get Subtasks
-$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE (a.SOURCE=".(int)$issue->ID . " OR a.DESTINATION=".(int)$issue->ID .
-") AND b.OUTWARD = 'jira_subtask_outward'";
+$sql = "select a.*,b.* from issuelink as a LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID WHERE a.SOURCE=".(int)$issue->ID .
+" AND b.OUTWARD = 'jira_subtask_outward'";
 $db->setQuery($sql);
 $subtasks = $db->loadResults();
 
@@ -241,7 +241,28 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 
 
 
+// Implemented for JILS-32
+$TIMESPENT = $issue->TIMESPENT;
+$TIMEESTIMATE = $issue->TIMEESTIMATE;
+$TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE;
 
+if (count($subtasks) > 0){
+
+// Get Subtasks
+$sql = "select SUM(c.TIMESPENT) as timespent, SUM(c.TIMEESTIMATE) as timeestimate, SUM(c.TIMEORIGINALESTIMATE) as timeoriginalestimate ".
+"from issuelink as a ".
+"LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID ".
+"LEFT JOIN jiraissue as c ON a.DESTINATION = c.ID ".
+"WHERE a.SOURCE=".(int)$issue->ID .
+" AND b.OUTWARD = 'jira_subtask_outward'";
+$db->setQuery($sql);
+$subtask_times = $db->loadResult();
+
+$TIMESPENT = $issue->TIMESPENT + $subtask_times->timespent;
+$TIMEESTIMATE = $issue->TIMEESTIMATE + $subtask_times->timeestimate;
+$TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeoriginalestimate;
+
+}
 
 
 
@@ -399,7 +420,7 @@ $resolution = (empty($issue->resolution))? 'Unresolved' : $issue->resolution. " 
 			<div class="leftcol" id="isscreated"><b>Created</b>: <?php echo $issue->CREATED; ?></div>
 			<div class="rightcol" id="isstimelogged">
 			    <b>Time Spent Working</b><br >
-			    <?php echo createTimeBar($issue->TIMESPENT,$issue->TIMEESTIMATE,$issue->TIMEORIGINALESTIMATE,true) ;?>
+			    <?php echo createTimeBar($TIMESPENT,$TIMEESTIMATE,$TIMEORIGINALESTIMATE,true) ;?>
 			</div>
 		</div>
 		<div class="row">
