@@ -156,6 +156,7 @@ span.timegraphannota {margin-left: 10px; font-size: 0.9em;}
      .breadcrumbs {font-size: 1em;}
      .issuelistingtable .issRes {display: none;}
      .issuelistingtable {font-size: 0.9em;}
+     #subtasksblock .timegraph {width: 40px; min-width: 40px; max-width: 40px;}
 }
 
 
