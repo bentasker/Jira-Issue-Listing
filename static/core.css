@@ -110,7 +110,7 @@ td.notlogged {background-color: #cccccc;}
 
 span.timegraphlbl {width: 15%; margin-right: 10px; font-size: 0.9em;}
 span.timegraphannota {margin-left: 10px; font-size: 0.9em;}
-
+#isstimelogged label {font-size: 0.9em}
 
 
 #isstimelogged .timegraph {line-height: 0.7em; width: 150px;}

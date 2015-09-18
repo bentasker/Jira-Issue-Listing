@@ -420,7 +420,14 @@ $TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeorigi
 			<div class="leftcol" id="isscreated"><b>Created</b>: <?php echo $issue->CREATED; ?></div>
 			<div class="rightcol" id="isstimelogged">
 			    <b>Time Spent Working</b><br >
-			    <?php echo createTimeBar($TIMESPENT,$TIMEESTIMATE,$TIMEORIGINALESTIMATE,true) ;?>
+			    <div id='tmwrksbtsks'>
+				  <?php echo createTimeBar($TIMESPENT,$TIMEESTIMATE,$TIMEORIGINALESTIMATE,true) ;?>
+			    </div>
+			    <div id='tmwrk' style="display: none;">
+				  <?php echo createTimeBar($issue->TIMESPENT,$issue->TIMEESTIMATE,$issue->TIMEORIGINALESTIMATE,true) ;?>
+			    </div>
+			    <input type="checkbox" onchange="toggleTimeWork(this)" id="tmwrktoggle" checked><label for="tmwrktoggle">Include Subtasks</label>
+
 			</div>
 		</div>
 		<div class="row">
