@@ -264,6 +264,15 @@ $TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeorigi
 
 }
 
+// Get Parent Issue
+$sql = "select c.issuenum, p.pkey, c.SUMMARY from issuelink as a " .
+"LEFT join jiraissue as c ON a.SOURCE = c.ID ".
+"LEFT JOIN project AS p on c.PROJECT = p.ID ".
+"LEFT JOIN issuelinktype as b ON a.LINKTYPE=b.ID ".
+"WHERE a.DESTINATION=".(int)$issue->ID .
+" AND b.INWARD = 'jira_subtask_inward'";
+$db->setQuery($sql);
+$parent = $db->loadResult();
 
 
 /***          HTML BEGINS    */
@@ -324,6 +333,12 @@ $TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeorigi
 	<ul itemprop="breadcrumb" class="breadcrumbs">
 	      <li><a href="../index.html">Projects</a></li>
 	      <li><a href="<?php echo qs2sef("proj={$issue->pkey}");?>"><?php echo $issue->pkey; ?></a></li>
+
+	      <?php if ($parent): ?>
+		    <li><a href="<?php echo qs2sef("issue={$parent->issuenum}&proj={$parent->pkey}"); ?>"><?php echo "{$parent->pkey}-{$parent->issuenum}";?></a></li>
+	      <?php endif; ?>
+
+
 	      <li><a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></a></li>
 	</ul>
 	<hr />
@@ -430,6 +445,17 @@ $TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeorigi
 
 			</div>
 		</div>
+
+	      <?php if ($parent): ?>
+			  <div class="row">
+				  <div class="leftcol">
+				      <b>Child of:</b> <a href='<?php echo qs2sef("issue={$parent->issuenum}&proj={$parent->pkey}"); ?>'>
+					    <?php echo "{$parent->pkey}-{$parent->issuenum}</a>: ";?> <?php echo htmlentities($parent->SUMMARY); ?>
+				  </div>
+				  <div class="rightcol"></div>
+			  </div>
+	      <?php endif; ?>
+
 		<div class="row">
 			<div class="leftcol"><br /><br /></div>
 			<div class="rightcol"></div>
@@ -484,10 +510,6 @@ $TIMEORIGINALESTIMATE = $issue->TIMEORIGINALESTIMATE + $subtask_times->timeorigi
 
 						$remid = ($relation->DESTINATION == $issue->ID)? $relation->SOURCE : $relation->DESTINATION;
 						$reltype = ($relation->DESTINATION == $issue->ID)? $relation->INWARD : $relation->OUTWARD;
-
-						if($reltype == "jira_subtask_inward"){
-							$reltype="Parent Issue: ";
-						}
 
 						$sql = "SELECT a.SUMMARY, a.issuenum, b.pkey, d.pname as resolution FROM jiraissue AS a ".
 							"LEFT JOIN project AS b on a.PROJECT = b.ID ".
