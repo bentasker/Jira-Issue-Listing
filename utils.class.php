@@ -924,8 +924,8 @@ function createTimeBar($timespent,$estimate=0,$showtime=true){
     $estimate_perc = ($estimate_perc == 0)? 1 : $estimate_perc;
     $timespent_perc = ($timespent_perc == 0)? 1 : $timespent_perc;
 
-    $est_null = $tblwidth - $estimate_perc;
-    $ts_null = $tblwidth - $timespent_perc;
+    $est_null = 100 - $estimate_perc;
+    $ts_null = 100 - $timespent_perc;
   
     $htmlstr = "<span class='timegraphlbl' style='display: $display'>Estimated:</span>" .
     "<table class='timegraph' title='Estimated: ". ($estimate / 60) . " minutes'>".
