@@ -12,7 +12,11 @@
 * @version 1.2
 *
 */
-$tblid=mt_rand();
+
+//$tblid=mt_rand();
+
+// Temporary fix for JILS-33
+$tblid='1'
 ?>
 
 <div id='addIssueTop' class='jsAddition'></div>
