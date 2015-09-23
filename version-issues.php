@@ -57,6 +57,22 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 $db->setQuery($sql);
 $issues = $db->loadResults();
 
+$sql = "SELECT DISTINCT a.id,pv.ID as prover FROM projectversion AS pv ".
+        "LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+        "LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+        "LEFT JOIN project AS b on a.PROJECT = b.ID ".
+        "WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
+        "AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
+        "ORDER BY a.PROJECT, a.issuenum ASC" ;
+$db->setQuery($sql);
+$currver = $db->loadResults();
+
+$ids = array(0);
+foreach ($currver as $c){
+	$ids[] = $c->id;
+}
+
 
 $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
         "a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
@@ -71,10 +87,12 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
         "WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
         "AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
 	"AND na.ASSOCIATION_TYPE='IssueVersion' ".
+	"AND a.ID NOT IN (" . implode(",",$ids). ") ".
         "ORDER BY a.PROJECT, a.issuenum ASC" ;
 
 $db->setQuery($sql);
 $outstanding_issues = $db->loadResults();
+
 
 
 
