@@ -51,10 +51,32 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
 	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
 	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
 	"ORDER BY a.PROJECT, a.issuenum ASC" ;
 
 $db->setQuery($sql);
 $issues = $db->loadResults();
+
+
+$sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
+        "a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
+        "FROM projectversion AS pv ".
+        "LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+        "LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+        "LEFT JOIN project AS b on a.PROJECT = b.ID ".
+        "LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
+        "LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
+        "LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
+        "LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
+        "WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
+        "AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+	"AND na.ASSOCIATION_TYPE='IssueVersion' ".
+        "ORDER BY a.PROJECT, a.issuenum ASC" ;
+
+$db->setQuery($sql);
+$outstanding_issues = $db->loadResults();
+
+
 
 
 $sql = "SELECT SUM(a.TIMESPENT) as TIMESPENT, SUM(a.TIMEORIGINALESTIMATE) as estimate FROM projectversion AS pv ".
@@ -137,6 +159,13 @@ if ($timeestimate > 60){
 <!--sphider_noindex-->
 <h3>Issues</h3>
 <?php include 'issues-table.php'; ?>
+
+<?php if (count($outstanding_issues) > 0):?>
+	<a name='buglist'></a><h3>Known Issues</h3>
+	<?php $tblid = 'biscuits';
+	$issues = $outstanding_issues;
+	include 'issues-table.php'; ?>
+<?php endif; ?>
 
 <!--/sphider_noindex-->
 
