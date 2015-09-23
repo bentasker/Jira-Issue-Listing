@@ -56,6 +56,35 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 $db->setQuery($sql);
 $issues = $db->loadResults();
 
+
+$sql = "SELECT SUM(a.TIMESPENT) as TIMESPENT, SUM(a.TIMEORIGINALESTIMATE) as estimate FROM projectversion AS pv ".
+	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " .
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+	"AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
+	"ORDER BY a.PROJECT, a.issuenum ASC" ;
+
+$db->setQuery($sql);
+$times = $db->loadResult();
+
+$timespent = ($times->TIMESPENT / 60);
+
+if ($timespent > 60){
+    // Convert to hours
+    $timespent = round(($timespent / 60),2) . " hours";
+}else{
+    $timespent .= " minutes";
+}
+$timeestimate = ($times->estimate / 60);
+if ($timeestimate > 60){
+    // Convert to hours
+    $timeestimate = round(($timeestimate / 60),2) . " hours";
+}else{
+    $timeestimate .= " minutes";
+}
+
 ?>
 <html>
 <head>
@@ -92,6 +121,16 @@ $issues = $db->loadResults();
 	<tr>
 		<th></th><td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
 	</tr>
+	<?php if ($timeestimate > 0 ): ?>
+		<tr>
+			<th>Time Estimated:</th><td><?php echo $timeestimate; ?></td>
+		</tr>
+	<?php endif; ?>
+	<?php if ($timespent > 0): ?>
+		<tr>
+			<th>Time Logged:</th><td><?php echo $timespent; ?></td>
+		</tr>
+	<?php endif; ?>
 </table>
 
 <hr />
