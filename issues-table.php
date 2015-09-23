@@ -15,8 +15,9 @@
 
 //$tblid=mt_rand();
 
-// Temporary fix for JILS-33
-$tblid='1'
+if (!isset($tblid) || $tblid == 1){
+	$tblid='1';
+}
 ?>
 
 <div id='addIssueTop' class='jsAddition'></div>
