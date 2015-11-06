@@ -768,9 +768,20 @@ function apply_filters(){
 
   global $conf;
 
+  $to_check = $_SERVER['REMOTE_ADDR'];
+
+  // Introduced for JILS-37
+  if (count($conf->AuthorisedProxies) > 0 && in_array($to_check,$conf->AuthorisedProxies) && isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+	  // Connection came from an authorised proxy. Use X-Forwarded-For
+	  $entries = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+	  $to_check = $entries[0];
+	  unset($entries);
+  }
+
+
   // Limit IP to Projects
-  if (array_key_exists("a".$_SERVER['REMOTE_ADDR'],$conf->IPProjectRestrictions)){
-      $_SERVER['HTTP_X_PROJECT_LIMIT'] = $conf->IPProjectRestrictions["a".$_SERVER['REMOTE_ADDR']];
+  if (array_key_exists("a".$to_check,$conf->IPProjectRestrictions)){
+      $_SERVER['HTTP_X_PROJECT_LIMIT'] = $conf->IPProjectRestrictions["a".$to_check];
   }elseif(!isset($_SERVER['HTTP_X_PROJECT_LIMIT']) || empty($_SERVER['HTTP_X_PROJECT_LIMIT'])){
       $db = new BTDB;
       $sql = 'SELECT pkey FROM project';
@@ -787,8 +798,8 @@ function apply_filters(){
 
 
   // Set the email Obfuscation level if there is a configured level specific to that client
-  if (array_key_exists("a".$_SERVER['REMOTE_ADDR'],$conf->IPemailObfs)){
-      $conf->emailObfs = $conf->IPemailObfs["a".$_SERVER['REMOTE_ADDR']];
+  if (array_key_exists("a".$to_check,$conf->IPemailObfs)){
+      $conf->emailObfs = $conf->IPemailObfs["a".$to_check];
   } 
   
 
