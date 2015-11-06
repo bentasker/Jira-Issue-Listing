@@ -47,7 +47,7 @@ $conf->SphiderUA = array('Sphider','Jira-Project-Archive'); // Include any user-
 $conf->SphiderIP = array('192.168.1.65/32','192.168.1.96'); // You can use CIDR or specify individual IPs
 
 // IP's listed here are known authorised proxies. If the connection originates from here we'll trust X-Forwarded-For
-// THIS IS CURRENTLY UNTESTED
+// introduced in JILS-37
 $conf->AuthorisedProxies = array();
 
 // Limit requests for a given IP to a specific set of project keys, prefix the IP with a lowercase a

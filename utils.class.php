@@ -373,7 +373,6 @@ function checkIPs(){
 	$to_check = $_SERVER['REMOTE_ADDR'];
 
 	// Introduced for JILS-37
-	// THIS IS CURRENTLY UNTESTED
 	if (count($conf->AuthorisedProxies) > 0 && in_array($to_check,$conf->AuthorisedProxies) && isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
 		// Connection came from an authorised proxy. Use X-Forwarded-For
 		$entries = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
