@@ -370,11 +370,22 @@ function checkIPs(){
 
 	global $conf;
 	$authip = false;
+	$to_check = $_SERVER['REMOTE_ADDR'];
+
+	// Introduced for JILS-37
+	// THIS IS CURRENTLY UNTESTED
+	if (count($conf->AuthorisedProxies) > 0 && in_array($to_check,$conf->AuthorisedProxies) && isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		// Connection came from an authorised proxy. Use X-Forwarded-For
+		$entries = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+		$to_check = $entries[0];
+		unset($entries);
+	}
+
 
 	foreach ($conf->SphiderIP as $ip){
 		if (strpos($ip,"/") === false){
 
-			if ($ip == $_SERVER['REMOTE_ADDR']){
+			if ($ip == $to_check){
 				$authip = true;
 				break;
 			}
@@ -382,7 +393,7 @@ function checkIPs(){
 		}else{
 			$range = calcIPRange($ip,false);
 
-			if (in_array($_SERVER['REMOTE_ADDR'],$range)){
+			if (in_array($to_check,$range)){
 				$authip = true;
 				break;
 			}
