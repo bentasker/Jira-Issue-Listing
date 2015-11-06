@@ -20,4 +20,5 @@ defined('listpage') or die;
 ?>
 <script type="text/javascript" src="/static/tablefilter/tablefilter.js" ></script>
 <script type="text/javascript" src="/static/core.js" ></script>
+<link rel="stylesheet" type="text/css" href="/static/tablefilter/style/tablefilter.css" /> <!-- When mirroring with wget this is sometimes missed  if not explicitly included -->
 <link rel="stylesheet" type="text/css" href="/static/core.css"/>
