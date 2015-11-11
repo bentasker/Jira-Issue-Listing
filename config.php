@@ -56,5 +56,10 @@ $conf->IPProjectRestrictions = array(); // Example: array('a192.168.1.2'=> 'FOO,
 // Set this to be a URL (relative or otherwise) if you want to include your own custom CSS. Otherwise, leave as false
 $conf->cssURL = false;
 
+
+// Should the Kanban boards be available?
+$conf->kanban = false;
+
+
 $conf->debug = false; // Enabling this will prevent redirection to JIRA
 $conf->maintenance = false; // Enabling this will force the status check to fail

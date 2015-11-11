@@ -25,6 +25,14 @@ if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) ||
 }
 
 
+// Check whether KanBan is actually enabled
+if (!$conf->kanban){
+  // TODO: Do something - Ideally redirect to the non-kanban view (with html output explaining you're going to redirect first so that wget mirrors don't break
+  // May also want to check whether the requested project actually has KanBan enabled, and do something similar if not.
+  die;
+}
+
+
 // Grab the project information
 
 $sql = "SELECT * FROM project WHERE pkey='" . $db->stringEscape($_GET['proj']). "'";
