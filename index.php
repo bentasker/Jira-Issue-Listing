@@ -79,6 +79,8 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 	if (!isset($_GET['proj']) || empty($_GET['proj'])){
 		// Load the list of all issues
 		require 'projects.php';
+	}elseif ($_GET['kanban']){
+		require 'project-index-kanban.php';
 	}else{
 		require 'project-index.php';
 	}

@@ -442,18 +442,20 @@ function qs2sef($qstring){
 
 	if (isset($sections['proj'])){
 		$url[] = 'browse';
+		$kanban = (isset($sections['kanban']) && $sections['kanban'] == 1)? "-kanban" : "";
 
 		if (isset($sections['issue'])){
 			$url[] = $sections['proj']."-".$sections['issue'].".html";
 		}elseif(isset($sections['vers'])){
 			$url[] = 'versions';
-			$url[] = $sections['proj']."-".$sections['vers'].".html";
+			$url[] = $sections['proj']."-".$sections['vers'].$kanban.".html";
 		}elseif(isset($sections['comp'])){
 			$url[] = 'components';
 			$url[] = $sections['proj']."-".$sections['comp'].".html";
 		}else{
-			$url[] = $sections['proj'].".html";
+			$url[] = $sections['proj'].$kanban.".html";
 		}
+
 	}elseif(isset($sections['attachment'])){
 		// Attachment links
 		$url[] = 'browse';
@@ -529,6 +531,7 @@ function parseSEF(){
 			$refs = explode("-",str_replace(".html","",$const[2]));
 			$_GET['proj'] = $refs[0];
 			$_GET['vers'] = $refs[1];
+			$_GET['kanban'] = ($refs[3] == "kanban")? true: false;
 			return;
 		}
 
@@ -541,11 +544,12 @@ function parseSEF(){
 		}
 
 		$refs = explode("-",str_replace(".html",'',$const[1]));
-		if (isset($refs[1]) && !empty($refs[1])){
+		if (isset($refs[1]) && !empty($refs[1]) && $refs[1] != 'kanban'){
 			$_GET['issue'] = $refs[1];
 		}
 
 		if (!empty($refs[0])){
+			$_GET['kanban'] = ($refs[1] == "kanban")? true: false;
 			$_GET['proj'] = $refs[0];
 		}
 
