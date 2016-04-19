@@ -50,6 +50,31 @@ if (!$issue){
     die;
 }
 
+/* Get the dates the issue was last modified, and return a Last-Modified header. Also include an etag based on the dates
+Could look at adding support for conditional requests at some point, for now simply want to allow search engine sphider to identify whether a page has changed from a HEAD */
+$sql = "SELECT max(a.CREATED) as maxcreate FROM `changegroup` AS a LEFT JOIN `changeitem` AS b on a.ID = b.groupid WHERE a.issueid=".(int)$issue->ID.
+" ORDER BY a.created ASC";
+
+$db->setQuery($sql);
+$changes = $db->loadResult();
+
+$sql = "SELECT max(CREATED) as maxcreate FROM jiraaction where issueid=".(int)$issue->ID." ORDER BY CREATED ASC";
+$db->setQuery($sql);
+$comments = $db->loadResult();
+
+if (strtotime($changes->maxcreate) > strtotime($comments->maxcreate)){
+      $dstring=gmdate('D, d M Y H:i:s T',strtotime($changes->maxcreate));
+}else{
+      $dstring=gmdate('D, d M Y H:i:s T',strtotime($comments->maxcreate));
+}
+
+header("Last-Modified: $dstring");
+header("E-Tag: is-".$issue->ID."-".sha1($changes->maxcreate.$comments->maxcreate));
+
+if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+       	exit();
+}
+
 
 // Get Previous Issue
 $sql = "SELECT a.issuenum, a.SUMMARY, b.pkey FROM jiraissue as a ".
