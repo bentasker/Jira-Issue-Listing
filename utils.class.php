@@ -1015,6 +1015,12 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
 */
 function evaluateConditionalRequest($mtime,$etag){
 
+  // Only honour conditionals for HEAD/GET
+  if ((stripos($_SERVER['REQUEST_METHOD'], 'HEAD') === FALSE) && stripos($_SERVER['REQUEST_METHOD'], 'GET') === FALSE) {
+	  return false;
+  }
+
+
   if (isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 	  header("X-Debug: Received None-Match");
 
