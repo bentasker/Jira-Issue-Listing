@@ -1040,12 +1040,13 @@ function evaluateConditionalRequest($mtime,$etag){
 	  // Convert to epoch
 	  $lastmod = strtotime($mtime);
 
-	  // This, strictly speaking, isn't RFC compliant as we should validate its a HTTP date rather than a date string
-	  // Will look at that later
-	  $candtime = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+	  // Validate the date is a HTTP date
+	  if (validateDate($_SERVER['HTTP_IF_MODIFIED_SINCE'], 'D, d M Y H:i:s T')){
+		$candtime = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
 
-	  if ( $lastmod <= $candtime && $lastmod != 0 ){
-		     returnNotModified(false,$mtime);
+		if ( $lastmod <= $candtime && $lastmod != 0 ){
+			  returnNotModified(false,$mtime);
+		}
 	  }
 
   }
@@ -1074,5 +1075,10 @@ function returnNotModified($etag,$lastmod=false){
 }
 
 
-
+// Shamelessly nabbed from http://php.net/manual/en/function.checkdate.php/#113205
+function validateDate($date, $format = 'Y-m-d H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
 
