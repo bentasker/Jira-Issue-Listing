@@ -1022,8 +1022,6 @@ function evaluateConditionalRequest($mtime,$etag){
 
 
   if (isset($_SERVER['HTTP_IF_NONE_MATCH'])){
-	  header("X-Debug: Received None-Match");
-
 	  // There may be several etags
 	  $etag_candidates=explode(",",$_SERVER['HTTP_IF_NONE_MATCH']);
 	  foreach ($etag_candidates as $cand){
@@ -1035,8 +1033,6 @@ function evaluateConditionalRequest($mtime,$etag){
 	  }
 
   }elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
-	  header("X-Debug: Received IMS");
-
 	  // Convert to epoch
 	  $lastmod = strtotime($mtime);
 
