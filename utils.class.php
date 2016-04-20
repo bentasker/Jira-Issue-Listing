@@ -1074,6 +1074,15 @@ function returnNotModified($etag,$lastmod=false){
 // Shamelessly nabbed from http://php.net/manual/en/function.checkdate.php/#113205
 function validateDate($date, $format = 'Y-m-d H:i:s')
 {
+
+    // Ensure the date is in GMT (RFC2616)
+    $date=rtrim($date);
+    $tz=substr($date,-3,3);
+
+    if ($tz != "GMT"){
+	  return false;
+    }
+
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
