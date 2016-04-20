@@ -68,8 +68,13 @@ if (strtotime($changes->maxcreate) > strtotime($comments->maxcreate)){
       $dstring=gmdate('D, d M Y H:i:s T',strtotime($comments->maxcreate));
 }
 
+$etag="is-".$issue->ID."-".sha1($changes->maxcreate.$comments->maxcreate);
+
 header("Last-Modified: $dstring");
-header("E-Tag: is-".$issue->ID."-".sha1($changes->maxcreate.$comments->maxcreate));
+header("E-Tag: $etag");
+
+// Introduced in JILS-41
+evaluateConditionalRequest($dstring,$etag);
 
 if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
        	exit();

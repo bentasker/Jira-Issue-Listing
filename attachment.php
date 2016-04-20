@@ -59,9 +59,14 @@ if (!isset($_GET['thumbs'])):
 
 	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
 	$mtime=filemtime($conf->jirahome."/data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}");
+	$dstring=gmdate('D, d M Y H:i:s T',$mtime);
+	$etag="F-" . sha1("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime");
 
-	header("Last-Modified: " .gmdate('D, d M Y H:i:s T',$mtime));
-	header("E-tag: F-" . sha1("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime")); 
+	header("Last-Modified: " .$dstring);
+	header("E-tag: $etag"); 
+
+	// Introduced in JILS-41
+	evaluateConditionalRequest($dstring,$etag);
 
 	if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
 		exit();
@@ -91,9 +96,14 @@ else:
 
 	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
 	$mtime=filemtime($conf->jirahome."/data/attachments/$ident/$ident-${key[1]}/thumbs/_thumb_{$id}.png");
+	$dstring=gmdate('D, d M Y H:i:s T',$mtime);
+	$etag="TN-" . sha1("$i-{$ident}-{$key[1]}-{$id}-$mtime");
 
-	header("Last-Modified: " .gmdate('D, d M Y H:i:s T',$mtime));
-	header("E-tag: TN-" . sha1("$i-{$ident}-{$key[1]}-{$id}-$mtime")); 
+	header("Last-Modified: " .$dstring);
+	header("E-tag: $etag"); 
+
+	// Introduced in JILS-41
+	evaluateConditionalRequest($dstring,$etag);
 
 	if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
 		exit();

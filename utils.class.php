@@ -1004,4 +1004,69 @@ function createTimeBar($timespent,$remaining=0,$originalestimate=0,$showtime=tru
 }
 
 
+/*** Check whether the request is conditional, if it is, then evaluate the headers and behave accordingly
+*
+* Introduced in JILS-41
+*
+* @arg mtime - Last-Modified for the copy in the database
+* @arg etag  - Generated Etag for the copy in the database
+*
+* @return mixed
+*/
+function evaluateConditionalRequest($mtime,$etag){
+
+  if (isset($_SERVER['HTTP_IF_NONE_MATCH'])){
+	  header("X-Debug: Received None-Match");
+
+	  // There may be several etags
+	  $etag_candidates=explode(",",$_SERVER['HTTP_IF_NONE_MATCH']);
+	  foreach ($etag_candidates as $cand){
+	      // Remove any whitespace from the header
+	      $cand=trim($cand);
+	      if ("$cand" == "$etag"){
+		      returnNotModified($etag);
+	      }
+	  }
+
+  }elseif(isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])){
+	  header("X-Debug: Received IMS");
+
+	  // Convert to epoch
+	  $lastmod = strtotime($mtime);
+
+	  // This, strictly speaking, isn't RFC compliant as we should validate its a HTTP date rather than a date string
+	  // Will look at that later
+	  $candtime = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+
+	  if ( $lastmod <= $candtime && $lastmod != 0 ){
+		     returnNotModified(false,$mtime);
+	  }
+
+  }
+
+  return true;
+}
+
+/** Set the status code to 304. Also resend Etag and Last-mod as Apache strips them out when we change the status
+*
+* Introduced in JILS-41
+*
+*/
+function returnNotModified($etag,$lastmod=false){
+    header("HTTP/1.1 304 Not Modified",true,304);
+
+    // Only include an etag if it revalidated (otherwise Apache will strip the Last-Mod
+    if ($etag){
+	header("ETag: $etag");
+    }
+
+
+    if ($lastmod){
+	header("Last-Modified: $lastmod");
+    }
+    exit();
+}
+
+
+
 
