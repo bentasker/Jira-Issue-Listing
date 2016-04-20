@@ -57,6 +57,16 @@ if (!isset($_GET['thumbs'])):
 	header("Content-Dispostion: attachment; filename={$details->FILENAME}");
 	header("Content-Length: {$details->FILESIZE}");
 
+	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
+	$mtime=filemtime($conf->jirahome."/data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}");
+
+	header("Last-Modified: " .gmdate('D, d M Y H:i:s T',$mtime));
+	header("E-tag: F-" . sha1("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime")); 
+
+	if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+		exit();
+	}
+
 	print file_get_contents($conf->jirahome."/data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}");
 
 else:
@@ -77,9 +87,20 @@ else:
 		header("HTTP/1.0 404 Not Found");
 		die;
 	}
-
-
 	header("Content-Type: image/png");
+
+	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
+	$mtime=filemtime($conf->jirahome."/data/attachments/$ident/$ident-${key[1]}/thumbs/_thumb_{$id}.png");
+
+	header("Last-Modified: " .gmdate('D, d M Y H:i:s T',$mtime));
+	header("E-tag: TN-" . sha1("$i-{$ident}-{$key[1]}-{$id}-$mtime")); 
+
+	if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+		exit();
+	}
+
+
+
 	print file_get_contents($conf->jirahome."/data/attachments/$ident/$ident-{$key[1]}/thumbs/_thumb_{$id}.png");
 
 endif;
