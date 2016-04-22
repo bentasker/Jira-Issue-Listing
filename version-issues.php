@@ -82,6 +82,12 @@ header("Last-Modified: $dstring");
 header("E-Tag: $etag");
 
 
+// Introduced in JILS-41
+evaluateConditionalRequest($dstring,$etag);
+
+if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+       	exit();
+}
 
 
 $sql = "SELECT DISTINCT a.id,pv.ID as prover FROM projectversion AS pv ".
