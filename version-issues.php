@@ -57,6 +57,42 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 $db->setQuery($sql);
 $issues = $db->loadResults();
 
+// Revalidation support, introduced in JILS-41
+
+// Capture changes to issue status
+$sql = "SELECT MAX(cg.CREATED) as lastupdate ".
+	"FROM projectversion AS pv ".
+	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"LEFT JOIN changegroup AS cg ON a.ID = cg.issueid " .
+	"LEFT JOIN changeitem AS ci ON cg.ID = ci.groupid " .
+	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
+	"ORDER BY a.PROJECT, a.issuenum ASC" ;
+
+$db->setQuery($sql);
+$lastchange = $db->loadResult();
+$lchange=strtotime($lastchange->lastupdate);
+$dstring=gmdate('D, d M Y H:i:s T',$lchange);
+
+// We need to factor in changes to the version description etc, so build an object of items to consider when building the ETag
+$etagobj=new stdClass();
+$etagobj->LastIssueUpd = $lchange;
+$etagobj->Name = $version->vname;
+$etagobj->Desc = $version->Description;
+$etagobj->Released = $version->RELEASED;
+$etagobj->Archived = $version->ARCHIVED;
+
+$etag="ver-".$_GET['vers']."-".sha1(json_encode($etagobj));
+
+header("Last-Modified: $dstring");
+header("E-Tag: $etag");
+
+
+
+
 $sql = "SELECT DISTINCT a.id,pv.ID as prover FROM projectversion AS pv ".
         "LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
         "LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
