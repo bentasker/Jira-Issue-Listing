@@ -64,7 +64,7 @@ $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
 // Take changes to the component record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
-$etag="com-".$_GET['comp']."-".sha1("lc:$lchange;v:".json_encode($component));
+$etag='"c'.$_GET['comp']."-".md5("lc:$lchange;v:".json_encode($component)).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");

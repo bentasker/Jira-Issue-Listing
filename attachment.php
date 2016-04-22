@@ -60,7 +60,7 @@ if (!isset($_GET['thumbs'])):
 	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
 	$mtime=filemtime($conf->jirahome."/data/attachments/{$ident[0]}/{$ident[0]}-{$ident[1]}/{$id}");
 	$dstring=gmdate('D, d M Y H:i:s T',$mtime);
-	$etag="F-" . sha1("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime");
+	$etag='"F' . md5("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime").'"';
 
 	header("Last-Modified: " .$dstring);
 	header("ETag: $etag"); T
@@ -97,7 +97,7 @@ else:
 	// Get Last-Modified and calculate an E-Tag to allow revalidation via HEAD. Support for conditionals will come later
 	$mtime=filemtime($conf->jirahome."/data/attachments/$ident/$ident-${key[1]}/thumbs/_thumb_{$id}.png");
 	$dstring=gmdate('D, d M Y H:i:s T',$mtime);
-	$etag="TN-" . sha1("$i-{$ident}-{$key[1]}-{$id}-$mtime");
+	$etag='"f' . md5("$i-{$ident}-{$key[1]}-{$id}-$mtime").'"';
 
 	header("Last-Modified: " .$dstring);
 	header("ETag: $etag"); 

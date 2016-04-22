@@ -58,7 +58,7 @@ $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
 // Take changes to the project record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
-$etag="prj-".$_GET['proj']."-".sha1("lc:$lchange;v:".json_encode($project));
+$etag='"p'.$_GET['proj']."-".md5("lc:$lchange;v:".json_encode($project)).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");

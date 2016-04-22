@@ -68,7 +68,7 @@ if (strtotime($changes->maxcreate) > strtotime($comments->maxcreate)){
       $dstring=gmdate('D, d M Y H:i:s T',strtotime($comments->maxcreate));
 }
 
-$etag="is-".$issue->ID."-".sha1($changes->maxcreate.$comments->maxcreate);
+$etag='"i'.$issue->ID."-".md5($changes->maxcreate.$comments->maxcreate).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");
