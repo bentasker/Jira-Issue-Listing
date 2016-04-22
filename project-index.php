@@ -44,6 +44,34 @@ if (!$project){
     die;
 }
 
+// Introduced in JILS-41
+$sql = "SELECT MAX(cg.CREATED) as lastupdate ".
+	"FROM jiraissue AS a ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"LEFT JOIN changegroup AS cg ON a.ID = cg.issueid " .
+	"LEFT JOIN changeitem AS ci ON cg.ID = ci.groupid " .
+	"WHERE b.pkey='".$db->stringEscape($_GET['proj'])."'";
+	
+$db->setQuery($sql);
+$lastchange = $db->loadResult();
+$lchange=strtotime($lastchange->lastupdate);
+$dstring=gmdate('D, d M Y H:i:s T',$lchange);
+
+// Take changes to the project record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
+$etag="prj-".$_GET['proj']."-".sha1("lc:$lchange;v:".json_encode($project));
+
+header("Last-Modified: $dstring");
+header("E-Tag: $etag");
+
+// Introduced in JILS-41
+evaluateConditionalRequest($dstring,$etag);
+
+if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+       	exit();
+}
+
+
+
 // Get details of timespent
 $db->setQuery("SELECT SUM(TIMESPENT) as TIMESPENT, SUM(TIMEORIGINALESTIMATE) as estimate FROM jiraissue where PROJECT=".(int)$project->ID);
 $time = $db->loadResult();
