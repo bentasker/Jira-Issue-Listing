@@ -45,6 +45,37 @@ if (!$component){
     die;
 }
 
+// Revalidation support, introduced in JILS-41
+
+$sql = "SELECT MAX(cg.CREATED) as lastupdate ".
+	"FROM component AS pv ".
+	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"LEFT JOIN changegroup AS cg ON a.ID = cg.issueid " .
+	"LEFT JOIN changeitem AS ci ON cg.ID = ci.groupid " .
+	"WHERE pv.ID='".$db->stringEscape($_GET['comp'])."' " . 
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ";
+
+
+$db->setQuery($sql);
+$lastchange = $db->loadResult();
+$lchange=strtotime($lastchange->lastupdate);
+$dstring=gmdate('D, d M Y H:i:s T',$lchange);
+
+// Take changes to the component record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
+$etag="com-".$_GET['comp']."-".sha1("lc:$lchange;v:".json_encode($component));
+
+header("Last-Modified: $dstring");
+header("E-Tag: $etag");
+
+// Introduced in JILS-41
+evaluateConditionalRequest($dstring,$etag);
+
+if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+       	exit();
+}
+
 
 $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
 	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
