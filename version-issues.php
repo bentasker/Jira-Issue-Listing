@@ -75,15 +75,8 @@ $lastchange = $db->loadResult();
 $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
-// We need to factor in changes to the version description etc, so build an object of items to consider when building the ETag
-$etagobj=new stdClass();
-$etagobj->LastIssueUpd = $lchange;
-$etagobj->Name = $version->vname;
-$etagobj->Desc = $version->Description;
-$etagobj->Released = $version->RELEASED;
-$etagobj->Archived = $version->ARCHIVED;
-
-$etag="ver-".$_GET['vers']."-".sha1(json_encode($etagobj));
+// Take changes to the version record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
+$etag="ver-".$_GET['vers']."-".sha1("lc:$lchange;v:".json_encode($version));
 
 header("Last-Modified: $dstring");
 header("E-Tag: $etag");
