@@ -39,24 +39,6 @@ if (!$version){
     die;
 }
 
-$sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
-	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
-	"FROM projectversion AS pv ".
-	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
-	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
-	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
-	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
-	"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
-	"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
-	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
-	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
-	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
-        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
-	"ORDER BY a.PROJECT, a.issuenum ASC" ;
-
-$db->setQuery($sql);
-$issues = $db->loadResults();
-
 // Revalidation support, introduced in JILS-41
 
 // Capture changes to issue status
@@ -89,6 +71,24 @@ if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
        	exit();
 }
 
+
+$sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
+	"a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
+	"FROM projectversion AS pv ".
+	"LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
+	"LEFT JOIN jiraissue AS a ON na.SOURCE_NODE_ID = a.ID ".
+	"LEFT JOIN project AS b on a.PROJECT = b.ID ".
+	"LEFT JOIN issuestatus AS c ON a.issuestatus = c.id ".
+	"LEFT JOIN resolution AS d ON a.RESOLUTION = d.ID ".
+	"LEFT JOIN issuetype AS e ON a.issuetype = e.ID ".
+	"LEFT JOIN priority AS f ON a.PRIORITY = f.ID ".
+	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
+	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
+        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
+	"ORDER BY a.PROJECT, a.issuenum ASC" ;
+
+$db->setQuery($sql);
+$issues = $db->loadResults();
 
 $sql = "SELECT DISTINCT a.id,pv.ID as prover FROM projectversion AS pv ".
         "LEFT JOIN nodeassociation as na ON pv.ID = na.SINK_NODE_ID ".
