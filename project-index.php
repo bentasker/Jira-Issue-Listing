@@ -61,7 +61,7 @@ $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 $etag="prj-".$_GET['proj']."-".sha1("lc:$lchange;v:".json_encode($project));
 
 header("Last-Modified: $dstring");
-header("E-Tag: $etag");
+header("ETag: $etag");
 
 // Introduced in JILS-41
 evaluateConditionalRequest($dstring,$etag);

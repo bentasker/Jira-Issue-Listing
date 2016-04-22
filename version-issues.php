@@ -61,7 +61,7 @@ $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 $etag="ver-".$_GET['vers']."-".sha1("lc:$lchange;v:".json_encode($version));
 
 header("Last-Modified: $dstring");
-header("E-Tag: $etag");
+header("ETag: $etag");
 
 
 // Introduced in JILS-41

@@ -71,7 +71,7 @@ if (strtotime($changes->maxcreate) > strtotime($comments->maxcreate)){
 $etag="is-".$issue->ID."-".sha1($changes->maxcreate.$comments->maxcreate);
 
 header("Last-Modified: $dstring");
-header("E-Tag: $etag");
+header("ETag: $etag");
 
 // Introduced in JILS-41
 evaluateConditionalRequest($dstring,$etag);

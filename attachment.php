@@ -63,7 +63,7 @@ if (!isset($_GET['thumbs'])):
 	$etag="F-" . sha1("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime");
 
 	header("Last-Modified: " .$dstring);
-	header("E-tag: $etag"); 
+	header("ETag: $etag"); T
 
 	// Introduced in JILS-41
 	evaluateConditionalRequest($dstring,$etag);
@@ -100,7 +100,7 @@ else:
 	$etag="TN-" . sha1("$i-{$ident}-{$key[1]}-{$id}-$mtime");
 
 	header("Last-Modified: " .$dstring);
-	header("E-tag: $etag"); 
+	header("ETag: $etag"); 
 
 	// Introduced in JILS-41
 	evaluateConditionalRequest($dstring,$etag);
