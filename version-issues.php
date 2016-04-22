@@ -69,7 +69,6 @@ $sql = "SELECT MAX(cg.CREATED) as lastupdate ".
 	"LEFT JOIN changeitem AS ci ON cg.ID = ci.groupid " .
 	"WHERE pv.ID='".$db->stringEscape($_GET['vers'])."' " . 
 	"AND b.pkey='".$db->stringEscape($_GET['proj'])."' ".
-        "AND na.ASSOCIATION_TYPE='IssueFixVersion' ".
 	"ORDER BY a.PROJECT, a.issuenum ASC" ;
 
 $db->setQuery($sql);
