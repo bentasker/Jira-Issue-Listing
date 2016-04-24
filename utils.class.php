@@ -470,7 +470,7 @@ function qs2sef($qstring,$ext='.html'){
 			$url[] = $sections['projid']. ":" . $sections['fname'];
 		}
 	}else{
-		$url[] = 'index.html';
+		$url[] = 'index'.$ext;
 	}
 
 	return "/".implode($url,"/");

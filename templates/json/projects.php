@@ -19,17 +19,23 @@ header('Content-Type: text/json');
 $projresponse = new stdClass();
 $projresponse->Name = 'ProjectsList';
 $projresponse->self = new stdClass();
-$projresponse->self->url = 'index.json';
-$projresponse->self->alturl = 'index.html';
+$projresponse->self->href = qs2sef('','.json');
+$projresponse->self->type = 'application/json';
+$projresponse->self->alternate = array();
+$projresponse->self->alternate[0]->type = 'text/html';
+$projresponse->self->alternate[0]->href = qs2sef('');
 $projresponse->items = array();
 
 foreach ($projects as $project){
 	$p = new stdClass();
 	$p->Key=$project->pkey;
 	$p->Name=$project->pname;
+	$p->Class="Project";
 	$p->Description=$project->DESCRIPTION;
 	$p->url=qs2sef("proj={$project->pkey}",".json");
-	$p->alturl=qs2sef("proj={$project->pkey}");
+	$p->alternate = array();
+	$p->alternate[0]->type = 'text/html';
+	$p->alternate[0]->href=qs2sef("proj={$project->pkey}");
 	$projresponse->items[] = $p;
 }
 
