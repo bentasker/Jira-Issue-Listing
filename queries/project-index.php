@@ -58,7 +58,7 @@ $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
 // Take changes to the project record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
-$etag='"p'.$_GET['proj']."-".md5("lc:$lchange;v:".json_encode($project)).'"';
+$etag='"p'.$_GET['proj']."-".md5("lc:$lchange;v:".json_encode($project)."f:".$_GET['reqformat']).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");
@@ -144,77 +144,5 @@ $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname
 $db->setQuery($sql);
 $issues = $db->loadResults();
 
-
-
-
-
-?>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php echo htmlspecialchars($_GET['proj']); ?></title>
-
-<meta name="description" content="<?php echo htmlentities($project->DESCRIPTION); ?>" />
-
-<?php require 'head-includes.php'; ?>
-</head>
-<body itemscope itemtype="http://schema.org/CollectionPage">
-
-
-
-<!--sphider_noindex-->
-<?php
-	echo $projdesc;
-?>
-
-<?php include 'issues-table.php'; ?>
-
-<br />
-<hr />
-<br />
-
-<a name="Components"></a>
-<h3>Components</h3>
-
-<table class="projectVersionstbl">
-
-<?php foreach ($components as $component):?>
-<tr>
-        <td><a href="<?php echo qs2sef("comp={$component->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($component->cname); ?></a></td>
-	<td><?php echo htmlspecialchars($component->DESCRIPTION); ?></td>
-</tr>
-
-<?php endforeach; ?>
-
-</table>
-
-
-<br />
-<hr />
-<br />
-
-<a name="versions"></a>
-<h3>Versions</h3>
-
-<table class="projectVersionstbl">
-
-<?php foreach ($versions as $version):?>
-<tr>
-        <td><a href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></td>
-	<td><?php echo htmlspecialchars($version->description); ?></td>
-	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?> <?php echo ($version->ARCHIVED)? '(Archived)':'';?></td>
-	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
-</tr>
-
-<?php endforeach; ?>
-
-</table>
-
-<!--/sphider_noindex-->
-
-
-<!--URLKEY:/browse/<?php echo htmlspecialchars($_GET['proj']);?>:-->
-</body>
-</html>
 
 

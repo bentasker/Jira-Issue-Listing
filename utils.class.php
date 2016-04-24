@@ -532,7 +532,7 @@ function parseSEF(){
 		
 		// We're checking versions
 		if ($const[1] == "versions"){
-			$refs = explode("-",str_replace(".html","",$const[2]));
+			$refs = explode("-",str_replace(array(".html",".json"),"",$const[2]));
 			$_GET['proj'] = $refs[0];
 			$_GET['vers'] = $refs[1];
 			$_GET['kanban'] = ($refs[3] == "kanban")? true: false;
@@ -541,13 +541,13 @@ function parseSEF(){
 
 		// We're checking components
 		if ($const[1] == "components"){
-			$refs = explode("-",str_replace(".html","",$const[2]));
+			$refs = explode("-",str_replace(array(".html",".json"),"",$const[2]));
 			$_GET['proj'] = $refs[0];
 			$_GET['comp'] = $refs[1];
 			return;
 		}
 
-		$refs = explode("-",str_replace(".html",'',$const[1]));
+		$refs = explode("-",str_replace(array(".html",".json"),'',$const[1]));
 		if (isset($refs[1]) && !empty($refs[1]) && $refs[1] != 'kanban'){
 			$_GET['issue'] = $refs[1];
 		}

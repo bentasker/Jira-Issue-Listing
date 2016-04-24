@@ -90,7 +90,13 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 	/*}elseif ($_GET['kanban']){
 		require 'project-index-kanban.php';*/
 	}else{
-		require 'project-index.php';
+		require 'queries/project-index.php';
+
+		if ($_GET['reqformat'] == "json"){
+			require 'templates/json/project-index.php';
+		}else{
+			require 'templates/html/project-index.php';
+		}
 	}
 
 
