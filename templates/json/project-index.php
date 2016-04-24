@@ -32,59 +32,42 @@ include 'templates/json/issues-table.php';
 $projresponse->issues = $issueobj;
 
 $projresponse->components = array();
+
+foreach ($components as $component){
+
+	$p = new stdClass();
+	$p->Name=$component->cname;
+	$p->Class="Component";
+	$p->Description=$component->description;
+	$p->href=$_GET['sitemapbase'].qs2sef("comp={$component->ID}&proj={$project->pkey}",".json");
+	$p->alternate = array();
+	$p->alternate[0]->type = 'text/html';
+	$p->alternate[0]->href=$_GET['sitemapbase'].qs2sef("comp={$component->ID}&proj={$project->pkey}");
+	$projresponse->components[] = $p;
+
+}
+
+
+$projresponse->versions = array();
+
+foreach ($versions as $version){
+
+	$p = new stdClass();
+	$p->Name=$version->vname;
+	$p->Class="Version";
+	$p->Description=$version->description;
+	$p->State=($version->RELEASED)? 'Released' : 'Un-released';
+	$p->Archived=($version->ARCHIVED);
+	$p->ReleaseDate=strtotime($version->RELEASEDATE);
+	$p->href=$_GET['sitemapbase'].qs2sef("vers={$version->ID}&proj={$project->pkey}",".json");
+	$p->alternate = array();
+	$p->alternate[0]->type = 'text/html';
+	$p->alternate[0]->href=$_GET['sitemapbase'].qs2sef("vers={$version->ID}&proj={$project->pkey}");
+	$projresponse->versions[] = $p;
+
+}
+
+
 echo json_encode($projresponse);
-exit();
-
-?>
-
-
-
-<br />
-<hr />
-<br />
-
-<a name="Components"></a>
-<h3>Components</h3>
-
-<table class="projectVersionstbl">
-
-<?php foreach ($components as $component):?>
-<tr>
-        <td><a href="<?php echo qs2sef("comp={$component->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($component->cname); ?></a></td>
-	<td><?php echo htmlspecialchars($component->DESCRIPTION); ?></td>
-</tr>
-
-<?php endforeach; ?>
-
-</table>
-
-
-<br />
-<hr />
-<br />
-
-<a name="versions"></a>
-<h3>Versions</h3>
-
-<table class="projectVersionstbl">
-
-<?php foreach ($versions as $version):?>
-<tr>
-        <td><a href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}");?>"><?php echo htmlspecialchars($version->vname); ?></a></td>
-	<td><?php echo htmlspecialchars($version->description); ?></td>
-	<td><?php echo ($version->RELEASED)? 'Released' : 'Un-released'; ?> <?php echo ($version->ARCHIVED)? '(Archived)':'';?></td>
-	<td><?php echo (!empty($version->RELEASEDATE))? $version->RELEASEDATE : '' ;?></td>
-</tr>
-
-<?php endforeach; ?>
-
-</table>
-
-<!--/sphider_noindex-->
-
-
-<!--URLKEY:/browse/<?php echo htmlspecialchars($_GET['proj']);?>:-->
-</body>
-</html>
 
 
