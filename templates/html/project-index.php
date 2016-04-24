@@ -20,6 +20,7 @@ defined('listpage') or die;
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo htmlspecialchars($_GET['proj']); ?></title>
+<link rel="alternate" type="application/json" href="<?php echo qs2sef("proj={$project->pkey}",".json");?>">
 
 <meta name="description" content="<?php echo htmlentities($project->DESCRIPTION); ?>" />
 
