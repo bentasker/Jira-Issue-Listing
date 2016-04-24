@@ -58,7 +58,7 @@ $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
 // Take changes to the version record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
-$etag='"v'.$_GET['vers']."-".md5("lc:$lchange;v:".json_encode($version)).'"';
+$etag='"v'.$_GET['vers']."-".md5("lc:$lchange;v:".json_encode($version)."f:".$_GET['reqformat']).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");
