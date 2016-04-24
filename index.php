@@ -113,5 +113,14 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 
 else:
-	require 'issue_page.php';
+	require 'queries/issue_page.php';
+
+	if ($_GET['reqformat'] == "json"){
+		require 'templates/json/issue_page.php';
+	}else{
+		require 'templates/html/issue_page.php';
+	}
+
+
+
 endif;
