@@ -64,7 +64,7 @@ $lchange=strtotime($lastchange->lastupdate);
 $dstring=gmdate('D, d M Y H:i:s T',$lchange);
 
 // Take changes to the component record itself into account. Could do with being able to do that with Last-Mod, but haven't seen a way yet
-$etag='"c'.$_GET['comp']."-".md5("lc:$lchange;v:".json_encode($component)).'"';
+$etag='"c'.$_GET['comp']."-".md5("lc:$lchange;v:".json_encode($component)."f:".$_GET['reqformat']).'"';
 
 header("Last-Modified: $dstring");
 header("ETag: $etag");
@@ -93,54 +93,4 @@ $sql = "SELECT DISTINCT a.ID, a.SUMMARY, a.issuenum, a.REPORTER, b.pname, b.pkey
 
 $db->setQuery($sql);
 $issues = $db->loadResults();
-
-
-?>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php echo $component->pkey;?> / <?php echo htmlspecialchars($component->cname); ?></title>
-<?php require 'head-includes.php'; ?>
-</head>
-<body>
-
-<hr /><h1>		
-	<div id='logoarea'></div>
-	<a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a> / <?php echo htmlspecialchars($component->cname); ?></h1><hr />
-	<ul itemprop="breadcrumb" class="breadcrumbs">
-	      <li><a href="../../index.html">Projects</a></li>
-	      <li><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey; ?></a></li>
-	      <li><a href="<?php echo qs2sef("comp={$component->ID}&proj={$component->pkey}");?>"><?php echo htmlspecialchars($component->cname); ?></a></li>
-	</ul>
-
-	<hr />
-
-<table class="versinfotable">
-	<tr>
-		<th>Project</th><td><a href="<?php echo qs2sef("proj={$component->pkey}");?>"><?php echo $component->pkey;?></a></td>
-	</tr>
-	<tr>
-		<th>Description</th><td><?php echo htmlspecialchars($component->description); ?></td>
-	</tr>
-	<?php if (!empty($component->URL)):?>
-	<tr>
-		<th>URL</th><td><a href="<?php echo $component->URL;?>"><?php echo $component->URL;?></a></td>
-	</tr>
-	<?php endif;?>
-	<?php if (!empty($component->LEAD)):?>
-	<tr>
-		<th>Component Lead</th><td><?php echo $component->LEAD;?></td>
-	</tr>
-	<?php endif;?>
-</table>
-
-<hr />
-<!--sphider_noindex-->
-<h3>Issues</h3>
-<?php include 'issues-table.php'; ?>
-
-<!--/sphider_noindex-->
-
-</body>
-</html>
 

@@ -74,7 +74,13 @@ if (isset($_GET['vers'])){
 }
 
 if (isset($_GET['comp'])){
-	require 'component-issues.php';
+	require 'queries/component-issues.php';
+
+	if ($_GET['reqformat'] == "json"){
+		require 'templates/json/component-issues.php';
+	}else{
+		require 'templates/html/component-issues.php';
+	}
 	die;
 }
 
