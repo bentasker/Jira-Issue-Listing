@@ -18,7 +18,7 @@ defined('listpage') or die;
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="alternate" type="text/json" href="index.json">
+<link rel="alternate" type="application/json" href="index.json">
 <title>Available Projects</title>
 <?php require 'head-includes.php'; ?>
 </head>
