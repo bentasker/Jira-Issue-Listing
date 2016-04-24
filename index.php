@@ -63,7 +63,13 @@ if (isset($_GET['attachid'])){
 
 
 if (isset($_GET['vers'])){
-	require 'version-issues.php';
+	require 'queries/version-issues.php';
+
+	if ($_GET['reqformat'] == "json"){
+		require 'templates/json/version-issues.php';
+	}else{
+		require 'templates/html/version-issues.php';
+	}
 	die;
 }
 
