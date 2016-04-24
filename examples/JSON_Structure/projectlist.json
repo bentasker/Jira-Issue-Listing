@@ -1,0 +1,67 @@
+{
+    "Name": "ProjectsList",
+    "items": [
+        {
+            "Class": "Project",
+            "Description": "I've used elements of my simple framework in a number of projects but have never centralised the project to ensure that improvements made propogate across projects.\r\n<br /><br />\r\nThis project aims to achieve that task",
+            "Key": "BTFW",
+            "Name": "BT Framework",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/BTFW.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/BTFW.json"
+        },
+        {
+            "Class": "Project",
+            "Description": "<p>DNS Chat isn't intended to be a useful utility - it's an intellectual exercise to prove the concept</p>\r\n\r\n<p>The main point being that no matter how much interception the Government inflicts on it's populace, there will always be simple clandestine methods of communicating - it is in essence a response to claims such as those made by David Cameron following the Paris Attacks - <a href=\"http://www.bbc.co.uk/news/uk-politics-30778424\" target=_blank>(\"There should be no means of communication which we cannot read\")</a> - a massive invasion of privacy in order to achieve an unattainable goal</p>\r\n<p>Suggestions for features, comments on issue can be mailed in to <i>dnschat</i> <b>AT</b> <i>bentasker.co.uk</i> (to comment on an issue, include the issue reference in your subject line)</p>",
+            "Key": "DNSCHAT",
+            "Name": "DNS Chat",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/DNSCHAT.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/DNSCHAT.json"
+        },
+        {
+            "Class": "Project",
+            "Description": "A simple script to generate HTML pages containing JIRA Issues, although the main aim of the codebase has changed since the original implementation.\r\n<br /><br />\r\nDocumentation for the original Implementation can be found at <a href=\"http://www.bentasker.co.uk/documentation/development-programming/273-allowing-your-internal-search-engine-to-index-jira-issues\" target=_blank>http://www.bentasker.co.uk/documentation/development-programming/273-allowing-your-internal-search-engine-to-index-jira-issues</a>\r\n<br /><br />\r\n<b>Codebase:</b> Hosted on <a href=\"https://github.com/bentasker/Jira-Issue-Listing\" target=_blank>GitHub</a>\r\n<br /><br />\r\n<br /><br />\r\nIssues can be raised by emailing <i>jils <b>AT</b> bentasker.co.uk</i>. To comment on an existing issue, include it's issue key in the subject line.",
+            "Key": "JILS",
+            "Name": "Jira Issue Listing Script",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/JILS.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/JILS.json"
+        },
+        {
+            "Class": "Project",
+            "Description": "<p>This script was originally created to help identify the extent to which my downstream traffic was observable, in part to aid in the writing of <a href=\"https://www.bentasker.co.uk/documentation/security/313-ipb-nothing-to-hide-and-nothing-to-fear-but-you-can-still-nob-off\" target=_blank>this analysis of what the draft IPB will allow</a></p>\r\n<p>It's purpose is to crawl a PCAP and extract all potentially useful information about observed browsing behaviour/connections. At time of moving into a dedicated project, the script currently supports\r\n\r\n<ul>\r\n<li>Extraction of Host / Path /Cookie from Port 80 traffic</li>\r\n<li>Extraction of FQDN from SNI handshake for port 443 traffic</li>\r\n<li>Correlation of HTTP referrer headers to known HTTPS hosts to identify (some) paths viewed on HTTPS sites</li>\r\n<li>Generation of unique list of cookies seen (for potential credential/session theft)</li>\r\n<li>List of XMPP servers observed</li>\r\n</ul>\r\n<br />\r\nPort 80 and 443 traffic information is combined into a chronologically ordered CSV to aid further analysis\r\n</p>\r\n<p>The codebase can be found <a href=\"https://github.com/bentasker/PCAPAnalyseandReport\">On Github</a></p>",
+            "Key": "PAS",
+            "Name": "PCAP Analysis Script",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.json"
+        }
+    ],
+    "self": {
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/index.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/index.json",
+        "type": "application/json"
+    }
+}

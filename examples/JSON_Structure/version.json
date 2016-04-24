@@ -1,0 +1,72 @@
+{
+    "Archived": null,
+    "Class": "ProjectVersion",
+    "Description": "Version 0.2 should introduce additional logic to derive additional information based on traffic observed",
+    "Key": "11701",
+    "Knownissues": [],
+    "Name": "0.2",
+    "ReleaseDate": false,
+    "State": "Un-released",
+    "TimeEstimate": "1.75 hours",
+    "TimeLogged": "0 minutes",
+    "issues": [
+        {
+            "Class": "Issue",
+            "Created": 1448561526,
+            "IssueType": "New Feature",
+            "Key": "PAS-16",
+            "Name": "Browser Fingerprinting",
+            "Priority": "Major",
+            "Resolution": null,
+            "Status": "Open",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-16.html",
+                    "type": "text/html"
+                }
+            ],
+            "assigneee": "btasker",
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-16.json",
+            "type": "application/json"
+        },
+        {
+            "Class": "Issue",
+            "Created": 1448630795,
+            "IssueType": "New Feature",
+            "Key": "PAS-21",
+            "Name": "Correlate Encrypted Traffic against DNS to obtain hostname",
+            "Priority": "Major",
+            "Resolution": null,
+            "Status": "Open",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-21.html",
+                    "type": "text/html"
+                }
+            ],
+            "assigneee": "btasker",
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-21.json",
+            "type": "application/json"
+        }
+    ],
+    "parent": {
+        "Class": "Project",
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.json"
+    },
+    "self": {
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11701.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11701.json",
+        "type": "application/json"
+    }
+}

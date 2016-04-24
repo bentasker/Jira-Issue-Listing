@@ -1,0 +1,335 @@
+{
+    "AffectsVersions": [
+        {
+            "Class": "Version",
+            "Key": "11700",
+            "Name": "0.1",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11700.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11700.json"
+        }
+    ],
+    "Class": "Issue",
+    "Comments": {
+        "count": 5,
+        "items": [
+            {
+                "Author": "btasker",
+                "Created": 1448191841,
+                "Key": "1284935",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#comment1284935",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "Have created a very basic write-up of the current report output.",
+                "href": null
+            },
+            {
+                "Author": "btasker",
+                "Created": 1448192079,
+                "Key": "1284946",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#comment1284946",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "As updates will be required once PAS-8 is complete, I'll leave this issue open for the time being",
+                "href": null
+            },
+            {
+                "Author": "git",
+                "Created": 1448192140,
+                "Key": "1284951",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#comment1284951",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "{quote}\r\nRepo: PCAPAnalyseandReport\r\nCommit: d0e8ca8eee85cdd6c79902d6c1345f36c5cca160\r\nAuthor: B Tasker <github@bentasker.co.uk>\r\n\r\nDate: Sun Nov 22 11:30:09 2015 +0000\r\nCommit Message: Created basic docs on reports. See PAS-7\r\n\r\n\r\n\r\nAdded (+)\r\n-------\r\nDocs/Reports.md\r\n\r\n\r\n{quote}\r\n\r\n*Webhook User-Agent*\r\n\r\n{noformat}GitHub-Hookshot/88897e7{noformat}\r\n\r\n[View Commit|https://github.com/bentasker/PCAPAnalyseandReport/commit/d0e8ca8eee85cdd6c79902d6c1345f36c5cca160]\r\n\r\n",
+                "href": null
+            },
+            {
+                "Author": "btasker",
+                "Created": 1448491652,
+                "Key": "1296675",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#comment1296675",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "Marking as complete, the documentation (though simple) currently reflects the current report file structure.\r\n\r\nAs changes are made in other issues, the documentation will continue to be updated.",
+                "href": null
+            },
+            {
+                "Author": "btasker",
+                "Created": 1448630084,
+                "Key": "1302121",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#comment1302121",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "Re-opening to assign to a component",
+                "href": null
+            }
+        ]
+    },
+    "Created": 1448191277,
+    "Description": "Need to generate some basic documentation on the report files:\r\n\r\n- Report file structure (i.e. fields)\r\n- What each file contains",
+    "Environment": null,
+    "FixVersions": [
+        {
+            "Class": "Version",
+            "Key": "11700",
+            "Name": "0.1",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11700.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/versions/PAS-11700.json"
+        }
+    ],
+    "IssueType": "Task",
+    "Key": "PAS-7",
+    "LastModified": "Fri, 27 Nov 2015 13:15:11 GMT",
+    "Name": "Document Report Files",
+    "Next": {
+        "Key": "PAS-6",
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-8.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-8.json",
+        "type": "application/json"
+    },
+    "Previous": {
+        "Key": "PAS-6",
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-6.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-6.json",
+        "type": "application/json"
+    },
+    "Priority": "Major",
+    "Relations": {
+        "ExternalLinks": [],
+        "LinkedIssues": [],
+        "RelatedLinks": [
+            {
+                "Icon": "https://github.com/favicon.ico",
+                "href": "https://github.com/bentasker/PCAPAnalyseandReport/blob/master/Docs/Reports.md",
+                "title": "Reports Documentation (Github)"
+            }
+        ],
+        "SubTasks": []
+    },
+    "Reporter": "btasker",
+    "Resolution": "Done",
+    "StateChanges": {
+        "count": 9,
+        "items": [
+            {
+                "Author": "",
+                "Created": 1448191824,
+                "Key": "wf23521",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23521",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed timespent from '0 minutes' to '8 minutes'",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448491652,
+                "Key": "wf23586",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23586",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed status from 'Open' to 'Resolved'",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448491652,
+                "Key": "wf23587",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23587",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker added 'Done' to resolution",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448491657,
+                "Key": "wf23588",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23588",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed status from 'Resolved' to 'Closed'",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448630084,
+                "Key": "wf23696",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23696",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker removed 'Done' from resolution",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448630084,
+                "Key": "wf23697",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23697",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed status from 'Closed' to 'Reopened'",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448630104,
+                "Key": "wf23700",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23700",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed status from 'Reopened' to 'Resolved'",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448630104,
+                "Key": "wf23701",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23701",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker added 'Done' to resolution",
+                "href": null
+            },
+            {
+                "Author": "",
+                "Created": 1448630111,
+                "Key": "wf23702",
+                "alternate": [
+                    {
+                        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#commentwf23702",
+                        "type": "text/html"
+                    }
+                ],
+                "body": "btasker changed status from 'Resolved' to 'Closed'",
+                "href": null
+            }
+        ]
+    },
+    "Status": "Closed",
+    "TimeEstimate": "1320",
+    "TimeLogged": "480",
+    "WorkLog": [
+        {
+            "Author": "btasker",
+            "Created": "2015-11-22 11:30:24",
+            "Key": "12702",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html#worklog12702",
+                    "type": "text/html"
+                }
+            ],
+            "description": "Creating basic documentation",
+            "href": null,
+            "timelogged": "480"
+        }
+    ],
+    "assigneee": "btasker",
+    "attachments": [],
+    "components": [
+        {
+            "Class": "Component",
+            "Key": "11601",
+            "Name": "Reports",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/components/PAS-11601.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/components/PAS-11601.json"
+        },
+        {
+            "Class": "Component",
+            "Key": "11606",
+            "Name": "Documentation",
+            "alternate": [
+                {
+                    "href": "http://projects.bentasker.co.uk/jira_projects/browse/components/PAS-11606.html",
+                    "type": "text/html"
+                }
+            ],
+            "href": "http://projects.bentasker.co.uk/jira_projects/browse/components/PAS-11606.json"
+        }
+    ],
+    "labels": [],
+    "parent": {
+        "Class": "Project",
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS.json"
+    },
+    "self": {
+        "alternate": [
+            {
+                "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.html",
+                "type": "text/html"
+            }
+        ],
+        "href": "http://projects.bentasker.co.uk/jira_projects/browse/PAS-7.json",
+        "type": "application/json"
+    }
+}
