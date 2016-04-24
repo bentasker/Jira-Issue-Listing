@@ -21,12 +21,21 @@ $projresponse->Key = $project->pkey;
 $projresponse->Name = $project->pname;
 $projresponse->Class = 'Project';
 $projresponse->Description = $project->DESCRIPTION;
+
 $projresponse->self = new stdClass();
 $projresponse->self->href = $_GET['sitemapbase'].qs2sef("proj={$project->pkey}",".json");
 $projresponse->self->type = 'application/json';
 $projresponse->self->alternate = array();
 $projresponse->self->alternate[0]->type = 'text/html';
 $projresponse->self->alternate[0]->href = $_GET['sitemapbase'].qs2sef("proj={$project->pkey}");
+
+$projresponse->parent = new stdClass();
+$projresponse->parent->Class='ProjectsList';
+$projresponse->parent->href=$_GET['sitemapbase'].qs2sef('','.json');
+$projresponse->parent->alternate = array();
+$projresponse->parent->alternate[0]->type = 'text/html';
+$projresponse->parent->alternate[0]->href = $_GET['sitemapbase'].qs2sef('');
+
 
 include 'templates/json/issues-table.php';
 $projresponse->issues = $issueobj;
