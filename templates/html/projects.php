@@ -14,34 +14,6 @@
 */
 
 defined('listpage') or die;
-
-
-// See whether the client IP is allowed to view us
-$projdesc = null;
-
-// Which view are we displaying?
-
-	// Overall listing (all projects, all issues)
-
-	if (!$authip ){
-		echo "</head><body>Invalid IP</body></html>";
-		die;
-	}
-
-
-	
-	$sql = "SELECT ID, pname, pkey, DESCRIPTION from project ";
-
-	$filter = buildProjectFilter(); // See JILS-12
-	if ($filter){
-	    $sql .= "WHERE ".$filter;
-	}
-
-	$sql .= ' ORDER BY pkey ASC';
-
-	$db->setQuery($sql);
-	$projects = $db->loadResults();
-
 ?>
 <html>
 <head>

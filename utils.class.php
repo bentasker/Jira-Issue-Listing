@@ -414,7 +414,7 @@ function checkIPs(){
 *
 * @return string
 */
-function qs2sef($qstring){
+function qs2sef($qstring,$ext='.html'){
 
 	$parts = explode("&",$qstring);
 	$sections = array();
@@ -445,15 +445,15 @@ function qs2sef($qstring){
 		$kanban = (isset($sections['kanban']) && $sections['kanban'] == 1)? "-kanban" : "";
 
 		if (isset($sections['issue'])){
-			$url[] = $sections['proj']."-".$sections['issue'].".html";
+			$url[] = $sections['proj']."-".$sections['issue'].$ext;
 		}elseif(isset($sections['vers'])){
 			$url[] = 'versions';
-			$url[] = $sections['proj']."-".$sections['vers'].$kanban.".html";
+			$url[] = $sections['proj']."-".$sections['vers'].$kanban.$ext;
 		}elseif(isset($sections['comp'])){
 			$url[] = 'components';
-			$url[] = $sections['proj']."-".$sections['comp'].".html";
+			$url[] = $sections['proj']."-".$sections['comp'].$ext;
 		}else{
-			$url[] = $sections['proj'].$kanban.".html";
+			$url[] = $sections['proj'].$kanban.$ext;
 		}
 
 	}elseif(isset($sections['attachment'])){
@@ -482,6 +482,9 @@ function qs2sef($qstring){
 function parseSEF(){
 
 	$sefurl = explode("?",$_SERVER['REQUEST_URI']); // make sure the query string isn't included (some servers seem to)
+	$ext = explode(".",ltrim($sefurl[0],"/"));
+	$_GET['reqformat']=end($ext);
+	unset($ext);
 	$const = explode("/",ltrim($sefurl[0],"/"));
 
 	if ($const[0] == 'status'){
