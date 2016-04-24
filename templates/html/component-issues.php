@@ -21,6 +21,7 @@ defined('listpage') or die;
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $component->pkey;?> / <?php echo htmlspecialchars($component->cname); ?></title>
+<link rel="alternate" type="application/json" href="<?php echo qs2sef("comp={$component->ID}&proj={$component->pkey}");?>">
 <?php require 'head-includes.php'; ?>
 </head>
 <body>
