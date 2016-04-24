@@ -35,7 +35,7 @@ defined('listpage') or die;
 	echo $projdesc;
 ?>
 
-<?php include 'issues-table.php'; ?>
+<?php include 'templates/html/issues-table.php'; ?>
 
 <br />
 <hr />
