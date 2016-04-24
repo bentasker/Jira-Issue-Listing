@@ -19,11 +19,11 @@ header('Content-Type: text/json');
 $projresponse = new stdClass();
 $projresponse->Name = 'ProjectsList';
 $projresponse->self = new stdClass();
-$projresponse->self->href = qs2sef('','.json');
+$projresponse->self->href = $_GET['sitemapbase'].qs2sef('','.json');
 $projresponse->self->type = 'application/json';
 $projresponse->self->alternate = array();
 $projresponse->self->alternate[0]->type = 'text/html';
-$projresponse->self->alternate[0]->href = qs2sef('');
+$projresponse->self->alternate[0]->href = $_GET['sitemapbase'].qs2sef('');
 $projresponse->items = array();
 
 foreach ($projects as $project){
@@ -32,10 +32,10 @@ foreach ($projects as $project){
 	$p->Name=$project->pname;
 	$p->Class="Project";
 	$p->Description=$project->DESCRIPTION;
-	$p->url=qs2sef("proj={$project->pkey}",".json");
+	$p->url=$_GET['sitemapbase'].qs2sef("proj={$project->pkey}",".json");
 	$p->alternate = array();
 	$p->alternate[0]->type = 'text/html';
-	$p->alternate[0]->href=qs2sef("proj={$project->pkey}");
+	$p->alternate[0]->href=$_GET['sitemapbase'].qs2sef("proj={$project->pkey}");
 	$projresponse->items[] = $p;
 }
 

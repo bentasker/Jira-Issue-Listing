@@ -492,10 +492,11 @@ function parseSEF(){
 		return;
 	}
 
+	$_GET['sitemapbase'] = $_SERVER['HTTP_X_SITEMAP_BASE'];
 
 	if ($const[0] == 'sitemap.xml'){
 		$_GET['rendersitemap'] = true;
-		$_GET['sitemapbase'] = $_SERVER['HTTP_X_SITEMAP_BASE'];
+
 		return;
 	}
 
