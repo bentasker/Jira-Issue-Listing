@@ -21,7 +21,7 @@ defined('listpage') or die;
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Version: <?php echo htmlspecialchars($version->vname); ?></title>
-<link rel="alternate" type="application/json" href="<?php echo qs2sef("vers={$version->ID}&proj={$project->pkey}",".json");?>">
+<link rel="alternate" type="application/json" href="<?php echo qs2sef("vers={$version->ID}&proj={$version->pkey}",".json");?>">
 
 <?php require 'head-includes.php'; ?>
 </head>
