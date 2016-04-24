@@ -32,7 +32,7 @@ foreach ($projects as $project){
 	$p->Name=$project->pname;
 	$p->Class="Project";
 	$p->Description=$project->DESCRIPTION;
-	$p->url=$_GET['sitemapbase'].qs2sef("proj={$project->pkey}",".json");
+	$p->href=$_GET['sitemapbase'].qs2sef("proj={$project->pkey}",".json");
 	$p->alternate = array();
 	$p->alternate[0]->type = 'text/html';
 	$p->alternate[0]->href=$_GET['sitemapbase'].qs2sef("proj={$project->pkey}");
