@@ -44,7 +44,7 @@ if (isset($_GET['rendersitemap'])){
 	}
 
       $inc_ok = true;
-      require 'sitemap.php';
+      require 'templates/xml/sitemap.php';
       die;
 
 }
