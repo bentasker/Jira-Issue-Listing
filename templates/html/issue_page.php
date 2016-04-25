@@ -224,7 +224,14 @@ defined('listpage') or die;
 						<?php if (!$attachment->thumbnailable):?>
 							<?php echo htmlentities($attachment->FILENAME);?>
 						<?php else: ?>
-							<img src="<?php echo qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}&thumb=1"); ?>" title="<?php echo htmlspecialchars($attachment->FILENAME);?>">
+							<span itemscope itemtype="http://schema.org/ImageObject">
+								<meta itemprop="caption" value="<?php echo str_replace('"',"'",htmlentities($attachment->FILENAME));?>" />
+								<meta itemprop="representativeOfPage" value="False" />
+								
+								<img itemprop="thumbnail" 
+								src="<?php echo qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}&thumb=1"); ?>" 
+								title="<?php echo htmlspecialchars($attachment->FILENAME);?>">
+							</span>
 						<?php endif;?>
 						</a>
 					</td>
