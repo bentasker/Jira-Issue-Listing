@@ -657,6 +657,15 @@ function embedUserLink($match){
 }
 
 
+/** Handle things like email obfuscation in plain text/JSON
+*
+*/
+function textProcessMarkup($str){
+	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
+	return html_entity_decode ($str);
+}
+
+
 /** See JILS-27
 *
 */

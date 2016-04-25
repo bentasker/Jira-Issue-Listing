@@ -117,6 +117,8 @@ else:
 
 	if ($_GET['reqformat'] == "json"){
 		require 'templates/json/issue_page.php';
+	}elseif($_GET['reqformat'] == "txt"){
+		require 'templates/text/issue_page.php';
 	}else{
 		require 'templates/html/issue_page.php';
 	}
