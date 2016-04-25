@@ -33,8 +33,20 @@ foreach ($issues as $issue){
 	$i->type="application/json";
 	$i->alternate = array();
 	$i->alternate[0]->type = 'text/html';
-	$i->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",".html");;
+	$i->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",".html");
 
+/** For possible future use in JILS-36
+	if (isset($include_fix) && $include_fix && isset($issue->vname) && isset($issue->fixver)){
+		$i->FixVersion = new stdClass();
+		$i->FixVersion->Key = $issue->fixver;
+		$i->FixVersion->Name = $issue->vname;
+		$i->FixVersion->Class = 'ProjectVersion';
+		$i->FixVersion->href = $_GET['sitemapbase'].qs2sef("vers={$version->ID}&proj={$version->pkey}",".json");
+		$i->FixVersion->alternate = array();
+		$i->FixVersion->alternate[0]->type = 'text/html';
+		$i->FixVersion->alternate[0]->href = $_GET['sitemapbase'].qs2sef("vers={$version->ID}&proj={$version->pkey}");
+	}
+*/
 	$issueobj[] = $i;
 }
 

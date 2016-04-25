@@ -49,7 +49,8 @@ $projresponse->issues = $issueobj;
 
 
 $issues = $outstanding_issues;
+$include_fix=true;
 include 'templates/json/issues-table.php';
 $projresponse->Knownissues = $issueobj;
-
+$include_fix=false;
 echo json_encode($projresponse);
