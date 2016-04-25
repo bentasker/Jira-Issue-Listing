@@ -20,7 +20,7 @@ $projresponse = new stdClass();
 $projresponse->Key = "{$issue->pkey}-{$issue->issuenum}";
 $projresponse->Name = $issue->SUMMARY;
 $projresponse->Class = 'Issue';
-$projresponse->Description = $issue->DESCRIPTION;
+$projresponse->Description = textProcessMarkup($issue->DESCRIPTION);
 $projresponse->LastModified = $dstring; // From etag generation
 $projresponse->IssueType=$issue->issuetype;
 $projresponse->Priority=$issue->priority;
@@ -193,7 +193,7 @@ foreach ($commentsmerged as $comment){
 	$p->Key = $comment->ID;
 	$p->Author = $comment->AUTHOR;
 	$p->Created = strtotime($comment->CREATED);
-	$p->body = $comment->actionbody;
+	$p->body = textProcessMarkup($comment->actionbody);
 	$p->href=null;
 	$p->alternate = array();
 	$p->alternate[0]->type = 'text/html';
@@ -209,7 +209,7 @@ foreach ($worklog as $work){
 	$p->Author = $work->AUTHOR;
 	$p->Created = $work->CREATED;
 	$p->timelogged = $work->timeworked;
-	$p->description = $work->worklogbody;
+	$p->description = textProcessMarkup($work->worklogbody);
 	$p->href=null;
 	$p->alternate = array();
 	$p->alternate[0]->type = 'text/html';
