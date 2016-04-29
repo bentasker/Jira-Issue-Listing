@@ -60,7 +60,18 @@ if (!$issue){
     $issue = $db->loadResult();
 
     if ($issue){
+	// Set a fixed Last-Modified and E-tag to allow revalidation - See JILS-45
+	$dstring = gmdate('D, d M Y H:i:s T',1451606400); //Midnight 1 Jan 16
+	$etag = "mi-".md5(json_encode($issue));
+	header("Last-Modified: $dstring");
+	header("ETag: $etag");
 	$issue->moved = true;
+
+	evaluateConditionalRequest($dstring,$etag);
+
+	if (stripos($_SERVER['REQUEST_METHOD'], 'HEAD') !== FALSE) {
+		exit();
+	}
 	return;
     }
 

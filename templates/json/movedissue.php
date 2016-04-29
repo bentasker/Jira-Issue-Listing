@@ -20,7 +20,7 @@ $projresponse = new stdClass();
 $projresponse->Key = $issue->OLD_ISSUE_KEY;
 $projresponse->Class = 'MovedIssue';
 $projresponse->Description = "Issue {$issue->OLD_ISSUE_KEY} has moved to {$issue->pkey}-{$issue->issuenum}";
-$projresponse->LastModified = $dstring; // From etag generation
+//$projresponse->LastModified = $dstring; // From etag generation - for moved issues this is hardcoded so removed as misleading
 
 $projresponse->NewLocation = new stdClass();
 $projresponse->NewLocation->href = $_GET['sitemapbase'].qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",".json");
