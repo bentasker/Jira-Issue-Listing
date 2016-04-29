@@ -1,4 +1,6 @@
 
+.nodisplay {display: none}
+
 /* Breadcrumbs */
 .breadcrumbs {margin-left: 0; list-style-type: none; clear: both; font-size: 0.7em; -webkit-padding-start: 0px;}
 .breadcrumbs li {display: inline; padding: 0px;}

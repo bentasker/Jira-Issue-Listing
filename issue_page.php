@@ -60,8 +60,8 @@ if (!$issue){
     $issue = $db->loadResult();
 
     if ($issue){
-    echo "Issue has moved";
-    return;
+	require 'movedissue.php';
+	return;
     }
 
     // If not, give us a 404
