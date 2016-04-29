@@ -434,11 +434,11 @@ function qs2sef($qstring,$prepend=true){
 
 		      case 'sitemap':
 			  $url[] = 'sitemap.xml';
-
+			  break;
 		      case 'movedissues':
 			  $url[] = 'movedissues.html';
-
-		      break;
+			  break;
+		      
 
 	      }
 
