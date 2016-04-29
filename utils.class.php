@@ -432,6 +432,10 @@ function qs2sef($qstring){
 
 		      case 'sitemap':
 			  $url[] = 'sitemap.xml';
+
+		      case 'movedissues':
+			  $url[] = 'movedissues.html';
+
 		      break;
 
 	      }
@@ -495,6 +499,14 @@ function parseSEF(){
 		$_GET['sitemapbase'] = $_SERVER['HTTP_X_SITEMAP_BASE'];
 		return;
 	}
+
+	if ($const[0] == 'movedissues.html'){
+		$_GET['rendermovedissues'] = true;
+		$_GET['sitemapbase'] = $_SERVER['HTTP_X_SITEMAP_BASE'];
+		return;
+	}
+
+
 
 	if ($const[0] != 'browse' && $const[0] != 'attachments'){
 		return;
