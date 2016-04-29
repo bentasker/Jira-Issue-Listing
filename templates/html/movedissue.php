@@ -34,7 +34,7 @@ if (!$issue){
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Moved issue: <?php echo "{$issue->pkey}-{$issue->issuenum}"; ?></title>
+	<title>Moved issue: <?php echo "{$issue->OLD_ISSUE_KEY}"; ?></title>
 	<meta name="robots" content="noindex" />
 	<?php require 'head-includes.php'; ?>
 	</head>
@@ -61,7 +61,7 @@ if (!$issue){
 	<h3>Issue Information</h3>
 
 	<div class="issueInfo">
-	    This issue has moved to <a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo $issue->pkey."-".$issue->issuenum; ?></a>
+	    This issue (<?php echo "{$issue->OLD_ISSUE_KEY}"; ?>) has moved to <a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo $issue->pkey."-".$issue->issuenum; ?></a>
 
 
 	    <script type="text/javascript">
