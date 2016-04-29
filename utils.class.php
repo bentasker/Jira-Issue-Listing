@@ -411,14 +411,16 @@ function checkIPs(){
 /** Create a SEF style URL
 *
 * @arg querystring
+* @arg prepend - should the path be included
 *
 * @return string
 */
-function qs2sef($qstring){
+function qs2sef($qstring,$prepend=true){
 
 	$parts = explode("&",$qstring);
 	$sections = array();
 	$url = array();
+	$leadslash = "/";
 	
 	foreach ($parts as $part){
 		$v = explode("=",$part);
@@ -440,7 +442,7 @@ function qs2sef($qstring){
 
 	      }
 
-	    return "/".implode($url,"/");
+	    return $leadslash.implode($url,"/");
 	}
 
 
@@ -477,7 +479,12 @@ function qs2sef($qstring){
 		$url[] = 'index.html';
 	}
 
-	return "/".implode($url,"/");
+	if (!$prepend){
+	    $url = array(end($url));
+	    $leadslash = "";
+	}
+
+	return $leadslash.implode($url,"/");
 
 }
 

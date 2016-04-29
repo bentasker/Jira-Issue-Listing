@@ -65,7 +65,7 @@ if (!$issue){
 
 
 	    <script type="text/javascript">
-		window.location.href = '<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>';
+		window.location.href = '<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",false);?>';
 	    </script>
 
 	</div>
