@@ -50,6 +50,19 @@ if (isset($_GET['rendersitemap'])){
 }
 
 
+if (isset($_GET['rendermovedissues'])){
+
+	if (!$conf->debug && (!in_array($_SERVER['HTTP_USER_AGENT'],$conf->SphiderUA) || !$authip)){
+		die;
+	}
+
+      $inc_ok = true;
+      require 'templates/html/movedissues.php';
+      die;
+
+}
+
+
 if (isset($_GET['attachid'])){
 
 	// No unauthorised access
@@ -114,6 +127,12 @@ if (!isset($_GET['issue']) || empty($_GET['issue'])):
 
 else:
 	require 'queries/issue_page.php';
+
+	if ($issue->moved){
+		require 'templates/html/movedissue.php';
+		return;
+	}
+
 
 	if ($_GET['reqformat'] == "json"){
 		require 'templates/json/issue_page.php';

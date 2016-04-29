@@ -414,11 +414,12 @@ function checkIPs(){
 *
 * @return string
 */
-function qs2sef($qstring,$ext='.html'){
+function qs2sef($qstring,$ext='.html',$prepend=true){
 
 	$parts = explode("&",$qstring);
 	$sections = array();
 	$url = array();
+	$leadslash = "/";
 	
 	foreach ($parts as $part){
 		$v = explode("=",$part);
@@ -432,11 +433,15 @@ function qs2sef($qstring,$ext='.html'){
 
 		      case 'sitemap':
 			  $url[] = 'sitemap.xml';
+
+		      case 'movedissues':
+			  $url[] = 'movedissues.html';
+
 		      break;
 
 	      }
 
-	    return "/".implode($url,"/");
+	    return $leadslash.implode($url,"/");
 	}
 
 
@@ -473,7 +478,12 @@ function qs2sef($qstring,$ext='.html'){
 		$url[] = 'index'.$ext;
 	}
 
-	return "/".implode($url,"/");
+	if (!$prepend){
+	    $url = array(end($url));
+	    $leadslash = "";
+	}
+
+	return $leadslash.implode($url,"/");
 
 }
 
@@ -499,6 +509,12 @@ function parseSEF(){
 
 		return;
 	}
+
+	if ($const[0] == 'movedissues.html'){
+		$_GET['rendermovedissues'] = true;
+		return;
+	}
+
 
 	if ($const[0] != 'browse' && $const[0] != 'attachments'){
 		return;

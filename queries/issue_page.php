@@ -45,10 +45,33 @@ $db->setQuery($sql);
 $issue = $db->loadResult();
 
 if (!$issue){
+
+    // Check whether it's a moved issue
+    $sql = "SELECT a.OLD_ISSUE_KEY, b.pname, b.pkey, ji.issuenum FROM `moved_issue_key` AS a ".
+    "LEFT JOIN jiraissue AS ji ON a.ISSUE_ID = ji.ID ".
+    "LEFT JOIN project AS b on ji.PROJECT = b.ID ".
+    "WHERE a.OLD_ISSUE_KEY='". $db->stringEscape($_GET['proj'].'-'.$_GET['issue'])."' ";
+    $filter = buildProjectFilter('b'); // See JILS-12
+    if ($filter){
+	$sql .= " AND ".$filter;
+    }
+
+    $db->setQuery($sql);
+    $issue = $db->loadResult();
+
+    if ($issue){
+	$issue->moved = true;
+	return;
+    }
+
+
+
     header("HTTP/1.0 404 Not Found",true,404);
     echo "ISSUE NOT FOUND";
     die;
 }
+
+$issue->moved = false;
 
 /* Get the dates the issue was last modified, and return a Last-Modified header. Also include an etag based on the dates
 Could look at adding support for conditional requests at some point, for now simply want to allow search engine sphider to identify whether a page has changed from a HEAD */

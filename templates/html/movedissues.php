@@ -14,12 +14,26 @@
 */
 
 defined('listpage') or die;
+
+
+$sql = "SELECT a.OLD_ISSUE_KEY, b.pname, b.pkey, ji.issuenum FROM `moved_issue_key` AS a ".
+"LEFT JOIN jiraissue AS ji ON a.ISSUE_ID = ji.ID ".
+"LEFT JOIN project AS b on ji.PROJECT = b.ID ";
+
+$filter = buildProjectFilter('b'); // See JILS-12
+if ($filter){
+    $sql .= " WHERE ".$filter;
+}
+
+$db->setQuery($sql);
+$issues = $db->loadResults();
+
+
+
 ?>
 <html>
-<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="alternate" type="application/json" href="index.json">
-<title>Available Projects</title>
+<title>Moved Issues</title>
 <?php require 'head-includes.php'; ?>
 </head>
 <body class="homepage">
@@ -32,32 +46,18 @@ defined('listpage') or die;
 
 <ul itemprop="breadcrumb" class="breadcrumbs">
       <li><a href="index.html">Projects</a></li>
+      <li><a href="<?php echo qs2sef("action=movedissues");?>">Moved Issues</a></li>
 </ul>
 <hr />
 
-<p>The following projects are available for browsing</p>
+<p>The following issues have moved to a new location</p>
 
-<table class="prjtbl sortable">
-  <tr>
-    <th>Key</th>
-    <th>Title</th>
-    <th class="desc">Description</th>
-  </tr>
+<ul>
+<?php foreach ($issues as $issue):?>
 
-  <?php foreach ($projects as $project): ?>
-    <tr>
-	<td class="prjkey"><a href="<?php echo qs2sef("proj={$project->pkey}"); ?>"><?php echo $project->pkey;?></a></td>
-	<td class="prjname"><?php echo $project->pname; ?></td>
-	<td class="desc"><?php echo $project->DESCRIPTION; ?></td>
-    </tr>
-  <?php endforeach; ?>
+  <li><a href="browse/<?php echo $issue->OLD_ISSUE_KEY; ?>.html"><?php echo $issue->OLD_ISSUE_KEY; ?></a> -&gt; <a href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");?>"><?php echo $issue->pkey."-".$issue->issuenum; ?></a></li>
 
-</table>
-
-<div style="font-size: 0.5em; ">
-  <a href="<?php echo qs2sef('action=sitemap'); ?>">XML Sitemap</a>
-  <a href="<?php echo qs2sef('action=movedissues'); ?>" class="nodisplay">Moved Issues</a>
-</div>
-<!--/sphider_noindex-->
+<?php endforeach; ?>
 </body>
+
 </html>
