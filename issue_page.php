@@ -45,6 +45,26 @@ $db->setQuery($sql);
 $issue = $db->loadResult();
 
 if (!$issue){
+
+    // Check whether it's a moved issue
+    $sql = "SELECT a.OLD_ISSUE_KEY, b.pname, b.pkey, ji.issuenum FROM `moved_issue_key` AS a ".
+    "LEFT JOIN jiraissue AS ji ON a.ISSUE_ID = ji.ID ".
+    "LEFT JOIN project AS b on ji.PROJECT = b.ID ".
+    "WHERE a.OLD_ISSUE_KEY='". $db->stringEscape($_GET['proj'].'-'.$_GET['issue'])."' ";
+    $filter = buildProjectFilter('b'); // See JILS-12
+    if ($filter){
+	$sql .= " AND ".$filter;
+    }
+
+    $db->setQuery($sql);
+    $issue = $db->loadResult();
+
+    if ($issue){
+    echo "Issue has moved";
+    return;
+    }
+
+    // If not, give us a 404
     header("HTTP/1.0 404 Not Found",true,404);
     echo "ISSUE NOT FOUND";
     die;
