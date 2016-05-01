@@ -63,7 +63,7 @@ if (!isset($_GET['thumbs'])):
 	$etag='"F' . md5("$i-{$details->FILENAME}-{$details->FILESIZE}-{$details->MIMETYPE}-$mtime").'"';
 
 	header("Last-Modified: " .$dstring);
-	header("ETag: $etag"); T
+	header("ETag: $etag"); 
 
 	// Introduced in JILS-41
 	evaluateConditionalRequest($dstring,$etag);
