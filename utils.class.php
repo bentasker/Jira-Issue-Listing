@@ -678,7 +678,7 @@ function embedUserLink($match){
 */
 function textProcessMarkup($str){
 	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
-	return html_entity_decode ($str);
+        return wordwrap(html_entity_decode ($str),90,"\n");
 }
 
 
