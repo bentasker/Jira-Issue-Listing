@@ -678,6 +678,13 @@ function embedUserLink($match){
 */
 function textProcessMarkup($str){
 	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
+
+        $str = preg_replace('/(\[View Commit\|)(.*?)(\])/s','$2',$str);
+        $str = preg_replace('/(\[View Changes\|)(.*?)(\])/s','$2',$str);
+        $str = preg_replace('/(\{quote\})(.*?)(\{quote\})/s',"-- Quote --\n\$2\n-- End Quote --",$str);
+        $str = preg_replace('/(\{noformat\})(.*?)(\{noformat\})/s',"-- Snippet --\n\$2\n-- End Snippet --",$str);
+
+
         return wordwrap(html_entity_decode ($str),90,"\n");
 }
 
