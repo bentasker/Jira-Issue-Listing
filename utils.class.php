@@ -650,7 +650,7 @@ function jiraMarkup($str,$pkey = false){
 	$projects[] = $pkey;
 	
 
-	$str = preg_replace_callback("/((".implode("|",$projects).")\-)([0-9]*)/",'linkIssueKey',$str);
+	$str = preg_replace_callback("/((".implode("|",$projects).")\-)([0-9]+)/",'linkIssueKey',$str);
 
 	// See JILS-27
 	$str = preg_replace_callback("/(([A-Z0-9._%-\+]+)@([A-Z0-9_%-]+)\.([A-Z\.]{2,20}))/i",'obscureEmail',$str);
