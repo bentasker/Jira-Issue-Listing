@@ -89,23 +89,31 @@ $projresponse->self->alternate = array();
 $projresponse->self->alternate[0]->type = 'text/html';
 $projresponse->self->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}");
 
-$projresponse->Previous= new stdClass();
-$projresponse->Previous->href = $_GET['sitemapbase'].qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}",".json");
-$projresponse->Previous->type = 'application/json';
-$projresponse->Previous->Key = "{$previssue->pkey}-{$previssue->issuenum}";
-$projresponse->Previous->alternate=array();
-$projresponse->Previous->alternate[0]->type = 'text/html';
-$projresponse->Previous->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}");
+if ($previssue){
+    $projresponse->Previous= new stdClass();
+    $projresponse->Previous->href = $_GET['sitemapbase'].qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}",".json");
+    $projresponse->Previous->type = 'application/json';
+    $projresponse->Previous->Key = "{$previssue->pkey}-{$previssue->issuenum}";
+    $projresponse->Previous->alternate=array();
+    $projresponse->Previous->alternate[0]->type = 'text/html';
+    $projresponse->Previous->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$previssue->issuenum}&proj={$previssue->pkey}");
+}else{
+    $projresponse->Previous= new stdClass();
+    $projresponse->Previous->Key = false;
+}
 
-
-$projresponse->Next= new stdClass();
-$projresponse->Next->href = $_GET['sitemapbase'].qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}",".json");
-$projresponse->Next->type = 'application/json';
-$projresponse->Next->Key = "{$previssue->pkey}-{$previssue->issuenum}";
-$projresponse->Next->alternate=array();
-$projresponse->Next->alternate[0]->type = 'text/html';
-$projresponse->Next->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}");
-
+if ($nextissue){
+    $projresponse->Next= new stdClass();
+    $projresponse->Next->href = $_GET['sitemapbase'].qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}",".json");
+    $projresponse->Next->type = 'application/json';
+    $projresponse->Next->Key = "{$nextissue->pkey}-{$nextissue->issuenum}";
+    $projresponse->Next->alternate=array();
+    $projresponse->Next->alternate[0]->type = 'text/html';
+    $projresponse->Next->alternate[0]->href = $_GET['sitemapbase'].qs2sef("issue={$nextissue->issuenum}&proj={$nextissue->pkey}");
+}else{
+    $projresponse->Next= new stdClass();
+    $projresponse->Next->Key = false;
+}
 
 
 if ($parent){
