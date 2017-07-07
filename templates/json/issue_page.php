@@ -154,7 +154,7 @@ foreach ($relations as $relation){
 	$projresponse->Relations->LinkedIssues[] = $p;
 }
 
-$projresponse->Relations->ExternalLinks=array();
+$projresponse->Relations->RelatedLinks=array();
 foreach ($relationsext as $relation){
 	$p = new stdClass();
 	$p->Icon = $relation->ICONURL;
