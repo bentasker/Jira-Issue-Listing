@@ -133,6 +133,7 @@ foreach ($attachments as $attachment){
 	$p = new stdClass();
 	$p->Name = $attachment->FILENAME;
 	$p->href = $_GET['sitemapbase'].qs2sef("attachment={$attachment->ID}&fname={$attachment->FILENAME}&projid={$issue->pkey}-{$issue->issuenum}");
+	$projresponse->attachments[] = $p;
 }
 
 $projresponse->Relations = new stdClass();
