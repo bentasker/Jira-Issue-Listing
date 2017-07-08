@@ -44,7 +44,12 @@ if (isset($_GET['rendersitemap'])){
 	}
 
       $inc_ok = true;
-      require 'templates/xml/sitemap.php';
+	if ($_GET['reqformat'] == "json"){
+		require 'templates/json/sitemap.php';
+	}else{
+                require 'templates/xml/sitemap.php';
+	}      
+
       die;
 
 }

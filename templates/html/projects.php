@@ -56,6 +56,7 @@ defined('listpage') or die;
 
 <div style="font-size: 0.5em; ">
   <a href="<?php echo qs2sef('action=sitemap'); ?>">XML Sitemap</a>
+  <a href="sitemap.json">JSON Sitemap</a>
   <a href="<?php echo qs2sef('action=movedissues'); ?>" class="nodisplay">Moved Issues</a>
 </div>
 <!--/sphider_noindex-->
