@@ -509,6 +509,13 @@ function parseSEF(){
 
 		return;
 	}
+	
+	if ($const[0] == 'sitemap.json'){
+		$_GET['rendersitemap'] = true;
+
+		return;
+	}	
+	
 
 	if ($const[0] == 'movedissues.html'){
 		$_GET['rendermovedissues'] = true;

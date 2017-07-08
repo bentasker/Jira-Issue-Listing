@@ -55,7 +55,6 @@ $db->setQuery($sql);
 $issues = $db->loadResults();
 */
 
-
 $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname as status, d.pname as resolution, e.pname as issuetype, f.pname as priority,".
 "a.CREATED, a.RESOLUTIONDATE, a.TIMESPENT, f.SEQUENCE as ptysequence, a.ASSIGNEE ".
 "FROM jiraissue AS a ".
@@ -66,6 +65,7 @@ $sql = "SELECT a.SUMMARY, a.ID, a.issuenum, a.REPORTER, b.pname, b.pkey, c.pname
 "LEFT JOIN priority AS f ON a.PRIORITY = f.ID ";
 	
 if ($filter){
+    $filter = buildProjectFilter('b'); // See JILS-12
     $sql .= "WHERE ".$filter;
 }
 " ORDER BY a.PROJECT, a.issuenum ASC" ;
