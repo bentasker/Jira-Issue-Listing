@@ -347,7 +347,7 @@ defined('listpage') or die;
 			<i itemprop="dateCreated"><?php echo $comment->CREATED; ?></i>
 		      </div>
 			
-			<div class="<?php echo $comment->rowtype;?>text" itemprop="text"><?php echo my_nl2br(jiraMarkup(htmlentities($comment->actionbody),$issue->pkey)); ?></div>
+			<div class="<?php echo $comment->rowtype;?>text" itemprop="text"><?php echo jiraMarkup(htmlentities($comment->actionbody),$issue->pkey); ?></div>
 			
 
 		</div>
