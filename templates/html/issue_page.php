@@ -162,8 +162,8 @@ defined('listpage') or die;
 
 		<?php if (!empty($issue->ENVIRONMENT)):?>
 		<div class="row" id="issenvironment">
-			<div class="leftcol"><b>Environment:</b></div>
-			<div class="rightcol"><?php echo nl2br(jiraMarkup(htmlentities($issue->ENVIRONMENT),$issue->pkey)); ?></div>
+			<div class="leftcol"><b>Environment:</b> <?php echo nl2br(jiraMarkup(htmlentities($issue->ENVIRONMENT),$issue->pkey)); ?></div>
+			<div class="rightcol"></div>
 		</div>
 		<?php endif; ?>
 
