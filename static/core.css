@@ -1,3 +1,4 @@
+
 .nodisplay {display: none}
 
 /* Breadcrumbs */
@@ -18,7 +19,7 @@ padding-bottom: 10px;
 word-wrap: break-word;
 }
 
-pre{border-radius: 3px 3px 3px 3px;
+pre,code{border-radius: 3px 3px 3px 3px;
 margin: 9px 0;
 border: 1px solid #cccccc;
 background: #f5f5f5;
@@ -26,7 +27,18 @@ font-size: 12px;
 line-height: 1.33333333333333;
 font-family: monospace;
 word-wrap: break-word;
+white-space: pre-wrap;
+overflow-wrap: break-word;
 }
+
+mono {
+padding: 2px 4px;
+font-size: 90%;
+color: #c0341d;
+background-color: #fcedea;
+border-radius: 3px;   
+}
+
 
 #logoarea {display: none;}
 .commentlink {font-size: 0.7em; float: right;}
@@ -50,7 +62,7 @@ table.issueInfo {width: 100%; border: 0px;}
 .worklogindex {font-style: italic;}
 .timespent {font-weight: bold;}
 
-#worklogblock, #subtasksblock, #linksblock, #attachmentsblock { border: 1px solid #000; padding: 10px; margin-top: 45px; border-left: 0px; border-right: 0px;}
+#worklogblock, #subtasksblock, #linksblock, #attachmentsblock #epicissuesblock { border: 1px solid #000; padding: 10px; margin-top: 45px; border-left: 0px; border-right: 0px;}
 #commentsblock {padding: 10px; margin-top: 40px}
 #attachmentsblock table {width: 40%}
 #attachmentsblock img {margin: 5px;}
@@ -115,6 +127,28 @@ span.timegraphannota {margin-left: 10px; font-size: 0.9em;}
 
 
 #isstimelogged .timegraph {line-height: 0.7em; width: 150px;}
+
+
+#searchterms {
+    width: 60%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.result {
+    padding: 15px;
+    padding-left: 10px;
+    border-bottom: solid 1px;
+    max-width: 60%;
+}
+
+.rslttitle {
+    font-size: 1.1em;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+
 
 /** Media Queries Start **/
 

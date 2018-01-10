@@ -54,6 +54,13 @@ if (isset($_GET['rendersitemap'])){
 
 }
 
+// TODO - Fix this so it uses the SEF functionality
+if ($_SERVER['REQUEST_URI'] == "/search.html"){
+    $inc_ok = true;
+    require 'templates/html/search.php';
+    die;
+}
+
 
 if (isset($_GET['rendermovedissues'])){
 
