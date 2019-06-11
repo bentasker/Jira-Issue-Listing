@@ -60,5 +60,7 @@ defined('listpage') or die;
   <a href="<?php echo qs2sef('action=movedissues'); ?>" class="nodisplay">Moved Issues</a>
 </div>
 <!--/sphider_noindex-->
+<a href="/search.html">Search</a>
+
 </body>
 </html>
