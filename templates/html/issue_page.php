@@ -22,10 +22,21 @@ defined('listpage') or die;
 	<title><?php echo "{$issue->pkey}-{$issue->issuenum}: ".htmlentities($issue->SUMMARY); ?></title>
 	<link rel="alternate" type="application/json" href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",".json");?>">
 	<link rel="alternate" type="text/plain" href="<?php echo qs2sef("issue={$issue->issuenum}&proj={$issue->pkey}",".txt");?>">
-	<meta name="description" content="<?php echo htmlentities(str_replace('"',"''",$issue->DESCRIPTION)); ?>">
+        <meta name="description" content="<?php echo htmlentities(str_replace(array("{","}"),"",str_replace(array("{noformat}","{quote}"),"",str_replace('"',"''",$issue->DESCRIPTION)))); ?>">
 
-	<?php if (count($labels) > 0 ):?>
-	    <meta name="keywords" content="<?php foreach ($labels as $label){ echo "{$label->LABEL},"; }?>" />
+        <?php 
+            $keywords = explode(" ",$issue->SUMMARY);
+            
+            if (count($labels) > 0 ){
+                foreach ($labels as $label){ 
+                    $keywords[] = $label->LABEL; 
+                }
+            }
+            
+        ?>
+    
+	<?php if (count($keywords) > 0 ):?>
+            <meta name="keywords" content="<?php foreach ($keywords as $label){ echo "$label,"; }?>" />	    
 	<?php endif;?>
 
 	<script type="text/javascript">
